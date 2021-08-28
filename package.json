@@ -1,0 +1,43 @@
+{
+  "name": "@risecorejs/core",
+  "version": "1.0.0",
+  "description": "Risecorejs - The Node.js Framework",
+  "main": "cli.js",
+  "bin": {
+    "risecorejs": "cli.js"
+  },
+  "keywords": [
+    "express",
+    "backend",
+    "framework"
+  ],
+  "author": "Amenov Abdulsalam <risecorejs@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/risecorejs/core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/risecorejs/core/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@risecorejs/api-docs": "^1.0.0",
+    "@risecorejs/only": "^1.0.0",
+    "@risecorejs/router": "^1.0.0",
+    "@risecorejs/validator": "^1.0.0",
+    "@risecorejs/where-builder": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "execa": "^5.1.1",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.3.0",
+    "merge": "^2.1.1",
+    "module-alias": "^2.2.2",
+    "mysql2": "^2.3.0",
+    "rimraf": "^3.0.2",
+    "sequelize": "^6.6.5"
+  },
+  "devDependencies": {
+    "prettier": "^2.3.2"
+  }
+}
