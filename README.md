@@ -1,4 +1,4 @@
-# Risecorejs - Backend framework for Node.js
+# Risecorejs - The Node.js Framework
 
 ## Setup
 
