@@ -22,9 +22,9 @@ const modelDir = path.resolve('database', 'models')
 for (const file of fs.readdirSync(modelDir)) {
   const modelPath = path.join(modelDir, file)
 
-  const Model = require(modelPath)
+  const Model = require(modelPath)(sequelize, DataTypes)
 
-  db[Model.name] = Model(sequelize, DataTypes)
+  db[Model.name] = Model
 
   if (db[Model.name].associate) {
     db[Model.name].associate(db)
