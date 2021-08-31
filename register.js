@@ -10,6 +10,7 @@ const only = require('@risecorejs/only')
 const validator = require('@risecorejs/validator')
 const whereBuilder = require('@risecorejs/where-builder')
 
+const models = require(__dirname + '/models')
 const addRouter = require(__dirname + '/helpers/add-router')
 
 // MODULE-ALIAS

@@ -2,7 +2,11 @@ const { Sequelize, DataTypes } = require('sequelize')
 const path = require('path')
 const fs = require('fs')
 
-const config = require(path.resolve('database', 'config'))
+const env = require(__dirname + '/helpers/global/env')
+
+const configPath = path.resolve('database', 'config')
+
+const config = require(configPath)[env('NODE_ENV', 'development')]
 
 const sequelize = new Sequelize(
   config.database,
@@ -13,8 +17,12 @@ const sequelize = new Sequelize(
 
 const db = {}
 
-for (const file of fs.readdirSync(path.resolve('database', 'models'))) {
-  const Model = require(path.resolve('database', 'models', file))
+const modelDir = path.resolve('database', 'models')
+
+for (const file of fs.readdirSync(modelDir)) {
+  const modelPath = path.join(modelDir, file)
+
+  const Model = require(modelPath)
 
   db[Model.name] = Model(sequelize, DataTypes)
 
