@@ -13,8 +13,8 @@ module.exports = (config, middleware) => {
     for (const file of files) {
       if (file.startsWith('_')) continue
 
-      const fileStat = fs.statSync(basePath + filePath)
       const filePath = path.join(folder, file)
+      const fileStat = fs.statSync(basePath + filePath)
 
       fileStat.isDirectory()
         ? fillingRoutes(filePath)
