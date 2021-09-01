@@ -25,10 +25,12 @@ for (const file of fs.readdirSync(modelDir)) {
   const Model = require(modelPath)(sequelize, DataTypes)
 
   db[Model.name] = Model
+}
 
-  if (db[Model.name].associate) {
-    db[Model.name].associate(db)
-  }
+for (const key in db) {
+  if (!db.hasOwnProperty(key) && !db[key].associate) continue
+
+  db[key].associate(db)
 }
 
 module.exports = { ...db, Sequelize, sequelize }
