@@ -17,11 +17,7 @@ function start(bin) {
 }
 
 function init() {
-  execa(
-    'git',
-    ['clone', 'https://github.com/risecorejs/template.git', argv[1] ?? '.'],
-    std
-  ).finally(() => {
+  execa('git', ['clone', 'https://github.com/risecorejs/template.git', argv[1] || '.'], std).finally(() => {
     rimraf(path.resolve('.git'), (err) => {
       if (err) console.log(err)
     })

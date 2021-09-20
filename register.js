@@ -30,9 +30,7 @@ exports.middleware = (config, app) => {
   const configValidator = config.middleware.validator || {}
   const configRouter = config.middleware.router
 
-  app.get('/', (req, res) =>
-    res.send(`${packageJson.description} v${packageJson.version}`)
-  )
+  app.get('/', (req, res) => res.send(`${packageJson.description} v${packageJson.version}`))
 
   const middleware = [
     express.json(),

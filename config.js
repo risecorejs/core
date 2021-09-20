@@ -7,7 +7,8 @@ module.exports = {
   },
   server: {
     multiProcessing: false,
-    port: process.env.PORT ?? 5000
+    multiProcessingWorkers: null,
+    port: process.env.PORT || 5000
   },
   moduleAlias: {
     models: __dirname + '/models.js',

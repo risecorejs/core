@@ -16,18 +16,13 @@ module.exports = (config, middleware) => {
       const filePath = path.join(folder, file)
       const fileStat = fs.statSync(basePath + filePath)
 
-      fileStat.isDirectory()
-        ? fillingRoutes(filePath)
-        : routes.push(require(basePath + filePath))
+      fileStat.isDirectory() ? fillingRoutes(filePath) : routes.push(require(basePath + filePath))
     }
   }
 
   fillingRoutes(config.routesPath)
 
-  middleware.push([
-    config.baseUrl,
-    router(routes, { middleware: '@middleware', controllers: '@controllers' })
-  ])
+  middleware.push([config.baseUrl, router(routes, { middleware: '@middleware', controllers: '@controllers' })])
 
   if (process.env.NODE_ENV !== 'production' && !!config.apiDocs) {
     config.apiDocs.baseUrl = config.baseUrl === '/' ? '' : config.baseUrl

@@ -9,10 +9,7 @@ const express = require('express')
 const register = require(__dirname + '/register')
 
 // MERGE INITIAL-CONFIG AND APP-CONFIG
-const config = merge.recursive(
-  require(__dirname + '/config'),
-  require(path.resolve('config'))
-)
+const config = merge.recursive(require(__dirname + '/config'), require(path.resolve('config')))
 
 // REGISTER MODULE-ALIAS
 register.moduleAlias(config.moduleAlias)
@@ -27,7 +24,7 @@ if (config.server.multiProcessing && cluster.isMaster) {
   // RUN MASTER-FUNCTION
   config.master(config)
 
-  for (let i = 0; i < os.cpus().length; i++) {
+  for (let i = 0; i < (config.server.multiProcessingWorkers || os.cpus().length - 1); i++) {
     cluster.fork()
   }
 

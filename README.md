@@ -45,7 +45,8 @@ module.exports = {
   },
   server: {
     multiProcessing: false, // default
-    port: process.env.PORT ?? 5000 // default
+    multiProcessingWorkers: null, // default
+    port: process.env.PORT || 5000 // default
   },
   // Add your module aliases so they are always at hand
   moduleAlias: {
@@ -56,9 +57,9 @@ module.exports = {
       windowMs: 5 * 60 * 1000, // default
       max: 1000 // default
     },
-    cors: {}, // default
+    cors: {}, // https://www.npmjs.com/package/cors#configuring-cors
     validator: {
-      locale: 'en' // default: en || ru
+      locale: 'en' // default
     },
     router: {
       baseUrl: '/', // default
