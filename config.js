@@ -2,9 +2,8 @@ const path = require('path')
 
 module.exports = {
   global: {
-    controller: require(__dirname + '/helpers/global/controller'),
-    pluralize: require(__dirname + '/helpers/global/pluralize'),
-    env: require(__dirname + '/helpers/global/env')
+    controller: require('@risecorejs/helpers/lib/controller'),
+    env: require('@risecorejs/helpers/lib/env')
   },
   server: {
     multiProcessing: false,
