@@ -6,11 +6,11 @@ const cluster = require('cluster')
 const os = require('os')
 const express = require('express')
 
-const register = require(__dirname + '/register')
-const packageJson = require(__dirname + '/package.json')
+const register = require('./register')
+const packageJson = require('./package.json')
 
 // MERGE INITIAL-CONFIG AND APP-CONFIG
-const config = merge.recursive(require(__dirname + '/config'), require(path.resolve('config')))
+const config = merge.recursive(require('./config'), require(path.resolve('config')))
 
 // REGISTER MODULE-ALIAS
 register.moduleAlias(config.moduleAlias)
@@ -38,15 +38,9 @@ void (async () => {
   } else {
     const app = express()
 
-    app.set('x-powered-by', packageJson.description)
+    app.get('/', (req, res) => res.send(`${packageJson.description} v${packageJson.version}`))
 
-    if (!config.homePage) {
-      app.get('/', (req, res) => res.send(`${packageJson.description} v${packageJson.version}`))
-    }
-
-    if (!config['x-powered-by']) {
-      app.disable('x-powered-by')
-    }
+    app.disable('x-powered-by')
 
     // REGISTER MIDDLEWARE
     await register.middleware(config, app)

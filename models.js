@@ -1,4 +1,4 @@
-const models = require('@risecorejs/helpers/lib/models')
+const models = require('./lib/helpers/models')
 
 module.exports = models({
   configPath: ['database', 'config'],

@@ -1,11 +1,9 @@
 const path = require('path')
 
 module.exports = {
-  homePage: true,
-  'x-powered-by': true,
   global: {
-    controller: require('@risecorejs/helpers/lib/controller'),
-    env: require('@risecorejs/helpers/lib/env')
+    controller: require('./lib/helpers/controller'),
+    env: require('./lib/helpers/env')
   },
   server: {
     multiProcessing: false,
