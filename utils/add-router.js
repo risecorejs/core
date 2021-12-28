@@ -4,7 +4,7 @@ const router = require('@risecorejs/router')
 const apiDocs = require('@risecorejs/api-docs')
 const axios = require('axios').default
 
-module.exports = async (config, middleware) => {
+module.exports = async (config, app) => {
   const routes = []
 
   if (config.routesPath) {
@@ -21,20 +21,20 @@ module.exports = async (config, middleware) => {
     throw Error('Routes source required')
   }
 
-  middleware.push([
+  app.use(
     config.baseUrl,
     router(routes, {
       middleware: '~/middleware',
       controllers: '~/controllers'
     })
-  ])
+  )
 
-  middleware.push(['/__routes' + config.baseUrl, (req, res) => res.json({ routes })])
+  app.use('/__routes' + config.baseUrl, (req, res) => res.json({ routes }))
 
   if (config.apiDocs && process.env.NODE_ENV !== 'production') {
     config.apiDocs.baseUrl = config.baseUrl === '/' ? '' : config.baseUrl
 
-    middleware.push(['/__docs' + config.baseUrl, apiDocs(routes, config.apiDocs)])
+    app.use('/__docs' + config.baseUrl, apiDocs(routes, config.apiDocs))
   }
 }
 
