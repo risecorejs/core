@@ -82,7 +82,24 @@ function fillingRoute(config, route) {
     }
   }
 
+  setController(config, route)
+}
+
+/**
+ * SET-CONTROLLER
+ * @param config {Object}
+ * @param route {Object}
+ */
+function setController(config, route) {
   if (config.controller) {
-    route.controller = config.controller
+    if (route.method) {
+      route.controller = config.controller
+    }
+
+    if (route.children?.length) {
+      for (const _route of route.children) {
+        setController(_route)
+      }
+    }
   }
 }
