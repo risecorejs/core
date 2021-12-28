@@ -1,6 +1,8 @@
 const path = require('path')
 
 module.exports = {
+  homePage: true,
+  'x-powered-by': true,
   global: {
     controller: require('@risecorejs/helpers/lib/controller'),
     env: require('@risecorejs/helpers/lib/env')
@@ -11,13 +13,7 @@ module.exports = {
     port: process.env.PORT || 5000
   },
   moduleAlias: {
-    models: __dirname + '/models.js',
-    '@root': path.resolve(),
-    '@controllers': path.resolve('controllers'),
-    '@docs': path.resolve('docs'),
-    '@middleware': path.resolve('middleware'),
-    '@routes': path.resolve('routes'),
-    '@helpers': path.resolve('helpers')
+    '~': path.resolve()
   },
   middleware: {
     rateLimit: {

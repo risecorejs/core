@@ -27,6 +27,7 @@
     "@risecorejs/router": "^1.0.0",
     "@risecorejs/validator": "^1.0.0",
     "@risecorejs/where-builder": "^1.0.0",
+    "axios": "^0.24.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "execa": "^5.1.1",
