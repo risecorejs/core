@@ -98,7 +98,7 @@ function setController(config, route) {
 
     if (route.children?.length) {
       for (const _route of route.children) {
-        setController(_route)
+        setController(config, _route)
       }
     }
   }
