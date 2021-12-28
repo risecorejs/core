@@ -29,7 +29,7 @@ module.exports = async (config, middleware) => {
     })
   ])
 
-  middleware.push(['/__routes' + config.baseUrl, (req, res) => () => res.json({ routes })])
+  middleware.push(['/__routes' + config.baseUrl, (req, res) => res.json({ routes })])
 
   if (config.apiDocs && process.env.NODE_ENV !== 'production') {
     config.apiDocs.baseUrl = config.baseUrl === '/' ? '' : config.baseUrl
