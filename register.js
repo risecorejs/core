@@ -49,23 +49,30 @@ exports.middleware = async (config, app) => {
 
   if (Array.isArray(config.middleware.router)) {
     for (const configRouter of config.middleware.router) {
-      try {
-        await addRouter(configRouter, middleware)
-      } catch (error) {
-        console.error(error)
-      }
+      await pushRouter(configRouter, middleware)
     }
   } else {
-    try {
-      await addRouter(config.middleware.router, middleware)
-    } catch (error) {
-      console.error(error)
-    }
+    await pushRouter(config.middleware.router, middleware)
   }
 
   for (const _middleware of middleware) {
     if (_middleware) {
       app.use(...(Array.isArray(_middleware) ? _middleware : [_middleware]))
     }
+  }
+}
+
+/**
+ * PUSH-ROUTER
+ * @param config {Object}
+ * @param middleware {Object}
+ */
+async function pushRouter(config, middleware) {
+  try {
+    await addRouter(config, middleware)
+  } catch (error) {
+    console.error(error)
+
+    setTimeout(() => pushRouter(config, middleware), 5000)
   }
 }
