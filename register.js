@@ -23,33 +23,34 @@ exports.globalVariables = (obj) => {
 
 // MIDDLEWARE
 exports.middleware = async (config, app) => {
-  const middleware = []
-
-  middleware.push(express.json())
-  middleware.push(express.urlencoded({ extended: true }))
-  middleware.push(['/storage', express.static(path.resolve('storage'))])
+  app.use(express.json())
+  app.use(express.urlencoded({ extended: true }))
+  app.use('/storage', express.static(path.resolve('storage')))
 
   if (config.middleware.rateLimit) {
-    middleware.push(rateLimit(config.middleware.rateLimit))
+    app.use(rateLimit(config.middleware.rateLimit))
   }
 
   if (config.middleware.cors) {
-    middleware.push(cors(config.middleware.cors))
+    app.use(cors(config.middleware.cors))
   }
 
-  middleware.push(only())
-  middleware.push(
+  app.use(only())
+
+  app.use(
     validator({
       sequelize: models.sequelize,
       ...(config.middleware.validator || {})
     })
   )
-  middleware.push(whereBuilder())
-  middleware.push(...config.middleware.extend())
 
-  for (const _middleware of middleware) {
-    if (_middleware) {
-      app.use(...(Array.isArray(_middleware) ? _middleware : [_middleware]))
+  app.use(whereBuilder())
+
+  const customMiddleware = config.middleware.extend()
+
+  if (customMiddleware?.length) {
+    for (const middleware of customMiddleware) {
+      app.use(middleware)
     }
   }
 
