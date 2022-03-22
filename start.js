@@ -23,6 +23,11 @@ void (async () => {
   // RUN INIT-FUNCTION
   await config.init(config)
 
+  // SET GLOBAL-STRUCTS
+  if (config.setGlobalStructs) {
+    setGlobalStructs()
+  }
+
   if (config.server.multiProcessing && cluster.isMaster) {
     for (let i = 0; i < (config.server.multiProcessingWorkers || os.cpus().length - 1); i++) {
       cluster.fork()
@@ -51,11 +56,6 @@ void (async () => {
       console.log('App listening on port: ' + config.server.port)
       console.log('Press Ctrl+C to quit.')
     })
-
-    // SET GLOBAL-STRUCTS
-    if (config.setGlobalStructs) {
-      setGlobalStructs()
-    }
 
     // RUN START-FUNCTION
     await config.start({ config, app, server })
