@@ -13,6 +13,7 @@ module.exports = {
   moduleAlias: {
     '~': path.resolve()
   },
+  setGlobalStructs: false,
   middleware: {
     rateLimit: {
       windowMs: 5 * 60 * 1000,

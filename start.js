@@ -6,6 +6,7 @@ const cluster = require('cluster')
 const os = require('os')
 const express = require('express')
 
+const setGlobalStructs = require('./lib/helpers/set-global-structs')
 const register = require('./register')
 const packageJson = require('./package.json')
 
@@ -50,6 +51,11 @@ void (async () => {
       console.log('App listening on port: ' + config.server.port)
       console.log('Press Ctrl+C to quit.')
     })
+
+    // SET GLOBAL-STRUCTS
+    if (config.setGlobalStructs) {
+      setGlobalStructs()
+    }
 
     // RUN START-FUNCTION
     await config.start({ config, app, server })
