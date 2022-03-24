@@ -22,6 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "@risecorejs/api-docs": "^1.0.0",
+    "@risecorejs/helpers": "^2.0.0",
     "@risecorejs/only": "^1.0.0",
     "@risecorejs/router": "^1.0.0",
     "@risecorejs/validator": "^1.0.0",

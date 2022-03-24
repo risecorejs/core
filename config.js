@@ -2,8 +2,8 @@ const path = require('path')
 
 module.exports = {
   global: {
-    controller: require('./lib/helpers/controller'),
-    env: require('./lib/helpers/env')
+    controller: (filename) => (method) => filename + '.' + method,
+    env: require('@risecorejs/helpers/lib/env')
   },
   server: {
     multiProcessing: false,
@@ -32,7 +32,7 @@ module.exports = {
     },
     extend: () => []
   },
-  master(config) {},
   init(config) {},
+  master(config) {},
   start({ config, app, server }) {}
 }

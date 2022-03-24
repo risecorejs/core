@@ -6,7 +6,7 @@ const cluster = require('cluster')
 const os = require('os')
 const express = require('express')
 
-const setGlobalStructs = require('./lib/helpers/set-global-structs')
+const setGlobalStructs = require('@risecorejs/helpers/lib/set-global-structs')
 const register = require('./register')
 const packageJson = require('./package.json')
 

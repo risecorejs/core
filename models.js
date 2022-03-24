@@ -1,6 +1,7 @@
-const models = require('./lib/helpers/models')
+const getModels = require('@risecorejs/helpers/lib/get-models')
 
-module.exports = models({
+module.exports = getModels({
   configPath: ['database', 'config'],
-  modelDir: ['database', 'models']
+  modelDir: ['database', 'models'],
+  NODE_ENV: true
 })
