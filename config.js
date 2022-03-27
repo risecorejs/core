@@ -1,4 +1,5 @@
 const path = require('path')
+const models = require('./models')
 
 module.exports = {
   global: {
@@ -13,6 +14,7 @@ module.exports = {
   moduleAlias: {
     '~': path.resolve()
   },
+  storage: false,
   setGlobalStructs: false,
   middleware: {
     rateLimit: {
@@ -21,7 +23,8 @@ module.exports = {
     },
     cors: {},
     validator: {
-      locale: 'en'
+      locale: 'en',
+      sequelize: models.sequelize
     },
     router: {
       baseUrl: '/',

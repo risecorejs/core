@@ -23,7 +23,7 @@ npx sequelize db:seed:all
 
 `npm run dev` or `npm run start`
 
-## Directory Structure
+## Directory structure
 
 - controllers
 - database:
@@ -31,10 +31,10 @@ npx sequelize db:seed:all
   - models
   - seeders
 - docs
-- helpers
 - middleware
 - routes
 - storage
+- structs
 
 ## Config.js
 
@@ -69,15 +69,18 @@ module.exports = {
       }
     },
     // Add your global middleware
-    extend: () => [require('@middleware/global/some'), ...]
-  },
-  master(config) {
-    console.log('I am working in the wizard when multiprocessing is running')
+    extend: () => [
+      require('~/middleware/global/some-middleware'),
+      // require('../middleware/global/some-middleware')
+    ]
   },
   init(config) {
     // Will be executed before launching the application
 
     console.log('Hi, I am an initialization function')
+  },
+  master(config) {
+    console.log('I am working in the wizard when multiprocessing is running')
   },
   start({ config, app, server }) {
     // Will be executed when the application starts

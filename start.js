@@ -2,16 +2,19 @@ require('dotenv').config()
 
 const merge = require('merge')
 const path = require('path')
+const setGlobalStructs = require('@risecorejs/helpers/lib/set-global-structs')
 const cluster = require('cluster')
 const os = require('os')
 const express = require('express')
 
-const setGlobalStructs = require('@risecorejs/helpers/lib/set-global-structs')
-const register = require('./register')
+const initialConfig = require('./config')
+const appConfig = require(path.resolve('config'))
+
+const register = require('./register/index')
 const packageJson = require('./package.json')
 
 // MERGE INITIAL-CONFIG AND APP-CONFIG
-const config = merge.recursive(require('./config'), require(path.resolve('config')))
+const config = merge.recursive(initialConfig, appConfig)
 
 // REGISTER MODULE-ALIAS
 register.moduleAlias(config.moduleAlias)
@@ -19,14 +22,14 @@ register.moduleAlias(config.moduleAlias)
 // REGISTER GLOBAL-VARIABLES
 register.globalVariables(config.global)
 
+// SET GLOBAL-STRUCTS
+if (config.setGlobalStructs) {
+  setGlobalStructs()
+}
+
 void (async () => {
   // RUN INIT-FUNCTION
   await config.init(config)
-
-  // SET GLOBAL-STRUCTS
-  if (config.setGlobalStructs) {
-    setGlobalStructs()
-  }
 
   if (config.server.multiProcessing && cluster.isMaster) {
     for (let i = 0; i < (config.server.multiProcessingWorkers || os.cpus().length - 1); i++) {
@@ -44,12 +47,21 @@ void (async () => {
   } else {
     const app = express()
 
-    app.get('/', (req, res) => res.send(`${packageJson.description} v${packageJson.version}`))
-
     app.disable('x-powered-by')
 
+    app.get('/', (req, res) => res.send(`${packageJson.description} v${packageJson.version}`))
+
     // REGISTER MIDDLEWARE
-    await register.middleware(config, app)
+    register.middleware(config, app)
+
+    // REGISTER ROUTER
+    if (Array.isArray(config.middleware.router)) {
+      for (const routerConfig of config.middleware.router) {
+        await register.router(routerConfig, app)
+      }
+    } else {
+      await register.router(config.middleware.router, app)
+    }
 
     // RUN SERVER
     const server = app.listen(config.server.port, () => {
