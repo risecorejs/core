@@ -3,7 +3,7 @@ const path = require('path')
 const rateLimit = require('express-rate-limit')
 const cors = require('cors')
 const only = require('@risecorejs/only/middleware')
-const validator = require('@risecorejs/validator')
+const validator = require('@risecorejs/validator/middleware')
 const whereBuilder = require('@risecorejs/where-builder/middleware')
 
 module.exports = (config, app) => {
