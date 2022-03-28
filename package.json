@@ -24,7 +24,7 @@
     "@risecorejs/api-docs": "^1.0.2",
     "@risecorejs/helpers": "^2.0.1",
     "@risecorejs/only": "^1.0.5",
-    "@risecorejs/order-builder": "^1.0.0",
+    "@risecorejs/order-builder": "^1.0.1",
     "@risecorejs/router": "^1.0.1",
     "@risecorejs/validator": "^2.0.0",
     "@risecorejs/where-builder": "^1.1.1",
