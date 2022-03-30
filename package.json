@@ -22,6 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "@risecorejs/api-docs": "^1.0.2",
+    "@risecorejs/crud-builder": "^1.0.0",
     "@risecorejs/helpers": "^2.0.1",
     "@risecorejs/only": "^1.0.5",
     "@risecorejs/order-builder": "^1.0.1",

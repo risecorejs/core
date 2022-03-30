@@ -4,7 +4,8 @@ const models = require('./models')
 module.exports = {
   global: {
     controller: (filename) => (method) => filename + '.' + method,
-    env: require('@risecorejs/helpers/lib/env')
+    env: require('@risecorejs/helpers/lib/env'),
+    crudBuilder: require('@risecorejs/crud-builder')
   },
   server: {
     multiProcessing: false,
