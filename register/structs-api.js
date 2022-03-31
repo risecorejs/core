@@ -25,7 +25,7 @@ module.exports = (config) => {
 // GET-ROUTE
 function getRoute() {
   return {
-    group: 'Stricts',
+    group: 'Structs',
     url: '/__structs',
     children: [
       {

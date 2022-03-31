@@ -23,7 +23,7 @@ register.moduleAlias(config.moduleAlias)
 register.globalVariables(config.global)
 
 // SET GLOBAL-STRUCTS
-if (config.structs?.setGlobal || config.structs) {
+if (config.structs && config.structs?.setGlobal !== false) {
   setGlobalStructs()
 }
 
@@ -51,7 +51,7 @@ void (async () => {
 
     app.get('/', (req, res) => res.send(`${packageJson.description} v${packageJson.version}`))
 
-    if (config.structs?.enableAPI || config.structs) {
+    if (config.structs && config.structs?.enableAPI !== false) {
       register.structsAPI(config)
     }
 

@@ -10,8 +10,8 @@ module.exports = async (routerConfig, app) => {
   app.use(
     routerConfig.baseUrl,
     router(routes, {
-      middleware: path.resolve('middleware'),
-      controllers: path.resolve('controllers')
+      controllers: path.resolve('controllers'),
+      middleware: path.resolve('middleware')
     })
   )
 
@@ -44,6 +44,12 @@ async function getRoutes(routerConfig) {
     }
   } else {
     throw Error('Routes source required')
+  }
+
+  if (routerConfig.routes?.length) {
+    for (const route of routerConfig.routes) {
+      routes.push(route)
+    }
   }
 
   return routes
