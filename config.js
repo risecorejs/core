@@ -16,7 +16,10 @@ module.exports = {
     '~': path.resolve()
   },
   storage: false,
-  setGlobalStructs: false,
+  structs: {
+    setGlobal: true,
+    enableAPI: true
+  },
   middleware: {
     rateLimit: {
       windowMs: 5 * 60 * 1000,

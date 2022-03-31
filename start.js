@@ -23,7 +23,7 @@ register.moduleAlias(config.moduleAlias)
 register.globalVariables(config.global)
 
 // SET GLOBAL-STRUCTS
-if (config.setGlobalStructs) {
+if (config.structs?.setGlobal || config.structs) {
   setGlobalStructs()
 }
 
@@ -50,6 +50,10 @@ void (async () => {
     app.disable('x-powered-by')
 
     app.get('/', (req, res) => res.send(`${packageJson.description} v${packageJson.version}`))
+
+    if (config.structs?.enableAPI || config.structs) {
+      register.structsAPI(config)
+    }
 
     // REGISTER MIDDLEWARE
     register.middleware(config, app)
