@@ -2,10 +2,11 @@ const express = require('express')
 const path = require('path')
 const rateLimit = require('express-rate-limit')
 const cors = require('cors')
-const orderBuilder = require('@risecorejs/order-builder/middleware')
 const only = require('@risecorejs/only/middleware')
 const validator = require('@risecorejs/validator/middleware')
+const orderBuilder = require('@risecorejs/order-builder/middleware')
 const whereBuilder = require('@risecorejs/where-builder/middleware')
+const includeBuilder = require('@risecorejs/include-builder/middleware')
 
 module.exports = (config, app) => {
   app.use(express.json())
@@ -23,10 +24,11 @@ module.exports = (config, app) => {
     app.use(cors(config.middleware.cors))
   }
 
-  app.use(orderBuilder())
   app.use(only())
   app.use(validator(config.middleware.validator))
+  app.use(orderBuilder())
   app.use(whereBuilder())
+  app.use(includeBuilder())
 
   const customMiddleware = config.middleware.extend()
 
