@@ -14,7 +14,7 @@ const register = require('./register/index')
 const packageJson = require('./package.json')
 
 // MERGE INITIAL-CONFIG AND APP-CONFIG
-const config = merge.recursive(initialConfig, appConfig)
+const { config } = merge.recursive({ config: initialConfig }, { config: appConfig })
 
 // REGISTER MODULE-ALIAS
 register.moduleAlias(config.moduleAlias)
