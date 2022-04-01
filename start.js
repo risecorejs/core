@@ -6,6 +6,7 @@ const setGlobalStructs = require('@risecorejs/helpers/lib/set-global-structs')
 const cluster = require('cluster')
 const os = require('os')
 const express = require('express')
+const env = require('@risecorejs/helpers/lib/env')
 
 const initialConfig = require('./config')
 const appConfig = require(path.resolve('config'))
