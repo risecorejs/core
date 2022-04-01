@@ -74,7 +74,7 @@ void (async () => {
     }
 
     // RUN SERVER
-    const server = app.listen(config.server.port, () => {
+    const server = app.listen(config.server.port, async () => {
       console.clear()
 
       const url = `http://${config.server.host || 'localhost'}:${config.server.port}`
@@ -84,12 +84,14 @@ void (async () => {
       console.log(`|------------------------------------------------------|`)
       console.log('| App listening on port: ' + config.server.port)
       console.log(`| URL: ${url}`)
-      console.log(`| Docs URL: ${url}/__docs`)
+      if (env('NODE_ENV') !== 'production') {
+        console.log(`| Docs URL: ${url}/__docs`)
+      }
       console.log('| Press Ctrl+C to quit.')
-      console.log(`|------------------------------------------------------|`)
-    })
+      console.log(`|------------------------------------------------------|\n`)
 
-    // RUN START-FUNCTION
-    await config.start({ config, app, server })
+      // RUN START-FUNCTION
+      await config.start({ config, app, server })
+    })
   }
 })()
