@@ -33,8 +33,14 @@ void (async () => {
   await config.init(config)
 
   if (config.server.multiProcessing && cluster.isMaster) {
-    for (let i = 0; i < (config.server.multiProcessingWorkers || os.cpus().length - 1); i++) {
+    const numberOfWorkers = config.server.multiProcessingWorkers || os.cpus().length - 1
+
+    for (let i = 0; i < numberOfWorkers; i++) {
       cluster.fork()
+
+      if (numberOfWorkers - 1 === i) {
+        printAppInfo()
+      }
     }
 
     cluster.on('exit', (worker) => {
@@ -75,29 +81,33 @@ void (async () => {
 
     // RUN SERVER
     const server = app.listen(config.server.port, async () => {
-      console.clear()
-
-      const url = `http://${config.server.host || 'localhost'}:${config.server.port}`
-
-      console.log(`|------------------------------------------------------|`)
-      console.log(`| ${packageJson.description} v${packageJson.version}`)
-      console.log(`|------------------------------------------------------|`)
-      if (config.server.multiProcessing) {
-        console.log('| Mode: Cluster')
+      if (!config.server.multiProcessing) {
+        printAppInfo()
       }
-
-      console.log('| App listening on port: ' + config.server.port)
-      console.log(`| URL: ${url}`)
-
-      if (env('NODE_ENV') !== 'production') {
-        console.log(`| Docs URL: ${url}/__docs`)
-      }
-
-      console.log('| Press Ctrl+C to quit.')
-      console.log(`|------------------------------------------------------|\n`)
 
       // RUN START-FUNCTION
       await config.start({ config, app, server })
     })
   }
 })()
+
+function printAppInfo() {
+  const url = `http://${config.server.host || 'localhost'}:${config.server.port}`
+
+  console.log(`|------------------------------------------------------|`)
+  console.log(`| ${packageJson.description} v${packageJson.version}`)
+  console.log(`|------------------------------------------------------|`)
+  if (config.server.multiProcessing) {
+    console.log('| Mode: Cluster')
+  }
+
+  console.log('| App listening on port: ' + config.server.port)
+  console.log(`| URL: ${url}`)
+
+  if (env('NODE_ENV') !== 'production') {
+    console.log(`| Docs URL: ${url}/__docs`)
+  }
+
+  console.log('| Press Ctrl+C to quit.')
+  console.log(`|------------------------------------------------------|\n`)
+}
