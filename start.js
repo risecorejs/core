@@ -60,6 +60,11 @@ void (async () => {
 
     // REGISTER ROUTER
     if (Array.isArray(config.middleware.router)) {
+      if (env('NODE_ENV') !== 'production') {
+        app.get('/__routers', (req, res) => res.json({ routers: config.middleware.router }))
+        app.get('/__docs', (req, res) => res.sendFile(__dirname + '/view/docs.html'))
+      }
+
       for (const routerConfig of config.middleware.router) {
         await register.router(routerConfig, app)
       }
