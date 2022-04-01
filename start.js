@@ -82,11 +82,17 @@ void (async () => {
       console.log(`|------------------------------------------------------|`)
       console.log(`| ${packageJson.description} v${packageJson.version}`)
       console.log(`|------------------------------------------------------|`)
+      if (config.server.multiProcessing) {
+        console.log('| Mode: Cluster')
+      }
+
       console.log('| App listening on port: ' + config.server.port)
       console.log(`| URL: ${url}`)
+
       if (env('NODE_ENV') !== 'production') {
         console.log(`| Docs URL: ${url}/__docs`)
       }
+
       console.log('| Press Ctrl+C to quit.')
       console.log(`|------------------------------------------------------|\n`)
 
