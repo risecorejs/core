@@ -38,7 +38,7 @@ void (async () => {
     }
 
     cluster.on('exit', (worker) => {
-      console.log(`Worker ${worker.process.pid} died`)
+      console.log(`Worker PID: ${worker.process.pid} died`)
 
       cluster.fork()
     })
@@ -75,8 +75,18 @@ void (async () => {
 
     // RUN SERVER
     const server = app.listen(config.server.port, () => {
-      console.log('App listening on port: ' + config.server.port)
-      console.log('Press Ctrl+C to quit.')
+      console.clear()
+
+      const url = `http://${config.server.host || 'localhost'}:${config.server.port}`
+
+      console.log(`|------------------------------------------------------|`)
+      console.log(`| ${packageJson.description} v${packageJson.version}`)
+      console.log(`|------------------------------------------------------|`)
+      console.log('| App listening on port: ' + config.server.port)
+      console.log(`| URL: ${url}`)
+      console.log(`| Docs URL: ${url}/__docs`)
+      console.log('| Press Ctrl+C to quit.')
+      console.log(`|------------------------------------------------------|`)
     })
 
     // RUN START-FUNCTION

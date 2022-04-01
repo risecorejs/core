@@ -10,6 +10,7 @@ module.exports = {
   server: {
     multiProcessing: false,
     multiProcessingWorkers: null,
+    host: process.env.HOST || 'localhost',
     port: process.env.PORT || 5000
   },
   moduleAlias: {
