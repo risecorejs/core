@@ -3,23 +3,24 @@
 ## Setup
 
 ```sh
-npm i -g @risecorejs/core
+npm install -g @risecorejs/core
+npm install -g nodemon
 
 risecorejs init my-project
 
 cd my-project
-```
 
-Copy ".env.example" -> ".env" and add your private key to JWT_SECRET_KEY etc.
+npm install
+```
 
 > Note: Don't forget to set up your database for the next step!
 
 ```sh
-npm install && npm install -g nodemon
-
 npx sequelize db:migrate
 npx sequelize db:seed:all
 ```
+
+Copy ".env.example" -> ".env" and add your private key to JWT_SECRET_KEY etc.
 
 `npm run dev` or `npm run start`
 
@@ -44,8 +45,8 @@ module.exports = {
     test: 123
   },
   server: {
+    host: 'localhost', // default
     port: 5000, // default
-    port: 'localhost', // default
     multiProcessing: false, // default
     multiProcessingWorkers: null, // default
   },
