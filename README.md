@@ -44,13 +44,24 @@ module.exports = {
     test: 123
   },
   server: {
+    port: 5000, // default
+    port: 'localhost', // default
     multiProcessing: false, // default
     multiProcessingWorkers: null, // default
-    port: process.env.PORT || 5000 // default
   },
   // Add your module aliases so they are always at hand
   moduleAlias: {
     '@some-folder': __dirname + '/directory/some-folder'
+  },
+  validator: {
+    locale: 'en' // default
+  },
+  router: {
+    baseUrl: '/', // default
+    routesPath: '/routes', // default
+    apiDocs: {
+      title: 'API-docs' // default
+    }
   },
   middleware: {
     rateLimit: {
@@ -58,16 +69,6 @@ module.exports = {
       max: 1000 // default
     },
     cors: {}, // https://www.npmjs.com/package/cors#configuring-cors
-    validator: {
-      locale: 'en' // default
-    },
-    router: {
-      baseUrl: '/', // default
-      routesPath: '/routes', // default
-      apiDocs: {
-        title: 'API-docs' // default
-      }
-    },
     // Add your global middleware
     extend: () => [
       require('~/middleware/global/some-middleware'),
