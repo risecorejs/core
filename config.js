@@ -1,25 +1,39 @@
 const path = require('path')
+const env = require('@risecorejs/helpers/lib/env')
+const crudBuilder = require('@risecorejs/crud-builder')
+
 const models = require('./models')
 
 module.exports = {
   global: {
     controller: (filename) => (method) => filename + '.' + method,
-    env: require('@risecorejs/helpers/lib/env'),
-    crudBuilder: require('@risecorejs/crud-builder')
+    env,
+    crudBuilder
   },
   server: {
+    host: env('HOST', 'localhost'),
+    port: env('PORT', 5000),
     multiProcessing: false,
-    multiProcessingWorkers: null,
-    host: process.env.HOST || 'localhost',
-    port: process.env.PORT || 5000
+    multiProcessingWorkers: null
   },
   moduleAlias: {
     '~': path.resolve()
   },
-  storage: false,
+  storage: true,
   structs: {
     setGlobal: true,
     enableAPI: true
+  },
+  validator: {
+    locale: 'en',
+    sequelize: models.sequelize
+  },
+  router: {
+    baseUrl: '/',
+    routesPath: '/routes',
+    apiDocs: {
+      title: 'API-docs'
+    }
   },
   middleware: {
     rateLimit: {
@@ -27,17 +41,6 @@ module.exports = {
       max: 1000
     },
     cors: {},
-    validator: {
-      locale: 'en',
-      sequelize: models.sequelize
-    },
-    router: {
-      baseUrl: '/',
-      routesPath: '/routes',
-      apiDocs: {
-        title: 'API-docs'
-      }
-    },
     extend: () => []
   },
   init(config) {},

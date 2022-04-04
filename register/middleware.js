@@ -25,7 +25,7 @@ module.exports = (config, app) => {
   }
 
   app.use(only())
-  app.use(validator(config.middleware.validator))
+  app.use(validator(config.validator))
   app.use(orderBuilder())
   app.use(whereBuilder())
   app.use(includeBuilder())

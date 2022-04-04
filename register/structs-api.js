@@ -1,8 +1,8 @@
 module.exports = (config) => {
   const route = getRoute()
 
-  if (Array.isArray(config.middleware.router)) {
-    for (const routerConfig of config.middleware.router) {
+  if (Array.isArray(config.router)) {
+    for (const routerConfig of config.router) {
       if (routerConfig.main) {
         if (routerConfig.routes) {
           routerConfig.routes.push(route)
@@ -14,10 +14,10 @@ module.exports = (config) => {
       }
     }
   } else {
-    if (config.middleware.router.routes) {
-      config.middleware.router.routes.push(route)
+    if (config.router.routes) {
+      config.router.routes.push(route)
     } else {
-      config.middleware.router.routes = [route]
+      config.router.routes = [route]
     }
   }
 }

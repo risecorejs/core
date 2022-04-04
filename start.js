@@ -39,7 +39,7 @@ void (async () => {
       cluster.fork()
 
       if (numberOfWorkers - 1 === i) {
-        printAppInfo()
+        printAppInfo(numberOfWorkers)
       }
     }
 
@@ -66,17 +66,17 @@ void (async () => {
     register.middleware(config, app)
 
     // REGISTER ROUTER
-    if (Array.isArray(config.middleware.router)) {
+    if (Array.isArray(config.router)) {
       if (env('NODE_ENV') !== 'production') {
-        app.get('/__routers', (req, res) => res.json({ routers: config.middleware.router }))
+        app.get('/__routers', (req, res) => res.json({ routers: config.router }))
         app.get('/__docs', (req, res) => res.sendFile(__dirname + '/view/docs.html'))
       }
 
-      for (const routerConfig of config.middleware.router) {
+      for (const routerConfig of config.router) {
         await register.router(routerConfig, app)
       }
     } else {
-      await register.router(config.middleware.router, app)
+      await register.router(config.router, app)
     }
 
     // RUN SERVER
@@ -91,14 +91,20 @@ void (async () => {
   }
 })()
 
-function printAppInfo() {
-  const url = `http://${config.server.host || 'localhost'}:${config.server.port}`
+/**
+ * PRINT-APP-INFO
+ * @param numberOfWorkers {number|void}
+ */
+function printAppInfo(numberOfWorkers) {
+  const url = `http://${config.server.host}:${config.server.port}`
 
   console.log(`|------------------------------------------------------|`)
   console.log(`| ${packageJson.description} v${packageJson.version}`)
   console.log(`|------------------------------------------------------|`)
+
   if (config.server.multiProcessing) {
     console.log('| Mode: Cluster')
+    console.log('| Number of workers: ' + numberOfWorkers)
   }
 
   console.log('| App listening on port: ' + config.server.port)
