@@ -22,10 +22,13 @@ module.exports = (config, numberOfWorkers) => {
     console.log('| Number of workers: ' + numberOfWorkers)
   }
 
+  console.log(`|------------------------------------------------------|`)
+
   if (config.cron) {
     console.log(`| # CRON`)
     console.log('| Mode: ' + (config.cron.childProcess ? 'childProcess' : 'inside'))
     console.log('| Number of jobs: ' + Object.keys(config.cron.jobs).length)
+    console.log(`|------------------------------------------------------|`)
   }
 
   console.log(`| # APP`)
