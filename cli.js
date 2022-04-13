@@ -23,6 +23,7 @@ switch (argv[0]) {
 /**
  * RUN
  * @param bin {string}
+ * @returns {void}
  */
 function run(bin) {
   execa(`${bin} ${__dirname}/start.js`, {
@@ -35,6 +36,7 @@ function run(bin) {
 
 /**
  * INIT
+ * @returns {void}
  */
 function init() {
   execa(`git clone https://github.com/risecorejs/template.git ${argv[1] || '.'}`, {

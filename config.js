@@ -1,10 +1,11 @@
 const path = require('path')
+const merge = require('merge')
 const env = require('@risecorejs/helpers/lib/env')
 const crudBuilder = require('@risecorejs/crud-builder')
 
 const models = require('./models')
 
-module.exports = {
+const initialConfig = {
   global: {
     controller: (filename) => (method) => filename + '.' + method,
     env,
@@ -12,7 +13,7 @@ module.exports = {
   },
   server: {
     host: env('HOST', 'localhost'),
-    port: env('PORT', 5000),
+    port: env('PORT', 8000),
     multiProcessing: false,
     multiProcessingWorkers: null
   },
@@ -22,7 +23,8 @@ module.exports = {
   storage: true,
   structs: {
     setGlobal: true,
-    enableAPI: true
+    enableAPI: true,
+    dir: path.resolve('structs')
   },
   validator: {
     locale: 'en',
@@ -47,3 +49,10 @@ module.exports = {
   master(config) {},
   start({ config, app, server }) {}
 }
+
+const appConfig = require(path.resolve('config'))
+
+// MERGE INITIAL-CONFIG AND APP-CONFIG
+const { config } = merge.recursive({ config: initialConfig }, { config: appConfig })
+
+module.exports = config
