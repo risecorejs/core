@@ -34,7 +34,6 @@ module.exports = (config, numberOfWorkers) => {
   }
 
   console.log(`| # APP`)
-  console.log('| Listening on port: ' + config.server.port)
   console.log(`| URL: ${url}`)
 
   if (env('NODE_ENV') !== 'production') {
