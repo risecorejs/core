@@ -15,8 +15,6 @@ module.exports = (config, numberOfWorkers) => {
   console.log(`| ${packageJson.description} v${packageJson.version}`)
   console.log(`|------------------------------------------------------|`)
 
-  console.log('\n')
-
   console.log(`| # SERVER`)
   console.log('| Mode: ' + (config.server.multiProcessing ? 'multiProcessing' : 'singleProcess'))
 
@@ -24,17 +22,13 @@ module.exports = (config, numberOfWorkers) => {
     console.log('| Number of workers: ' + numberOfWorkers)
   }
 
-  console.log('\n')
-
   if (config.cron) {
     console.log(`| # CRON`)
     console.log('| Mode: ' + (config.cron.childProcess ? 'childProcess' : 'inside'))
     console.log('| Number of jobs: ' + Object.keys(config.cron.jobs).length)
-
-    console.log('\n')
   }
 
-  console.log(`| APP`)
+  console.log(`| # APP`)
   console.log('| Listening on port: ' + config.server.port)
   console.log(`| URL: ${url}`)
 
