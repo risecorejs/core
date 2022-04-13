@@ -1,10 +1,10 @@
 const os = require('os')
 const cluster = require('cluster')
 
-const runners = require('./index')
+const printAppInfo = require('./print-app-info')
 
 /**
- * RUN-MASTER
+ * RUN MASTER
  * @param config {Object}
  * @returns {void}
  */
@@ -15,7 +15,7 @@ module.exports = async (config) => {
     cluster.fork()
 
     if (numberOfWorkers - 1 === i) {
-      runners.printAppInfo(config, numberOfWorkers)
+      printAppInfo(config, numberOfWorkers)
     }
   }
 

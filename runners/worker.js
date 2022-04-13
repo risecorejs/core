@@ -3,10 +3,10 @@ const env = require('@risecorejs/helpers/lib/env')
 
 const packageJson = require('../package.json')
 const register = require('../register')
-const runners = require('./index')
+const printAppInfo = require('./print-app-info')
 
 /**
- * RUN-WORKER
+ * RUN WORKER
  * @param config {Object}
  * @returns {void}
  */
@@ -41,7 +41,7 @@ module.exports = async (config) => {
   // RUN SERVER
   const server = app.listen(config.server.port, config.server.host, async () => {
     if (!config.server.multiProcessing) {
-      runners.printAppInfo(config)
+      printAppInfo(config)
     }
 
     // RUN START-FUNCTION

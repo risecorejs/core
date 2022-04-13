@@ -3,7 +3,7 @@ const execa = require('execa')
 const register = require('../register')
 
 /**
- * RUN-CRON
+ * RUN CRON
  * @param config {Object}
  * @returns {void}
  */

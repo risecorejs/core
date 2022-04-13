@@ -3,7 +3,7 @@ const env = require('@risecorejs/helpers/lib/env')
 const packageJson = require('../package.json')
 
 /**
- * RUN-PRINT-APP-INFO
+ * RUN PRINT-APP-INFO
  * @param config {Object}
  * @param numberOfWorkers {number?}
  * @returns {void}
@@ -15,17 +15,23 @@ module.exports = (config, numberOfWorkers) => {
   console.log(`| ${packageJson.description} v${packageJson.version}`)
   console.log(`|------------------------------------------------------|`)
 
-  console.log(`| SERVER`)
-  console.log('| Mode: ' + config.server.multiProcessing ? 'multiProcessing' : 'singleProcess')
+  console.log('\n')
+
+  console.log(`| # SERVER`)
+  console.log('| Mode: ' + (config.server.multiProcessing ? 'multiProcessing' : 'singleProcess'))
 
   if (config.server.multiProcessing) {
     console.log('| Number of workers: ' + numberOfWorkers)
   }
 
+  console.log('\n')
+
   if (config.cron) {
-    console.log(`| CRON`)
-    console.log('| Mode: ' + config.cron.childProcess ? 'childProcess' : 'inside')
+    console.log(`| # CRON`)
+    console.log('| Mode: ' + (config.cron.childProcess ? 'childProcess' : 'inside'))
     console.log('| Number of jobs: ' + Object.keys(config.cron.jobs).length)
+
+    console.log('\n')
   }
 
   console.log(`| APP`)
