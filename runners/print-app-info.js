@@ -16,6 +16,8 @@ module.exports = (config, numberOfWorkers) => {
   console.log(`|------------------------------------------------------|`)
 
   console.log(`| # SERVER`)
+  console.log('| Host: ' + config.server.host)
+  console.log('| Port: ' + config.server.port)
   console.log('| Mode: ' + (config.server.multiProcessing ? 'multiProcessing' : 'singleProcess'))
 
   if (config.server.multiProcessing) {
