@@ -46,13 +46,27 @@ module.exports = {
   },
   server: {
     host: 'localhost', // default
-    port: 5000, // default
+    port: 8000, // default
     multiProcessing: false, // default
     multiProcessingWorkers: null, // default
   },
   // Add your module aliases so they are always at hand
   moduleAlias: {
     '@some-folder': __dirname + '/directory/some-folder'
+  },
+  storage: true, // default
+  structs: {
+    setGlobal: true, // default
+    enableAPI: true, // default,
+    dir: __dirname + '/structs' // default
+  },
+  cron: {
+    childProcess: true, // if:true ? mode:childProcess : mode:inside
+    jobs: {
+      '0 0 * * * *'() {
+        console.log(123)
+      }
+    }
   },
   validator: {
     locale: 'en' // default
@@ -68,8 +82,9 @@ module.exports = {
     rateLimit: {
       windowMs: 5 * 60 * 1000, // default
       max: 1000 // default
+      // docs: https://www.npmjs.com/package/express-rate-limit
     },
-    cors: {}, // https://www.npmjs.com/package/cors#configuring-cors
+    cors: {}, // default | docs: https://www.npmjs.com/package/cors#configuring-cors
     // Add your global middleware
     extend: () => [
       require('~/middleware/global/some-middleware'),
