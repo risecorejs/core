@@ -4,6 +4,7 @@ const env = require('@risecorejs/helpers/lib/env')
 const packageJson = require('../package.json')
 const register = require('../register')
 const printAppInfo = require('./print-app-info')
+const config = require('../config')
 
 /**
  * RUN WORKER
@@ -17,7 +18,7 @@ module.exports = async (config) => {
 
   app.get('/', (req, res) => res.send(`${packageJson.description} v${packageJson.version}`))
 
-  if (config.structs?.enableAPI !== false) {
+  if (config.structs && config.structs?.enableAPI !== false) {
     register.structsAPI(config)
   }
 

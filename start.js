@@ -14,7 +14,7 @@ register.moduleAlias(config.moduleAlias)
 register.globalVariables(config.global)
 
 // SET GLOBAL-STRUCTS
-if (config.structs?.setGlobal !== false) {
+if (config.structs && config.structs?.setGlobal !== false) {
   setGlobalStructs(config.structs.dir)
 }
 
