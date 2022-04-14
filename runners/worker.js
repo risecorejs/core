@@ -29,7 +29,7 @@ module.exports = async (config) => {
   if (Array.isArray(config.router)) {
     if (env('NODE_ENV') !== 'production') {
       app.get('/__routers', (req, res) => res.json({ routers: config.router }))
-      app.get('/__docs', (req, res) => res.sendFile(__dirname + '/view/docs.html'))
+      app.get('/__docs', (req, res) => res.sendFile(__dirname + '/../view/docs.html'))
     }
 
     for (const routerConfig of config.router) {
