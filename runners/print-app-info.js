@@ -9,15 +9,19 @@ const packageJson = require('../package.json')
  * @returns {void}
  */
 module.exports = (config) => {
-  const nets = networkInterfaces()
+  if (config.server.host === '0.0.0.0') {
+    const nets = networkInterfaces()
 
-  console.log(nets)
+    const netNames = ['Ethernet', 'eth0']
 
-  // const netIPv4 = nets.Ethernet.find((net) => net.family === 'IPv4')
-  //
-  // if (config.server.host === '0.0.0.0') {
-  //   config.server.host = netIPv4.address
-  // }
+    for (const name of netNames) {
+      if (nets[name]) {
+        config.server.host = nets[name].find((net) => net.family === 'IPv4').address
+
+        break
+      }
+    }
+  }
 
   const url = `http://${config.server.host}:${config.server.port}`
 
