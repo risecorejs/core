@@ -11,11 +11,13 @@ const packageJson = require('../package.json')
 module.exports = (config) => {
   const nets = networkInterfaces()
 
-  const netIPv4 = nets.Ethernet.find((net) => net.family === 'IPv4')
+  console.log(nets)
 
-  if (config.server.host === '0.0.0.0') {
-    config.server.host = netIPv4.address
-  }
+  // const netIPv4 = nets.Ethernet.find((net) => net.family === 'IPv4')
+  //
+  // if (config.server.host === '0.0.0.0') {
+  //   config.server.host = netIPv4.address
+  // }
 
   const url = `http://${config.server.host}:${config.server.port}`
 
