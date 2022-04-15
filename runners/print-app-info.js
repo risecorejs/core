@@ -10,21 +10,9 @@ const packageJson = require('../package.json')
  * @returns {void}
  */
 module.exports = (config) => {
-  if (config.server.host === '0.0.0.0') {
-    const nets = networkInterfaces()
+  const hostForUrl = getHostForUrl(config)
 
-    const netNames = ['Ethernet', 'eth0']
-
-    for (const name of netNames) {
-      if (nets[name]) {
-        config.server.host = nets[name].find((net) => net.family === 'IPv4').address
-
-        break
-      }
-    }
-  }
-
-  const url = `http://${config.server.host}:${config.server.port}`
+  const url = `http://${hostForUrl}:${config.server.port}`
 
   console.log(`|------------------------------------------------------|`)
   console.log(`| ${packageJson.description} v${packageJson.version}`)
@@ -76,4 +64,25 @@ module.exports = (config) => {
   }
 
   console.log(`|------------------------------------------------------|\n`)
+}
+
+/**
+ * GET-HOST-FOR-URL
+ * @param config {Object}
+ * @return {string}
+ */
+function getHostForUrl(config) {
+  if (config.server.host === '0.0.0.0') {
+    const nets = networkInterfaces()
+
+    const netNames = ['Ethernet', 'eth0']
+
+    for (const name of netNames) {
+      if (nets[name]) {
+        return nets[name].find((net) => net.family === 'IPv4').address
+      }
+    }
+  }
+
+  return 'localhost'
 }
