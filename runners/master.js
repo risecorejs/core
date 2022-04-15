@@ -1,7 +1,4 @@
-const os = require('os')
 const cluster = require('cluster')
-
-const printAppInfo = require('./print-app-info')
 
 /**
  * RUN MASTER
@@ -9,14 +6,8 @@ const printAppInfo = require('./print-app-info')
  * @returns {void}
  */
 module.exports = async (config) => {
-  const numberOfWorkers = config.server.multiProcessingWorkers || os.cpus().length - 1
-
-  for (let i = 0; i < numberOfWorkers; i++) {
+  for (let i = 0; i < config.server.multiProcessingWorkers; i++) {
     cluster.fork()
-
-    if (numberOfWorkers - 1 === i) {
-      printAppInfo(config, numberOfWorkers)
-    }
   }
 
   cluster.on('exit', (worker) => {

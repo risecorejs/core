@@ -5,10 +5,9 @@ const packageJson = require('../package.json')
 /**
  * RUN PRINT-APP-INFO
  * @param config {Object}
- * @param numberOfWorkers {number?}
  * @returns {void}
  */
-module.exports = (config, numberOfWorkers) => {
+module.exports = (config) => {
   const url = `http://${config.server.host}:${config.server.port}`
 
   console.log(`|------------------------------------------------------|`)
@@ -21,7 +20,7 @@ module.exports = (config, numberOfWorkers) => {
   console.log('| Mode: ' + (config.server.multiProcessing ? 'multiProcessing' : 'singleProcess'))
 
   if (config.server.multiProcessing) {
-    console.log('| Number of workers: ' + numberOfWorkers)
+    console.log('| Number of workers: ' + config.server.multiProcessingWorkers)
   }
 
   console.log(`|------------------------------------------------------|`)
@@ -36,7 +35,7 @@ module.exports = (config, numberOfWorkers) => {
   console.log(`| # APP`)
   console.log(`| URL: ${url}`)
 
-  if (env('NODE_ENV') !== 'production') {
+  if (env('NODE_ENV') === 'development') {
     console.log(`| Docs URL: ${url}/__docs`)
   }
 

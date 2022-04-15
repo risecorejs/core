@@ -15,7 +15,7 @@ module.exports = async (routerConfig, app) => {
     })
   )
 
-  if (routerConfig.apiDocs && process.env.NODE_ENV !== 'production') {
+  if (routerConfig.apiDocs && process.env.NODE_ENV === 'development') {
     app.use('/__routes' + routerConfig.baseUrl, (req, res) => res.json({ routes }))
 
     routerConfig.apiDocs.baseUrl = routerConfig.baseUrl === '/' ? '' : routerConfig.baseUrl
@@ -35,12 +35,16 @@ async function getRoutes(routerConfig) {
   if (routerConfig.routesPath) {
     fillingRoutes(routerConfig, routes, path.resolve(), routerConfig.routesPath)
   } else if (routerConfig.routesUrl) {
-    const response = await axios.get(routerConfig.routesUrl)
+    try {
+      const response = await axios.get(routerConfig.routesUrl)
 
-    for (const route of response.data.routes) {
-      fillingRoute(routerConfig, route)
+      for (const route of response.data.routes) {
+        fillingRoute(routerConfig, route)
 
-      routes.push(route)
+        routes.push(route)
+      }
+    } catch (err) {
+      console.error(err)
     }
   } else {
     throw Error('Routes source required')

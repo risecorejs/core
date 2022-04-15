@@ -3,8 +3,6 @@ const env = require('@risecorejs/helpers/lib/env')
 
 const packageJson = require('../package.json')
 const register = require('../register')
-const printAppInfo = require('./print-app-info')
-const config = require('../config')
 
 /**
  * RUN WORKER
@@ -27,7 +25,7 @@ module.exports = async (config) => {
 
   // REGISTER ROUTER
   if (Array.isArray(config.router)) {
-    if (env('NODE_ENV') !== 'production') {
+    if (env('NODE_ENV') === 'development') {
       app.get('/__routers', (req, res) => res.json({ routers: config.router }))
       app.get('/__docs', (req, res) => res.sendFile('docs.html', { root: __dirname + '/../view' }))
     }
@@ -41,10 +39,6 @@ module.exports = async (config) => {
 
   // RUN SERVER
   const server = app.listen(config.server.port, config.server.host, async () => {
-    if (!config.server.multiProcessing) {
-      printAppInfo(config)
-    }
-
     // RUN START-FUNCTION
     await config.start({ config, app, server })
   })
