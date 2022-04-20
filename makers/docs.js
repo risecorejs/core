@@ -3,8 +3,6 @@ const path = require('path')
 const fs = require('fs/promises')
 const prettier = require('prettier')
 
-console.log(_.camelCase('UserGroup'))
-
 module.exports = async (entityName, entityExtendedName) => {
   const filePath = path.resolve('docs')
   const fileName = _.kebabCase(entityExtendedName) + '.js'
