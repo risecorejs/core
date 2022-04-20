@@ -75,7 +75,7 @@ function getRawController(entityName, entityExtendedName) {
   // SHOW
   function show() {
     return {
-      response(instance: ${modelNameFirstLower}) {
+      response(${modelNameFirstLower}) {
         return { ${modelNameFirstLower} }
       }
     }
@@ -90,7 +90,7 @@ function getRawController(entityName, entityExtendedName) {
       fields: [
         // your fields
       ],
-      response(instance: ${modelNameFirstLower}) {
+      response({ instance: ${modelNameFirstLower} }) {
         return { ${modelNameFirstLower} }
       }
     }
@@ -99,7 +99,7 @@ function getRawController(entityName, entityExtendedName) {
   // DESTROY
   function destroy() {
     return {
-      response(instance: ${modelNameFirstLower}) {
+      response({ instance: ${modelNameFirstLower} }) {
         return { ${modelNameFirstLower} }
       }
     }
