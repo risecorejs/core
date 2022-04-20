@@ -3,8 +3,6 @@ const path = require('path')
 const fs = require('fs/promises')
 const prettier = require('prettier')
 
-console.log()
-
 module.exports = async (entityExtendedName) => {
   const filePath = path.resolve('routes')
   const fileName = _.kebabCase(entityExtendedName) + '.js'

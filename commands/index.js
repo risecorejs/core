@@ -1,11 +1,15 @@
+const makers = require('../makers/index')
+
 module.exports = {
   init: require('./init'),
   dev: require('./dev'),
   start: require('./start'),
-  makeController: (argv) => require('../makers/make-controller')(argv[1], argv[2]),
-  makeModel: (argv) => require('../makers/make-model')(argv[1]),
-  makeDocs: (argv) => require('../makers/make-docs')(argv[1], argv[2]),
-  makeRoutes: (argv) => require('../makers/make-routes')(argv[1], argv[2]),
-  makeEntity: require('./make-entity'),
-  makeMigrations: () => require('@risecorejs/make-migrations')
+  makers: {
+    controller: (argv) => makers.controller(argv[1], argv[2]),
+    model: (argv) => makers.model(argv[1]),
+    docs: (argv) => makers.docs(argv[1], argv[2]),
+    routes: (argv) => makers.routes(argv[2]),
+    entity: require('./make-entity'),
+    migrations: () => require('@risecorejs/make-migrations')
+  }
 }

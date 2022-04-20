@@ -21,27 +21,27 @@ void (async () => {
       break
 
     case 'make:controller':
-      await commands.makeController(argv)
+      await commands.makers.controller(argv)
       break
 
     case 'make:model':
-      await commands.makeModel(argv)
+      await commands.makers.model(argv)
       break
 
     case 'make:docs':
-      await commands.makeDocs(argv)
+      await commands.makers.docs(argv)
       break
 
     case 'make:routes':
-      await commands.makeDocs(argv)
+      await commands.makers.docs(argv)
       break
 
     case 'make:entity':
-      await commands.makeEntity(argv)
+      await commands.makers.entity(argv)
       break
 
     case 'make:migrations':
-      commands.makeMigrations(argv)
+      commands.makers.migrations(argv)
       break
 
     default:
