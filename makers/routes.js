@@ -31,7 +31,7 @@ module.exports = async (entityExtendedName) => {
  */
 function getRawRoutes(entityExtendedName) {
   const entityExtendedNameKebabCase = _.kebabCase(entityExtendedName)
-  const groupText = _.upperFirst(_.lowerCase('user-groups'))
+  const groupText = _.upperFirst(_.lowerCase(entityExtendedName))
 
   return `const { pagination, paramsIsNotNaN } = require('@risecorejs/middleware')
 
