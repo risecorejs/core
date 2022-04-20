@@ -1,54 +1,51 @@
 #! /usr/bin/env node
 
-const execa = require('execa')
-const path = require('path')
-const rimraf = require('rimraf')
+const commands = require('./commands/index')
 
 const argv = process.argv.slice(2)
 
-switch (argv[0]) {
-  case 'dev':
-    run('nodemon')
-    break
+const command = argv[0]
 
-  case 'start':
-    run('node')
-    break
+void (async () => {
+  switch (command) {
+    case 'init':
+      await commands.init(argv)
+      break
 
-  case 'init':
-    init()
-    break
-}
+    case 'dev':
+      commands.dev(argv)
+      break
 
-/**
- * RUN
- * @param bin {string}
- * @returns {void}
- */
-function run(bin) {
-  execa(`${bin} ${__dirname}/start.js`, {
-    stdin: process.stdin,
-    stdout: process.stdout,
-    stderr: process.stderr,
-    shell: true
-  })
-}
+    case 'start':
+      commands.start(argv)
+      break
 
-/**
- * INIT
- * @returns {void}
- */
-function init() {
-  execa(`git clone https://github.com/risecorejs/template.git ${argv[1] || '.'}`, {
-    stdin: process.stdin,
-    stdout: process.stdout,
-    stderr: process.stderr,
-    shell: true
-  }).finally(() => {
-    rimraf(path.resolve('.git'), (err) => {
-      if (err) {
-        console.error(err)
-      }
-    })
-  })
-}
+    case 'make:controller':
+      await commands.makeController(argv)
+      break
+
+    case 'make:model':
+      await commands.makeModel(argv)
+      break
+
+    case 'make:docs':
+      await commands.makeDocs(argv)
+      break
+
+    case 'make:routes':
+      await commands.makeDocs(argv)
+      break
+
+    case 'make:entity':
+      await commands.makeEntity(argv)
+      break
+
+    case 'make:migrations':
+      commands.makeMigrations(argv)
+      break
+
+    default:
+      console.log(`Command "${command}" not found`)
+      break
+  }
+})()
