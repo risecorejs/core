@@ -33,7 +33,7 @@ void (async () => {
       break
 
     case 'make:routes':
-      await commands.makers.docs(argv)
+      await commands.makers.routes(argv)
       break
 
     case 'make:entity':
