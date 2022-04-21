@@ -31,10 +31,10 @@ module.exports = (config) => {
   console.log(`| # SERVER`)
   console.log('|   Host: ' + config.server.host)
   console.log('|   Port: ' + config.server.port)
-  console.log('|   Mode: ' + (config.server.multiProcessing ? 'multiProcessing' : 'singleProcess'))
+  console.log('|   Mode: ' + (config.server.multiprocessing ? 'multiprocessing' : 'singleProcess'))
 
-  if (config.server.multiProcessing) {
-    console.log('|   Number of workers: ' + config.server.multiProcessingWorkers)
+  if (config.server.multiprocessing) {
+    console.log('|   Number of workers: ' + config.server.multiprocessingWorkers)
   }
 
   if (config.cron) {

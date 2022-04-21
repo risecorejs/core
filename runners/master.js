@@ -6,7 +6,7 @@ const cluster = require('cluster')
  * @returns {void}
  */
 module.exports = async (config) => {
-  for (let i = 0; i < config.server.multiProcessingWorkers; i++) {
+  for (let i = 0; i < config.server.multiprocessingWorkers; i++) {
     cluster.fork()
   }
 

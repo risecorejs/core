@@ -25,8 +25,8 @@ void (async () => {
   await config.init(config)
 
   if (cluster.isMaster) {
-    if (config.server.multiProcessing) {
-      config.server.multiProcessingWorkers ||= os.cpus().length - 1
+    if (config.server.multiprocessing) {
+      config.server.multiprocessingWorkers ||= os.cpus().length - 1
 
       await runners.master(config)
     } else {

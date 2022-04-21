@@ -15,12 +15,12 @@ npm install
 
 > Note: Don't forget to set up your database for the next step!
 
+Copy ".env.example" -> ".env" and add your private key to JWT_SECRET_KEY etc.
+
 ```sh
 npx sequelize db:migrate
 npx sequelize db:seed:all
 ```
-
-Copy ".env.example" -> ".env" and add your private key to JWT_SECRET_KEY etc.
 
 `npm run dev` or `npm run start`
 
@@ -48,8 +48,8 @@ module.exports = {
   server: {
     host: 'localhost', // default | ('localhost' || '0.0.0.0')
     port: 8000, // default
-    multiProcessing: false, // default | if:true ? mode:multiProcessing : mode:singleProcess
-    multiProcessingWorkers: null, // default
+    multiprocessing: false, // default | if:true ? mode:multiprocessing : mode:singleProcess
+    multiprocessingWorkers: null, // default
   },
   
   // Add your module aliases so they are always at hand
