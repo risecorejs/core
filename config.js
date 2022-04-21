@@ -14,8 +14,8 @@ const initialConfig = {
   server: {
     host: env('HOST', 'localhost'),
     port: env('PORT', 8000),
-    multiProcessing: false,
-    multiProcessingWorkers: null
+    multiprocessing: false,
+    multiprocessingWorkers: null
   },
   moduleAlias: {
     '~': path.resolve()
