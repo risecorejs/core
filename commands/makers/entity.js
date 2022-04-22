@@ -1,4 +1,3 @@
-const makers = require('../makers')
 const consola = require('consola')
 
 module.exports = {
@@ -27,6 +26,8 @@ module.exports = {
     return yargs
   },
   async handler({ entityName, entityExtendedName }) {
+    const makers = require('../makers')
+
     await makers.controller.handler({ entityName, entityExtendedName })
     await makers.model.handler({ entityName })
     await makers.docs.handler({ entityName, entityExtendedName })
