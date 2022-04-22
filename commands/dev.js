@@ -38,10 +38,10 @@ module.exports = {
     return yargs
   },
   handler({ port, host, multiprocessing, multiprocessingWorkers }) {
-    process.env.$CLI_PORT = port
-    process.env.$CLI_HOST = host
-    process.env.$CLI_MULTIPROCESSING = multiprocessing
-    process.env.$CLI_MULTIPROCESSING_WORKERS = multiprocessingWorkers
+    if (port) process.env.$CLI_PORT = port
+    if (host) process.env.$CLI_HOST = host
+    if (multiprocessing) process.env.$CLI_MULTIPROCESSING = multiprocessing
+    if (multiprocessingWorkers) process.env.$CLI_MULTIPROCESSING_WORKERS = multiprocessingWorkers
 
     execa(`nodemon ${__dirname}/../start.js`, {
       stdin: process.stdin,
