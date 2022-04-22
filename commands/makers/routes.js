@@ -1,35 +1,46 @@
 const _ = require('lodash')
 const path = require('path')
-const fs = require('fs/promises')
-const prettier = require('prettier')
+const consola = require('consola')
 
-module.exports = async (entityExtendedName) => {
-  const filePath = path.resolve('routes')
-  const fileName = _.kebabCase(entityExtendedName) + '.js'
+const writeFileWithPrettier = require('../helpers/write-file-with-prettier')
 
-  const rawRoutes = getRawRoutes(entityExtendedName)
-
-  await fs.writeFile(
-    filePath + '/' + fileName,
-    prettier.format(rawRoutes, {
-      trailingComma: 'none',
-      tabWidth: 2,
-      semi: false,
-      singleQuote: true,
-      printWidth: 120,
-      parser: 'babel'
+module.exports = {
+  command: 'make:routes [entityExtendedName]',
+  describe: 'Creating a base routes',
+  builder(yargs) {
+    yargs.positional('entityExtendedName', {
+      describe: 'Entity extended name',
+      type: 'string'
     })
-  )
 
-  console.log('Routes created: ' + fileName)
+    yargs.option('entityExtendedName', { alias: 'exn' })
+
+    yargs.example([
+      ['$0 make:routes user-groups'],
+      ['$0 make:routes --entityExtendedName user-groups'],
+      ['$0 make:routes --exn user-groups']
+    ])
+
+    return yargs
+  },
+  async handler({ entityExtendedName }) {
+    const filePath = path.resolve('routes')
+    const fileName = _.kebabCase(entityExtendedName) + '.js'
+
+    const fileContent = getFileContent(entityExtendedName)
+
+    await writeFileWithPrettier(filePath + '/' + fileName, fileContent)
+
+    consola.success('Routes created: ' + fileName)
+  }
 }
 
 /**
- * GET-RAW-ROUTES
+ * GET-FILE-CONTENT
  * @param entityExtendedName {string}
  * @return {string}
  */
-function getRawRoutes(entityExtendedName) {
+function getFileContent(entityExtendedName) {
   const entityExtendedNameKebabCase = _.kebabCase(entityExtendedName)
   const groupText = _.upperFirst(_.lowerCase(entityExtendedName))
 

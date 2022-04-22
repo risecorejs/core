@@ -24,6 +24,30 @@ npx sequelize db:seed:all
 
 `npm run dev` or `npm run start`
 
+## CLI
+```sh
+npx risecorejs --help
+```
+
+```
+risecorejs <command> [options]
+
+Commands:
+  risecorejs init [folder]                                                          Init Risecorejs template
+  risecorejs dev [port] [host] [multiprocessing] [multiprocessingWorkers]           Run server in live-reload mode
+  risecorejs start [port] [host] [multiprocessing] [multiprocessingWorkers]         Run server
+  risecorejs make:controller [entityName] [entityExtendedName]                      Creating a base controller
+  risecorejs make:model [entityName]                                                Creating a base model
+  risecorejs make:docs [entityName] [entityExtendedName]                            Creating a base docs
+  risecorejs make:routes [entityExtendedName]                                       Creating a base routes
+  risecorejs make:entity [entityName] [entityExtendedName]                          Creating a base entity
+  risecorejs make:migrations                                                        Automatic creation of migrations    
+
+Options:
+      --help     Show help                                                          [boolean]
+  -v, --version  Show version number                                                [boolean]
+```
+
 ## Directory structure
 
 - controllers

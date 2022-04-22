@@ -1,51 +1,21 @@
-#! /usr/bin/env node
+#!/usr/bin/env node
 
-const commands = require('./commands/index')
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
 
-const argv = process.argv.slice(2)
+const commands = require('./commands')
 
-const command = argv[0]
-
-void (async () => {
-  switch (command) {
-    case 'init':
-      await commands.init(argv)
-      break
-
-    case 'dev':
-      commands.dev(argv)
-      break
-
-    case 'start':
-      commands.start(argv)
-      break
-
-    case 'make:controller':
-      await commands.makers.controller(argv)
-      break
-
-    case 'make:model':
-      await commands.makers.model(argv)
-      break
-
-    case 'make:docs':
-      await commands.makers.docs(argv)
-      break
-
-    case 'make:routes':
-      await commands.makers.routes(argv)
-      break
-
-    case 'make:entity':
-      await commands.makers.entity(argv)
-      break
-
-    case 'make:migrations':
-      commands.makers.migrations(argv)
-      break
-
-    default:
-      console.log(`Command "${command}" not found`)
-      break
-  }
-})()
+yargs(hideBin(process.argv))
+  .scriptName('risecorejs')
+  .usage('$0 <command> [options]')
+  .command(commands.init)
+  .command(commands.dev)
+  .command(commands.start)
+  .command(commands.makers.controller)
+  .command(commands.makers.model)
+  .command(commands.makers.docs)
+  .command(commands.makers.routes)
+  .command(commands.makers.entity)
+  .command(commands.makers.migrations)
+  .alias('version', 'v')
+  .parse()

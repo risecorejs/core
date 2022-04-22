@@ -1,36 +1,53 @@
 const _ = require('lodash')
 const path = require('path')
-const fs = require('fs/promises')
-const prettier = require('prettier')
+const consola = require('consola')
 
-module.exports = async (entityName, entityExtendedName) => {
-  const filePath = path.resolve('controllers')
-  const fileName = _.kebabCase(entityExtendedName) + '.js'
+const writeFileWithPrettier = require('../helpers/write-file-with-prettier')
 
-  const rawController = getRawController(entityName, entityExtendedName)
-
-  await fs.writeFile(
-    filePath + '/' + fileName,
-    prettier.format(rawController, {
-      trailingComma: 'none',
-      tabWidth: 2,
-      semi: false,
-      singleQuote: true,
-      printWidth: 120,
-      parser: 'babel'
+module.exports = {
+  command: 'make:controller [entityName] [entityExtendedName]',
+  describe: 'Creating a base controller',
+  builder(yargs) {
+    yargs.positional('entityName', {
+      describe: 'Entity name',
+      type: 'string'
     })
-  )
 
-  console.log('Controller created: ' + fileName)
+    yargs.positional('entityExtendedName', {
+      describe: 'Entity extended name',
+      type: 'string'
+    })
+
+    yargs.option('entityName', { alias: 'en' })
+    yargs.option('entityExtendedName', { alias: 'exn' })
+
+    yargs.example([
+      ['$0 make:controller UserGroup user-groups'],
+      ['$0 make:controller --entityName UserGroup --entityExtendedName user-groups'],
+      ['$0 make:controller --en UserGroup --exn user-groups']
+    ])
+
+    return yargs
+  },
+  async handler({ entityName, entityExtendedName }) {
+    const filePath = path.resolve('controllers')
+    const fileName = _.kebabCase(entityExtendedName) + '.js'
+
+    const fileContent = getFileContent(entityName, entityExtendedName)
+
+    await writeFileWithPrettier(filePath + '/' + fileName, fileContent)
+
+    consola.success('Controller created: ' + fileName)
+  }
 }
 
 /**
- * GET-RAW-CONTROLLER
+ * GET-FILE-CONTENT
  * @param entityName {string}
  * @param entityExtendedName {string}
  * @return {string}
  */
-function getRawController(entityName, entityExtendedName) {
+function getFileContent(entityName, entityExtendedName) {
   const modelName = _.upperFirst(_.camelCase(entityName))
   const modelNameFirstLower = _.lowerFirst(modelName)
   const entityExtendedNameCamelCase = _.camelCase(entityExtendedName)
