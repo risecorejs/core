@@ -1,6 +1,6 @@
 {
   "name": "@risecorejs/core",
-  "version": "2.5.6",
+  "version": "2.5.7",
   "description": "Risecorejs - The Node.js Framework",
   "main": "cli.js",
   "bin": {
