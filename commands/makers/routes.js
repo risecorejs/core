@@ -8,10 +8,7 @@ module.exports = {
   command: 'make:routes [entityExtendedName]',
   describe: 'Creating a base routes',
   builder(yargs) {
-    yargs.positional('entityExtendedName', {
-      describe: 'Entity extended name',
-      type: 'string'
-    })
+    yargs.positional('entityExtendedName', { describe: 'Entity extended name', type: 'string' })
 
     yargs.option('entityExtendedName', { alias: 'exn' })
 

@@ -8,10 +8,7 @@ module.exports = {
   command: 'make:model [entityName]',
   describe: 'Creating a base model',
   builder(yargs) {
-    yargs.positional('entityName', {
-      describe: 'Entity name',
-      type: 'string'
-    })
+    yargs.positional('entityName', { describe: 'Entity name', type: 'string' })
 
     yargs.option('entityName', { alias: 'en' })
 

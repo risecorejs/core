@@ -34,8 +34,11 @@ void (async () => {
     config.server.multiprocessing = true
   }
 
-  if (config.server.multiprocessing && env('$CLI_MULTIPROCESSING_WORKERS')) {
-    config.server.multiprocessingWorkers = env('$CLI_MULTIPROCESSING_WORKERS', Number())
+  if (config.server.multiprocessing) {
+    if (env('$CLI_MULTIPROCESSING_WORKERS')) {
+      config.server.multiprocessingWorkers = env('$CLI_MULTIPROCESSING_WORKERS', Number())
+    }
+
     config.server.multiprocessingWorkers ||= os.cpus().length - 1
   }
 

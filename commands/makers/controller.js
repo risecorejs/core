@@ -8,15 +8,8 @@ module.exports = {
   command: 'make:controller [entityName] [entityExtendedName]',
   describe: 'Creating a base controller',
   builder(yargs) {
-    yargs.positional('entityName', {
-      describe: 'Entity name',
-      type: 'string'
-    })
-
-    yargs.positional('entityExtendedName', {
-      describe: 'Entity extended name',
-      type: 'string'
-    })
+    yargs.positional('entityName', { describe: 'Entity name', type: 'string' })
+    yargs.positional('entityExtendedName', { describe: 'Entity extended name', type: 'string' })
 
     yargs.option('entityName', { alias: 'en' })
     yargs.option('entityExtendedName', { alias: 'exn' })
