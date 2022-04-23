@@ -33,7 +33,15 @@ module.exports = {
     // BASE-FILES
     {
       for (const filePath of baseStructTemplate.baseFiles) {
-        await writeFile(basePath, filePath)
+        if (typeof filePath === 'function') {
+          const { inputPath, outputPath } = filePath()
+
+          const fileContent = await fs.readFile(__dirname + '/src/' + inputPath)
+
+          await fs.writeFile(basePath + '/' + outputPath, fileContent)
+        } else {
+          await writeFile(basePath, filePath)
+        }
       }
 
       consola.success('Base files have been created successfully')
@@ -74,7 +82,7 @@ module.exports = {
  * GET-BASE-STRUCT-TEMPLATE
  * @returns {{
  *   baseDirectories: string[],
- *   baseFiles: string[],
+ *   baseFiles: (string|(function(): {inputPath: string, outputPath: string}))[],
  *   readmeFiles: string[],
  *   dockerFiles: string[],
  *   exampleFiles: string[]
@@ -101,7 +109,7 @@ function getBaseStructTemplate() {
       'database/config.js',
 
       '.env.example',
-      '.gitignore',
+      () => ({ inputPath: 'gitignore', outputPath: '.gitignore' }),
       '.prettierrc.json',
       '.sequelizerc',
       'config.js',
@@ -157,7 +165,7 @@ function getBaseStructTemplate() {
  * @returns {Promise<void>}
  */
 async function writeFile(basePath, filePath) {
-  const file = await fs.readFile(__dirname + '/src/' + filePath)
+  const fileContent = await fs.readFile(__dirname + '/src/' + filePath)
 
-  await fs.writeFile(basePath + '/' + filePath, file)
+  await fs.writeFile(basePath + '/' + filePath, fileContent)
 }
