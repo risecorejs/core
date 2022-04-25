@@ -64,7 +64,7 @@ function getFileContent(entityName, entityExtendedName) {
       rules: {
         // your rules
       },
-      fields: [
+      only: [
         // your fields
       ],
       response({ instance: ${modelNameFirstLower} }) {
@@ -97,7 +97,7 @@ function getFileContent(entityName, entityExtendedName) {
       rules: {
         // your rules
       },
-      fields: [
+      only: [
         // your fields
       ],
       response({ instance: ${modelNameFirstLower} }) {

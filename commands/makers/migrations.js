@@ -1,9 +1,13 @@
+const makeMigrations = require('@risecorejs/make-migrations')
+const path = require('path')
+
 module.exports = {
   command: 'make:migrations',
   describe: 'Automatic creation of migrations',
   async handler() {
-    const makeMigrations = require('@risecorejs/make-migrations')
+    const outputPath = path.resolve('database', 'migrations')
+    const models = require('../../models')
 
-    await makeMigrations()
+    await makeMigrations(outputPath, models)
   }
 }
