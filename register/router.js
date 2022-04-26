@@ -70,13 +70,13 @@ function fillingRoutes(routerConfig, routes, basePath, folder) {
   const files = fs.readdirSync(basePath + folder)
 
   for (const file of files) {
-    if (!file.startsWith('_') && !file.endsWith('.md')) {
+    if (!file.startsWith('_')) {
       const filePath = path.join(folder, file)
       const fileStat = fs.statSync(basePath + filePath)
 
       if (fileStat.isDirectory()) {
         fillingRoutes(routerConfig, routes, basePath, filePath)
-      } else {
+      } else if (file.endsWith('.js')) {
         const route = require(basePath + filePath)
 
         fillingRoute(routerConfig, route)
