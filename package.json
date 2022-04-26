@@ -30,7 +30,7 @@
     "@risecorejs/order-builder": "^1.0.2",
     "@risecorejs/processes-runner": "^1.0.0",
     "@risecorejs/router": "^1.1.0",
-    "@risecorejs/validator": "^2.0.1",
+    "@risecorejs/validator": "^2.0.2",
     "@risecorejs/where-builder": "^1.1.2",
     "axios": "^0.24.0",
     "consola": "^2.15.3",
