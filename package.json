@@ -22,7 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "@risecorejs/api-docs": "^1.0.3",
-    "@risecorejs/crud-builder": "^1.1.6",
+    "@risecorejs/crud-builder": "^1.2.0",
     "@risecorejs/helpers": "^2.0.5",
     "@risecorejs/include-builder": "^1.0.2",
     "@risecorejs/make-migrations": "^1.0.4",
