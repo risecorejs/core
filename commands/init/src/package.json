@@ -12,7 +12,7 @@
     "db:seeder": "sequelize db:seed:all"
   },
   "dependencies": {
-    "@risecorejs/core": "^2.7.8",
+    "@risecorejs/core": "^2.7.9",
     "@risecorejs/helpers": "^2.0.5",
     "@risecorejs/middleware": "^1.0.2",
     "bcryptjs": "^2.4.3",

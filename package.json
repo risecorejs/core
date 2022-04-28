@@ -31,7 +31,7 @@
     "@risecorejs/processes-runner": "^1.0.0",
     "@risecorejs/router": "^1.1.0",
     "@risecorejs/validator": "^2.0.2",
-    "@risecorejs/where-builder": "^1.1.2",
+    "@risecorejs/where-builder": "^1.1.3",
     "axios": "^0.24.0",
     "consola": "^2.15.3",
     "cors": "^2.8.5",
