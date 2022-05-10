@@ -12,16 +12,16 @@ module.exports = (config, app) => {
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
 
-  if (config.storage) {
-    app.use('/storage', express.static(path.resolve('storage')))
-  }
-
   if (config.middleware.rateLimit) {
     app.use(rateLimit(config.middleware.rateLimit))
   }
 
   if (config.middleware.cors) {
     app.use(cors(config.middleware.cors))
+  }
+
+  if (config.storage) {
+    app.use('/storage', express.static(path.resolve('storage')))
   }
 
   app.use(only())
