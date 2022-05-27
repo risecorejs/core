@@ -18,6 +18,8 @@
             <tr>
               <th>Title</th>
               <th>Base URL</th>
+              <th>Type</th>
+              <th>Status</th>
               <th></th>
             </tr>
           </thead>
@@ -25,6 +27,8 @@
             <tr v-for="router in routers.filter(item => !!item.apiDocs)" :key="router.baseUrl">
               <td class="align-middle">{{ router.apiDocs.title }}</td>
               <td class="align-middle">{{ router.baseUrl }}</td>
+              <td class="align-middle">{{ router.type }}</td>
+              <td class="align-middle">{{ router.status }}</td>
               <td class="text-end">
                 <a :href="'__docs' + router.baseUrl" class="btn btn-primary" target="_blank">Go to docs</a>
               </td>
@@ -42,10 +46,18 @@
             routers: []
           }
         },
-        async mounted() {
-          const response = await axios.get('/__routers')
+        mounted() {
+          setInterval(async () => {
+            try {
+              const {
+                data: { routers }
+              } = await axios.get('/__routers')
 
-          this.routers = response.data.routers
+              this.routers = routers
+            } catch (err) {
+              console.error(err)
+            }
+          }, 3000)
         }
       })
     </script>
