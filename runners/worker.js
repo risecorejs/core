@@ -1,7 +1,7 @@
 const express = require('express')
 const env = require('@risecorejs/helpers/lib/env')
 
-const packageJson = require('../package.json')
+const packageJSON = require('../package.json')
 const register = require('../register')
 
 /**
@@ -14,7 +14,7 @@ module.exports = async (config) => {
 
   app.disable('x-powered-by')
 
-  app.get('/', (req, res) => res.send(`${packageJson.description} v${packageJson.version}`))
+  app.get('/', (req, res) => res.send(`${packageJSON.description} v${packageJSON.version}`))
 
   if (config.structs && config.structs?.enableAPI !== false) {
     register.structsAPI(config)
@@ -31,10 +31,10 @@ module.exports = async (config) => {
     }
 
     for (const routerConfig of config.router) {
-      await register.router(routerConfig, app)
+      register.router(routerConfig, app).catch((err) => console.error(err))
     }
   } else {
-    await register.router(config.router, app)
+    register.router(config.router, app).catch((err) => console.error(err))
   }
 
   // RUN SERVER

@@ -2,7 +2,7 @@ const env = require('@risecorejs/helpers/lib/env')
 const { networkInterfaces } = require('os')
 const cronstrue = require('cronstrue')
 
-const packageJson = require('../package.json')
+const packageJSON = require('../package.json')
 
 /**
  * RUN PRINT-APP-INFO
@@ -15,7 +15,7 @@ module.exports = (config) => {
   const url = `http://${hostForUrl}:${config.server.port}`
 
   console.log(`|------------------------------------------------------|`)
-  console.log(`| ${packageJson.description} v${packageJson.version}`)
+  console.log(`| ${packageJSON.description} v${packageJSON.version}`)
   console.log(`|------------------------------------------------------|`)
 
   console.log(`| # APP`)

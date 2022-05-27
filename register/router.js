@@ -5,7 +5,11 @@ const apiDocs = require('@risecorejs/api-docs')
 const axios = require('axios').default
 
 module.exports = async (routerConfig, app) => {
+  routerConfig.type = routerConfig.status = 'pending'
+
   const routes = await getRoutes(routerConfig)
+
+  routerConfig.status = 'done'
 
   app.use(
     routerConfig.baseUrl,
@@ -33,18 +37,16 @@ async function getRoutes(routerConfig) {
   const routes = []
 
   if (routerConfig.routesPath) {
+    routerConfig.type = 'local'
+
     fillingRoutes(routerConfig, routes, path.resolve(), routerConfig.routesPath)
   } else if (routerConfig.routesUrl) {
-    try {
-      const response = await axios.get(routerConfig.routesUrl)
+    routerConfig.type = 'remote'
 
-      for (const route of response.data.routes) {
-        fillingRoute(routerConfig, route)
+    for (const route of await getRoutesThroughAxios(routerConfig)) {
+      fillingRoute(routerConfig, route)
 
-        routes.push(route)
-      }
-    } catch (err) {
-      console.error(err)
+      routes.push(route)
     }
   } else {
     throw Error('Routes source required')
@@ -57,6 +59,33 @@ async function getRoutes(routerConfig) {
   }
 
   return routes
+}
+
+/**
+ * GET-ROUTES-THROUGH-AXIOS
+ * @param routerConfig {Object}
+ * @returns {Promise<Array>}
+ */
+async function getRoutesThroughAxios(routerConfig) {
+  try {
+    const {
+      data: { routes }
+    } = await axios.get(routerConfig.routesUrl)
+
+    return routes
+  } catch (err) {
+    console.error(err)
+
+    routerConfig.status = 'reconnecting'
+
+    return await new Promise((resolve) => {
+      setTimeout(async () => {
+        const routes = await getRoutesThroughAxios(routerConfig)
+
+        resolve(routes)
+      }, routerConfig.timeout || 3000)
+    })
+  }
 }
 
 /**
