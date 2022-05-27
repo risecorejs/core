@@ -27,8 +27,10 @@
             <tr v-for="router in routers.filter(item => !!item.apiDocs)" :key="router.baseUrl">
               <td class="align-middle">{{ router.apiDocs.title }}</td>
               <td class="align-middle">{{ router.baseUrl }}</td>
-              <td class="align-middle">{{ router.type }}</td>
-              <td class="align-middle">{{ router.status }}</td>
+              <td class="align-middle">{{ router.type || 'Loading...' }}</td>
+              <td class="align-middle">
+                <span :class="'badge badge-' + getColorVariantByStatus(router.status)">{{ router.status || 'Loading...' }}</span>
+              </td>
               <td class="text-end">
                 <a :href="'__docs' + router.baseUrl" class="btn btn-primary" target="_blank">Go to docs</a>
               </td>
@@ -46,8 +48,8 @@
             routers: []
           }
         },
-        mounted() {
-          setInterval(async () => {
+        methods: {
+          async fetchRouters() {
             try {
               const {
                 data: { routers }
@@ -57,6 +59,28 @@
             } catch (err) {
               console.error(err)
             }
+          },
+          getColorVariantByStatus(status) {
+            switch (status) {
+              case 'Pending':
+                return 'info'
+
+              case 'Reconnecting':
+                return 'danger'
+
+              case 'Done':
+                return 'success'
+
+              default:
+                return 'secondary'
+            }
+          }
+        },
+        async mounted() {
+          await this.fetchRouters()
+
+          setInterval(async () => {
+            await this.fetchRouters()
           }, 3000)
         }
       })

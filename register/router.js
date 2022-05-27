@@ -5,11 +5,11 @@ const apiDocs = require('@risecorejs/api-docs')
 const axios = require('axios').default
 
 module.exports = async (routerConfig, app) => {
-  routerConfig.type = routerConfig.status = 'pending'
+  routerConfig.type = routerConfig.status = 'Pending'
 
   const routes = await getRoutes(routerConfig)
 
-  routerConfig.status = 'done'
+  routerConfig.status = 'Done'
 
   app.use(
     routerConfig.baseUrl,
@@ -37,11 +37,11 @@ async function getRoutes(routerConfig) {
   const routes = []
 
   if (routerConfig.routesPath) {
-    routerConfig.type = 'local'
+    routerConfig.type = 'Local'
 
     fillingRoutes(routerConfig, routes, path.resolve(), routerConfig.routesPath)
   } else if (routerConfig.routesUrl) {
-    routerConfig.type = 'remote'
+    routerConfig.type = 'Remote'
 
     for (const route of await getRoutesThroughAxios(routerConfig)) {
       fillingRoute(routerConfig, route)
@@ -76,7 +76,7 @@ async function getRoutesThroughAxios(routerConfig) {
   } catch (err) {
     console.error(err)
 
-    routerConfig.status = 'reconnecting'
+    routerConfig.status = 'Reconnecting'
 
     return await new Promise((resolve) => {
       setTimeout(async () => {
