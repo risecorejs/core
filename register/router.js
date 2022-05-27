@@ -9,7 +9,7 @@ module.exports = async (routerConfig, app) => {
 
   const routes = await getRoutes(routerConfig)
 
-  routerConfig.status = 'Done'
+  routerConfig.status = 'Connected'
 
   app.use(
     routerConfig.baseUrl,
