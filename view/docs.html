@@ -29,7 +29,7 @@
               <td class="align-middle">{{ router.baseUrl }}</td>
               <td class="align-middle">{{ router.type || 'Loading...' }}</td>
               <td class="align-middle">
-                <span :class="'badge badge-' + getColorVariantByStatus(router.status)">{{ router.status || 'Loading...' }}</span>
+                <span :class="'badge bg-' + getColorVariantByStatus(router.status)">{{ router.status || 'Loading...' }}</span>
               </td>
               <td class="text-end">
                 <a :href="'__docs' + router.baseUrl" class="btn btn-primary" target="_blank">Go to docs</a>
