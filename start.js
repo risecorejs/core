@@ -1,3 +1,5 @@
+require = require('esm')(module)
+
 require('dotenv').config()
 
 const setGlobalStructs = require('@risecorejs/helpers/lib/set-global-structs')
