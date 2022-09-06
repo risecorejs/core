@@ -48,7 +48,7 @@ void (async () => {
         }
         runners_1.default.printAppInfo(config_1.default);
         if (config_1.default.cron) {
-            runners_1.default.cron(config_1.default);
+            runners_1.default.cron(config_1.default.cron);
         }
         if (config_1.default.processes) {
             await (0, processes_runner_1.default)(config_1.default.processes);

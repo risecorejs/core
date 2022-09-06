@@ -6,7 +6,14 @@ import * as http from 'http'
 import { IProcesses } from '@risecorejs/processes-runner/interfaces'
 import { TConfigRouter } from '../types'
 
-export interface IStartCtx {
+export interface IConfigCron {
+  childProcess?: boolean
+  jobs: {
+    [key: string]: () => void
+  }
+}
+
+export interface IConfigStartCtx {
   config: IConfig
   app: express.Application
   server: http.Server
@@ -39,12 +46,7 @@ export interface IConfig {
       }
     | false
 
-  cron?: {
-    childProcess?: boolean
-    jobs: {
-      [key: string]: () => void
-    }
-  }
+  cron?: IConfigCron
 
   processes?: IProcesses
 
@@ -68,5 +70,5 @@ export interface IConfig {
 
   init?: (config: IConfig) => void
   master?: (config: IConfig) => void
-  start?: (ctx: IStartCtx) => void
+  start?: (ctx: IConfigStartCtx) => void
 }

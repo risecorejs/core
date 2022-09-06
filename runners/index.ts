@@ -1,6 +1,11 @@
+import cron from './cron'
+import master from './master'
+import printAppInfo from './print-app-info'
+import worker from './worker'
+
 export default {
-  cron: require('./cron'),
-  master: require('./master'),
-  printAppInfo: require('./print-app-info'),
-  worker: require('./worker')
+  cron,
+  master,
+  printAppInfo,
+  worker
 }

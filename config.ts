@@ -6,7 +6,7 @@ import env from '@risecorejs/helpers/lib/env'
 
 import models from './models'
 
-import { IConfig, IStartCtx } from './interfaces'
+import { IConfig, IConfigStartCtx } from './interfaces'
 
 const initialConfig: IConfig = {
   global: {
@@ -58,7 +58,7 @@ const initialConfig: IConfig = {
 
   init(config: IConfig) {},
   master(config: IConfig) {},
-  start(ctx: IStartCtx) {}
+  start(ctx: IConfigStartCtx) {}
 }
 
 const appConfig = require(path.resolve('config')).default
@@ -77,6 +77,6 @@ export default <
 
     init: (config: IConfig) => void
     master: (config: IConfig) => void
-    start: (ctx: IStartCtx) => void
+    start: (ctx: IConfigStartCtx) => void
   }
 >config

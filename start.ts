@@ -57,7 +57,7 @@ void (async () => {
     runners.printAppInfo(config)
 
     if (config.cron) {
-      runners.cron(config)
+      runners.cron(config.cron)
     }
 
     if (config.processes) {

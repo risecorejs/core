@@ -1,4 +1,4 @@
-import { IConfig, IStartCtx } from './interfaces';
+import { IConfig, IConfigStartCtx } from './interfaces';
 declare const _default: IConfig & {
     server: {
         host: string;
@@ -8,6 +8,6 @@ declare const _default: IConfig & {
     };
     init: (config: IConfig) => void;
     master: (config: IConfig) => void;
-    start: (ctx: IStartCtx) => void;
+    start: (ctx: IConfigStartCtx) => void;
 };
 export default _default;
