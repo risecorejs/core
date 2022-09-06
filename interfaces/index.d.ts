@@ -27,7 +27,7 @@ export interface IConfig {
         host?: string;
         port?: number;
         multiprocessing?: boolean;
-        multiprocessingWorkers?: number | null;
+        multiprocessingWorkers?: number;
     };
     moduleAlias?: {
         [key: string]: any;
@@ -56,4 +56,15 @@ export interface IConfig {
     init?: (config: IConfig) => void;
     master?: (config: IConfig) => void;
     start?: (ctx: IConfigStartCtx) => void;
+}
+export interface IConfigDefault extends IConfig {
+    server: {
+        host: string;
+        port: number;
+        multiprocessing: boolean;
+        multiprocessingWorkers: number;
+    };
+    init: (config: IConfig) => void;
+    master: (config: IConfig) => void;
+    start: (ctx: IConfigStartCtx) => void;
 }

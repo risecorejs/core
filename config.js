@@ -16,9 +16,7 @@ const initialConfig = {
     },
     server: {
         host: (0, env_1.default)('HOST', 'localhost'),
-        port: (0, env_1.default)('PORT', 8000),
-        multiprocessing: false,
-        multiprocessingWorkers: null
+        port: (0, env_1.default)('PORT', 8000)
     },
     moduleAlias: {
         '~': path_1.default.resolve()
