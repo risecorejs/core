@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize'
+import { Sequelize, Validator } from 'sequelize'
 import cors from 'cors'
 import express from 'express'
 import * as http from 'http'
@@ -31,7 +31,7 @@ export interface IConfig {
     host?: string
     port?: number
     multiprocessing?: boolean
-    multiprocessingWorkers?: number | null
+    multiprocessingWorkers?: number
   }
 
   moduleAlias?: { [key: string]: any } | false
@@ -71,4 +71,17 @@ export interface IConfig {
   init?: (config: IConfig) => void
   master?: (config: IConfig) => void
   start?: (ctx: IConfigStartCtx) => void
+}
+
+export interface IConfigDefault extends IConfig {
+  server: {
+    host: string
+    port: number
+    multiprocessing: boolean
+    multiprocessingWorkers: number
+  }
+
+  init: (config: IConfig) => void
+  master: (config: IConfig) => void
+  start: (ctx: IConfigStartCtx) => void
 }

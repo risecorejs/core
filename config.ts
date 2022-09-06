@@ -6,7 +6,7 @@ import env from '@risecorejs/helpers/lib/env'
 
 import models from './models'
 
-import { IConfig, IConfigStartCtx } from './interfaces'
+import { IConfig, IConfigDefault, IConfigStartCtx } from './interfaces'
 
 const initialConfig: IConfig = {
   global: {
@@ -17,9 +17,7 @@ const initialConfig: IConfig = {
 
   server: {
     host: env('HOST', 'localhost'),
-    port: env('PORT', 8000),
-    multiprocessing: false,
-    multiprocessingWorkers: null
+    port: env('PORT', 8000)
   },
 
   moduleAlias: {
@@ -66,17 +64,4 @@ const appConfig = require(path.resolve('config')).default
 // MERGE INITIAL-CONFIG AND APP-CONFIG
 const { config } = merge.recursive({ config: initialConfig }, { config: appConfig })
 
-export default <
-  IConfig & {
-    server: {
-      host: string
-      port: number
-      multiprocessing: boolean
-      multiprocessingWorkers: number | null
-    }
-
-    init: (config: IConfig) => void
-    master: (config: IConfig) => void
-    start: (ctx: IConfigStartCtx) => void
-  }
->config
+export default <IConfigDefault>config
