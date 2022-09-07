@@ -1,60 +1,67 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-require('dotenv').config();
-const helpers_1 = require("@risecorejs/helpers");
-const os_1 = __importDefault(require("os"));
-const cluster_1 = __importDefault(require("cluster"));
-const processes_runner_1 = __importDefault(require("@risecorejs/processes-runner"));
-const register_1 = __importDefault(require("./register"));
-const runners_1 = __importDefault(require("./runners"));
-const config_1 = __importDefault(require("./config"));
+require('dotenv').config()
+
+const setGlobalStructs = require('@risecorejs/helpers/lib/set-global-structs')
+const env = require('@risecorejs/helpers/lib/env')
+const os = require('os')
+const cluster = require('cluster')
+const processesRunner = require('@risecorejs/processes-runner')
+
+const register = require('./register')
+const runners = require('./runners')
+const config = require('./config')
+
 // REGISTER MODULE-ALIAS
-if (config_1.default.moduleAlias) {
-    register_1.default.moduleAlias(config_1.default.moduleAlias);
-}
+register.moduleAlias(config.moduleAlias)
+
 // REGISTER GLOBAL-VARIABLES
-register_1.default.globalVariables(config_1.default.global);
+register.globalVariables(config.global)
+
 // SET GLOBAL-STRUCTS
-if (config_1.default.structs && config_1.default.structs?.setGlobal !== false) {
-    (0, helpers_1.setGlobalStructs)(config_1.default.structs.dir);
+if (config.structs && config.structs?.setGlobal !== false) {
+  setGlobalStructs(config.structs.dir)
 }
+
 void (async () => {
-    if ((0, helpers_1.env)('$CLI_HOST')) {
-        config_1.default.server.host = (0, helpers_1.env)('$CLI_HOST');
+  if (env('$CLI_HOST')) {
+    config.server.host = env('$CLI_HOST')
+  }
+
+  if (env('$CLI_PORT')) {
+    config.server.port = env('$CLI_PORT', Number())
+  }
+
+  if (env('$CLI_MULTIPROCESSING')) {
+    config.server.multiprocessing = true
+  }
+
+  if (config.server.multiprocessing) {
+    if (env('$CLI_MULTIPROCESSING_WORKERS')) {
+      config.server.multiprocessingWorkers = env('$CLI_MULTIPROCESSING_WORKERS', Number())
     }
-    if ((0, helpers_1.env)('$CLI_PORT')) {
-        config_1.default.server.port = (0, helpers_1.env)('$CLI_PORT', Number);
+
+    config.server.multiprocessingWorkers ||= os.cpus().length - 1
+  }
+
+  // RUN INIT-FUNCTION
+  await config.init(config)
+
+  if (cluster.isMaster) {
+    if (config.server.multiprocessing) {
+      await runners.master(config)
+    } else {
+      await runners.worker(config)
     }
-    if ((0, helpers_1.env)('$CLI_MULTIPROCESSING')) {
-        config_1.default.server.multiprocessing = true;
+
+    runners.printAppInfo(config)
+
+    if (config.cron) {
+      runners.cron(config)
     }
-    if (config_1.default.server.multiprocessing) {
-        if ((0, helpers_1.env)('$CLI_MULTIPROCESSING_WORKERS')) {
-            config_1.default.server.multiprocessingWorkers = (0, helpers_1.env)('$CLI_MULTIPROCESSING_WORKERS', Number);
-        }
-        config_1.default.server.multiprocessingWorkers ||= os_1.default.cpus().length - 1;
+
+    if (config.processes) {
+      await processesRunner(config.processes)
     }
-    // RUN INIT-FUNCTION
-    await config_1.default.init(config_1.default);
-    if (cluster_1.default.isPrimary) {
-        if (config_1.default.server.multiprocessing) {
-            await runners_1.default.master(config_1.default);
-        }
-        else {
-            await runners_1.default.worker(config_1.default);
-        }
-        runners_1.default.printAppInfo(config_1.default);
-        if (config_1.default.cron) {
-            runners_1.default.cron(config_1.default.cron);
-        }
-        if (config_1.default.processes) {
-            await (0, processes_runner_1.default)(config_1.default.processes);
-        }
-    }
-    else {
-        await runners_1.default.worker(config_1.default);
-    }
-})();
+  } else {
+    await runners.worker(config)
+  }
+})()

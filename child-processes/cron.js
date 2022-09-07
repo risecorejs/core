@@ -1,4 +1,4 @@
-const register = require('../register').default
-const config = require('../config').default
+const register = require('../register')
+const config = require('../config')
 
 register.cron(config.cron.jobs)
