@@ -1,6 +1,6 @@
+const rateLimit = require('express-rate-limit')
+
 import express from 'express'
-// @ts-ignore
-import rateLimit from 'express-rate-limit'
 import cors from 'cors'
 import path from 'path'
 import only from '@risecorejs/only/middleware'

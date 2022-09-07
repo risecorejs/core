@@ -1,7 +1,7 @@
 import express from 'express'
 import { IRoute } from '@risecorejs/router/interfaces'
 
-export type TConfigRouter = {
+export type TRouterConfig = {
   main?: boolean
   baseUrl?: string
   routesPath?: string

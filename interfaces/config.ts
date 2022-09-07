@@ -4,7 +4,7 @@ import { Sequelize } from 'sequelize'
 import { IProcesses } from '@risecorejs/processes-runner/interfaces'
 import cors from 'cors'
 
-import { TConfigRouter } from '../types'
+import { TRouterConfig } from '../types'
 
 export interface IConfig {
   global?: {
@@ -25,7 +25,7 @@ export interface IConfig {
 
   validator?: IConfigValidator
 
-  router?: TConfigRouter | TConfigRouter[]
+  router?: TRouterConfig | TRouterConfig[]
 
   middleware?: {
     rateLimit?: {

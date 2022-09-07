@@ -1,10 +1,17 @@
-const path = require('path')
-const fs = require('fs')
-const router = require('@risecorejs/router')
 const apiDocs = require('@risecorejs/api-docs')
-const axios = require('axios').default
 
-module.exports = async (routerConfig, app) => {
+import express from 'express'
+import path from 'path'
+import fs from 'fs'
+import router from '@risecorejs/router'
+import axios from 'axios'
+
+import { TRouterConfig } from '../types'
+
+export default async function (
+  routerConfig: TRouterConfig & { type: string; status: string },
+  app: express.Application
+) {
   routerConfig.type = routerConfig.status = 'Pending'
 
   const routes = await getRoutes(routerConfig)
