@@ -2,7 +2,7 @@ const express = require('express')
 const env = require('@risecorejs/helpers/lib/env')
 
 const packageJSON = require('../package.json')
-const register = require('../register')
+const register = require('../registrar')
 
 /**
  * RUN WORKER

@@ -1,67 +1,40 @@
-require('dotenv').config()
-
-const setGlobalStructs = require('@risecorejs/helpers/lib/set-global-structs')
-const env = require('@risecorejs/helpers/lib/env')
-const os = require('os')
-const cluster = require('cluster')
-const processesRunner = require('@risecorejs/processes-runner')
-
-const register = require('./register')
-const runners = require('./runners')
-const config = require('./config')
-
-// REGISTER MODULE-ALIAS
-register.moduleAlias(config.moduleAlias)
-
-// REGISTER GLOBAL-VARIABLES
-register.globalVariables(config.global)
-
-// SET GLOBAL-STRUCTS
-if (config.structs && config.structs?.setGlobal !== false) {
-  setGlobalStructs(config.structs.dir)
-}
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+require('dotenv').config();
+const cluster_1 = __importDefault(require("cluster"));
+const registrar_1 = __importDefault(require("./registrar"));
+const runner_1 = __importDefault(require("./runner"));
+const config_1 = __importDefault(require("./config"));
+// REGISTER::MODULE-ALIAS
+registrar_1.default.moduleAlias(config_1.default);
+// REGISTER::GLOBAL-VARIABLES
+registrar_1.default.globalVariables(config_1.default);
+// REGISTER::GLOBAL-STRUCTS
+registrar_1.default.globalStructs(config_1.default);
 void (async () => {
-  if (env('$CLI_HOST')) {
-    config.server.host = env('$CLI_HOST')
-  }
-
-  if (env('$CLI_PORT')) {
-    config.server.port = env('$CLI_PORT', Number())
-  }
-
-  if (env('$CLI_MULTIPROCESSING')) {
-    config.server.multiprocessing = true
-  }
-
-  if (config.server.multiprocessing) {
-    if (env('$CLI_MULTIPROCESSING_WORKERS')) {
-      config.server.multiprocessingWorkers = env('$CLI_MULTIPROCESSING_WORKERS', Number())
+    // RUN-HOOK::INIT
+    await config_1.default.init(config_1.default);
+    if (cluster_1.default.isPrimary) {
+        if (config_1.default.server.multiprocessing) {
+            // RUN::MASTER
+            await runner_1.default.master(config_1.default);
+        }
+        else {
+            // RUN::WORKER
+            await runner_1.default.worker(config_1.default);
+        }
+        // RUN::PRINT-APP-INFO
+        runner_1.default.printAppInfo(config_1.default);
+        // RUN::CRON
+        runner_1.default.cron(config_1.default);
+        // RUN::PROCESSES
+        runner_1.default.processes(config_1.default);
     }
-
-    config.server.multiprocessingWorkers ||= os.cpus().length - 1
-  }
-
-  // RUN INIT-FUNCTION
-  await config.init(config)
-
-  if (cluster.isMaster) {
-    if (config.server.multiprocessing) {
-      await runners.master(config)
-    } else {
-      await runners.worker(config)
+    else {
+        // RUN::WORKER
+        await runner_1.default.worker(config_1.default);
     }
-
-    runners.printAppInfo(config)
-
-    if (config.cron) {
-      runners.cron(config)
-    }
-
-    if (config.processes) {
-      await processesRunner(config.processes)
-    }
-  } else {
-    await runners.worker(config)
-  }
-})()
+})();

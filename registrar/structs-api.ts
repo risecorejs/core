@@ -1,4 +1,9 @@
-module.exports = (config) => {
+import express from 'express'
+import { IRoute } from '@risecorejs/router/interfaces'
+
+import { IConfigCore } from '../interfaces/config'
+
+export default function (config: IConfigCore) {
   const route = getRoute()
 
   if (Array.isArray(config.router)) {
@@ -23,7 +28,7 @@ module.exports = (config) => {
 }
 
 // GET-ROUTE
-function getRoute() {
+function getRoute(): IRoute {
   return {
     group: 'Structs',
     url: '/__structs',
@@ -39,12 +44,12 @@ function getRoute() {
 }
 
 // INDEX-CONTROLLER
-function indexController(req, res) {
+function indexController(req: express.Request & {}, res: express.Response) {
   try {
     if (req.query.codes?.length) {
-      const structs = {}
+      const structs: { [key: string]: any } = {}
 
-      for (const code of req.query.codes) {
+      for (const code of <string[]>req.query.codes) {
         if ($structs[code]) {
           structs[code] = $structs[code]
         }
