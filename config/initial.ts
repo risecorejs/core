@@ -8,7 +8,7 @@ import { IConfig } from '../interfaces/config'
 export default <IConfig>{
   server: {
     host: env('HOST', 'localhost'),
-    port: env('PORT', 8000)
+    port: env('PORT', 5000)
   },
 
   structs: {

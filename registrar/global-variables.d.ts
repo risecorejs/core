@@ -1,4 +1,4 @@
-export default function (globalVariables: {
+export default function (configGlobalVariables: {
     [key: string]: any;
 }): void;
 declare global {

@@ -14,7 +14,7 @@ export default async function (config: IConfigCore) {
   app.get('/', (req, res) => res.send(`${packageJSON.description} v${packageJSON.version}`))
 
   // REGISTER::STRUCTS-API
-  if (config.structs && config.structs.enableAPI !== false) {
+  if (config.structs && config.structs.enableAPI) {
     registrar.structsAPI(config)
   }
 

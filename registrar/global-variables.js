@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function default_1(globalVariables) {
+function default_1(configGlobalVariables) {
     global.$ = {};
-    for (const [key, value] of Object.entries(globalVariables)) {
+    for (const [key, value] of Object.entries(configGlobalVariables)) {
         $[key] = value;
     }
 }

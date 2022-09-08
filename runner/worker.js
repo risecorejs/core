@@ -12,7 +12,7 @@ async function default_1(config) {
     app.disable('x-powered-by');
     app.get('/', (req, res) => res.send(`${package_json_1.default.description} v${package_json_1.default.version}`));
     // REGISTER::STRUCTS-API
-    if (config.structs && config.structs.enableAPI !== false) {
+    if (config.structs && config.structs.enableAPI) {
         registrar_1.default.structsAPI(config);
     }
     // REGISTER::MIDDLEWARE

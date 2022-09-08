@@ -21,15 +21,27 @@ export interface IConfig {
         rateLimit?: {
             windowMs?: number;
             max?: number;
-        };
-        cors?: cors.CorsOptions;
+        } | false;
+        cors?: cors.CorsOptions | false;
         extend?: () => express.Handler[];
     };
     init?: (config: IConfig) => void | Promise<void>;
     master?: (config: IConfig) => void | Promise<void>;
     start?: (ctx: IConfigStartCtx) => void | Promise<void>;
 }
-export interface IConfigCore extends Required<IConfig> {
+export interface IConfigCore extends IConfig {
+    server: Required<IConfigServer>;
+    structs: Required<IConfigStructs> | false;
+    validator: IConfigValidator;
+    router: TRouterConfig | TRouterConfig[];
+    middleware: {
+        rateLimit: {
+            windowMs: number;
+            max: number;
+        } | false;
+        cors: cors.CorsOptions | false;
+        extend?: () => express.Handler[];
+    };
 }
 export interface IConfigServer {
     host?: string;

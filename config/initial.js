@@ -9,7 +9,7 @@ const models_1 = __importDefault(require("../models"));
 exports.default = {
     server: {
         host: (0, helpers_1.env)('HOST', 'localhost'),
-        port: (0, helpers_1.env)('PORT', 8000)
+        port: (0, helpers_1.env)('PORT', 5000)
     },
     structs: {
         setGlobal: true,

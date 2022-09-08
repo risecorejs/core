@@ -13,9 +13,11 @@ if (config_1.default.moduleAliases) {
     registrar_1.default.moduleAliases(config_1.default.moduleAliases);
 }
 // REGISTER::GLOBAL-VARIABLES
-registrar_1.default.globalVariables(config_1.default.global);
+if (config_1.default.global) {
+    registrar_1.default.globalVariables(config_1.default.global);
+}
 // REGISTER::GLOBAL-STRUCTS
-if (config_1.default.structs && config_1.default.structs.setGlobal !== false) {
+if (config_1.default.structs && config_1.default.structs.setGlobal) {
     registrar_1.default.globalStructs(config_1.default.structs);
 }
 void (async () => {
@@ -33,7 +35,9 @@ void (async () => {
             await runner_1.default.worker(config_1.default);
         }
         // RUN::CRON
-        runner_1.default.cron(config_1.default.cron);
+        if (config_1.default.cron) {
+            runner_1.default.cron(config_1.default.cron);
+        }
         // RUN::PROCESSES
         if (config_1.default.processes) {
             runner_1.default.processes(config_1.default.processes).catch((err) => console.error(err));

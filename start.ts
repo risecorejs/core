@@ -13,10 +13,12 @@ if (config.moduleAliases) {
 }
 
 // REGISTER::GLOBAL-VARIABLES
-registrar.globalVariables(config.global)
+if (config.global) {
+  registrar.globalVariables(config.global)
+}
 
 // REGISTER::GLOBAL-STRUCTS
-if (config.structs && config.structs.setGlobal !== false) {
+if (config.structs && config.structs.setGlobal) {
   registrar.globalStructs(config.structs)
 }
 
@@ -36,7 +38,9 @@ void (async () => {
     }
 
     // RUN::CRON
-    runner.cron(config.cron)
+    if (config.cron) {
+      runner.cron(config.cron)
+    }
 
     // RUN::PROCESSES
     if (config.processes) {
