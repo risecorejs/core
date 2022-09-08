@@ -1,6 +1,3 @@
 import express from 'express';
-import { TRouterConfig } from '../types';
-export default function (routerConfig: TRouterConfig & {
-    type: string;
-    status: string;
-}, app: express.Application): Promise<void>;
+import { IConfigRouter } from '../interfaces/config';
+export default function (configRouter: IConfigRouter | IConfigRouter[], app: express.Application): void;

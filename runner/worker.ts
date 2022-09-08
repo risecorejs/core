@@ -1,5 +1,4 @@
 import express from 'express'
-import { env } from '@risecorejs/helpers'
 
 import registrar from '../registrar'
 import packageJSON from '../package.json'
@@ -22,27 +21,13 @@ export default async function (config: IConfigCore) {
   registrar.middleware(config, app)
 
   // REGISTER::ROUTER
-  if (Array.isArray(config.router)) {
-    if (env('NODE_ENV') === 'development') {
-      app.get('/__routers', (req, res) => {
-        return res.json({ routers: config.router })
-      })
+  registrar.router(config.router, app)
 
-      app.get('/__docs', (req, res) => {
-        return res.sendFile('docs.html', { root: __dirname + '/../view' })
-      })
-    }
-
-    for (const item of config.router) {
-      registrar.router(item, app).catch((err: any) => console.error(err))
-    }
-  } else {
-    registrar.router(config.router, app).catch((err: any) => console.error(err))
-  }
-
-  // RUN::SERVER
-  const server = app.listen(<number>config.server.port, <string>config.server.host, async () => {
+  // CREATE::SERVER
+  const server = app.listen(config.server.port, config.server.host, async () => {
     // RUN-HOOK::START
-    await config.start({ config, app, server })
+    if (config.start) {
+      await config.start({ config, app, server })
+    }
   })
 }

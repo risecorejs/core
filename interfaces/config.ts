@@ -2,9 +2,8 @@ import express from 'express'
 import * as http from 'http'
 import { Sequelize } from 'sequelize'
 import { IProcesses } from '@risecorejs/processes-runner/interfaces'
+import { IRoute } from '@risecorejs/router/interfaces'
 import cors from 'cors'
-
-import { TRouterConfig } from '../types'
 
 export interface IConfig {
   global?: {
@@ -17,7 +16,7 @@ export interface IConfig {
 
   storage?: boolean
 
-  structs?: IConfigStructs | false
+  structs?: false | IConfigStructs
 
   cron?: IConfigCron
 
@@ -25,16 +24,11 @@ export interface IConfig {
 
   validator?: IConfigValidator
 
-  router?: TRouterConfig | TRouterConfig[]
+  router?: IConfigRouter | IConfigRouter[]
 
   middleware?: {
-    rateLimit?:
-      | {
-          windowMs?: number
-          max?: number
-        }
-      | false
-    cors?: cors.CorsOptions | false
+    rateLimit?: false | { [key: string]: any }
+    cors?: false | cors.CorsOptions
     extend?: () => express.Handler[]
   }
 
@@ -46,20 +40,15 @@ export interface IConfig {
 export interface IConfigCore extends IConfig {
   server: Required<IConfigServer>
 
-  structs: Required<IConfigStructs> | false
+  structs: false | Required<IConfigStructs>
 
   validator: IConfigValidator
 
-  router: TRouterConfig | TRouterConfig[]
+  router: IConfigRouter | IConfigRouter[]
 
   middleware: {
-    rateLimit:
-      | {
-          windowMs: number
-          max: number
-        }
-      | false
-    cors: cors.CorsOptions | false
+    rateLimit: false | { [key: string]: any }
+    cors: false | cors.CorsOptions
     extend?: () => express.Handler[]
   }
 }
@@ -91,6 +80,22 @@ export interface IConfigCron {
 export interface IConfigValidator {
   locale?: 'ru' | 'en'
   sequelize?: Sequelize
+}
+
+export interface IConfigRouter {
+  type: 'pending' | 'local' | 'remote'
+  status: 'pending' | 'connected' | 'reconnecting'
+  main?: boolean
+  baseUrl?: string
+  routesPath?: string
+  routesUrl?: string
+  middleware?: express.Handler | string | (express.Handler | string)[]
+  controller?: express.Handler | string
+  apiDocs?: {
+    title?: string
+    baseUrl?: string
+  }
+  routes?: IRoute[]
 }
 
 export interface IConfigStartCtx {

@@ -4,48 +4,75 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const apiDocs = require('@risecorejs/api-docs');
+const helpers_1 = require("@risecorejs/helpers");
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const router_1 = __importDefault(require("@risecorejs/router"));
 const axios_1 = __importDefault(require("axios"));
-async function default_1(routerConfig, app) {
-    routerConfig.type = routerConfig.status = 'Pending';
-    const routes = await getRoutes(routerConfig);
-    routerConfig.status = 'Connected';
-    app.use(routerConfig.baseUrl, (0, router_1.default)(routes, {
-        controllers: path_1.default.resolve('controllers'),
-        middleware: path_1.default.resolve('middleware')
-    }));
-    if (routerConfig.apiDocs && process.env.NODE_ENV === 'development') {
-        app.use('/__routes' + routerConfig.baseUrl, (req, res) => res.json({ routes }));
-        routerConfig.apiDocs.baseUrl = routerConfig.baseUrl === '/' ? '' : routerConfig.baseUrl;
-        app.use('/__docs' + routerConfig.baseUrl, apiDocs(routes, routerConfig.apiDocs));
+function default_1(configRouter, app) {
+    if (Array.isArray(configRouter)) {
+        if ((0, helpers_1.env)('NODE_ENV') === 'development') {
+            app.get('/__routers', (req, res) => {
+                return res.json({ routers: configRouter });
+            });
+            app.get('/__docs', (req, res) => {
+                return res.sendFile('docs.html', { root: __dirname + '/../view' });
+            });
+        }
+        for (const item of configRouter) {
+            routerRegistration(item, app).catch((err) => console.error(err));
+        }
+    }
+    else {
+        routerRegistration(configRouter, app).catch((err) => console.error(err));
     }
 }
 exports.default = default_1;
 /**
+ * ROUTER-REGISTRATION
+ * @param configRouter {IConfigRouter}
+ * @param app {express.Application}
+ */
+async function routerRegistration(configRouter, app) {
+    configRouter.type = 'pending';
+    configRouter.status = 'pending';
+    const routes = await getRoutes(configRouter);
+    configRouter.status = 'connected';
+    app.use(configRouter.baseUrl, (0, router_1.default)(routes, {
+        controllersDir: path_1.default.resolve('controllers'),
+        middlewareDir: path_1.default.resolve('middleware')
+    }));
+    if (configRouter.apiDocs && (0, helpers_1.env)('NODE_ENV') === 'development') {
+        app.use('/__routes' + configRouter.baseUrl, (req, res) => {
+            return res.json({ routes });
+        });
+        configRouter.apiDocs.baseUrl = configRouter.baseUrl === '/' ? '' : configRouter.baseUrl;
+        app.use('/__docs' + configRouter.baseUrl, apiDocs(routes, configRouter.apiDocs));
+    }
+}
+/**
  * GET-ROUTES
- * @param routerConfig {Object}
+ * @param configRouter {Object}
  * @returns {Promise<Array>}
  */
-async function getRoutes(routerConfig) {
+async function getRoutes(configRouter) {
     const routes = [];
-    if (routerConfig.routesPath) {
-        routerConfig.type = 'Local';
-        fillingRoutes(routerConfig, routes, path_1.default.resolve(), routerConfig.routesPath);
+    if (configRouter.routesPath) {
+        configRouter.type = 'Local';
+        fillingRoutes(configRouter, routes, path_1.default.resolve(), configRouter.routesPath);
     }
-    else if (routerConfig.routesUrl) {
-        routerConfig.type = 'Remote';
-        for (const route of await getRoutesThroughAxios(routerConfig)) {
-            fillingRoute(routerConfig, route);
+    else if (configRouter.routesUrl) {
+        configRouter.type = 'Remote';
+        for (const route of await getRoutesThroughAxios(configRouter)) {
+            fillingRoute(configRouter, route);
             routes.push(route);
         }
     }
     else {
         throw Error('Routes source required');
     }
-    if (routerConfig.routes?.length) {
-        for (const route of routerConfig.routes) {
+    if (configRouter.routes?.length) {
+        for (const route of configRouter.routes) {
             routes.push(route);
         }
     }
@@ -53,44 +80,44 @@ async function getRoutes(routerConfig) {
 }
 /**
  * GET-ROUTES-THROUGH-AXIOS
- * @param routerConfig {Object}
+ * @param configRouter {Object}
  * @returns {Promise<Array>}
  */
-async function getRoutesThroughAxios(routerConfig) {
+async function getRoutesThroughAxios(configRouter) {
     try {
-        const { data: { routes } } = await axios_1.default.get(routerConfig.routesUrl);
+        const { data: { routes } } = await axios_1.default.get(configRouter.routesUrl);
         return routes;
     }
     catch (err) {
         console.error(err);
-        routerConfig.status = 'Reconnecting';
+        configRouter.status = 'Reconnecting';
         return await new Promise((resolve) => {
             setTimeout(async () => {
-                const routes = await getRoutesThroughAxios(routerConfig);
+                const routes = await getRoutesThroughAxios(configRouter);
                 resolve(routes);
-            }, routerConfig.timeout || 3000);
+            }, configRouter.timeout || 3000);
         });
     }
 }
 /**
  * FILLING-ROUTES
- * @param routerConfig {Object}
+ * @param configRouter {Object}
  * @param routes {Array}
  * @param basePath {string}
  * @param folder {string}
  */
-function fillingRoutes(routerConfig, routes, basePath, folder) {
+function fillingRoutes(configRouter, routes, basePath, folder) {
     const files = fs_1.default.readdirSync(basePath + folder);
     for (const file of files) {
         if (!file.startsWith('_')) {
             const filePath = path_1.default.join(folder, file);
             const fileStat = fs_1.default.statSync(basePath + filePath);
             if (fileStat.isDirectory()) {
-                fillingRoutes(routerConfig, routes, basePath, filePath);
+                fillingRoutes(configRouter, routes, basePath, filePath);
             }
             else if (file.endsWith('.js')) {
                 const route = require(basePath + filePath);
-                fillingRoute(routerConfig, route);
+                fillingRoute(configRouter, route);
                 routes.push(route);
             }
         }
@@ -98,42 +125,42 @@ function fillingRoutes(routerConfig, routes, basePath, folder) {
 }
 /**
  * FILLING-ROUTE
- * @param routerConfig {Object}
+ * @param configRouter {Object}
  * @param route {Object}
  */
-function fillingRoute(routerConfig, route) {
-    if (routerConfig.middleware) {
+function fillingRoute(configRouter, route) {
+    if (configRouter.middleware) {
         if (route.middleware) {
             if (Array.isArray(route.middleware)) {
-                if (Array.isArray(routerConfig.middleware)) {
-                    for (const middleware of routerConfig.middleware) {
+                if (Array.isArray(configRouter.middleware)) {
+                    for (const middleware of configRouter.middleware) {
                         route.middleware.unshift(middleware);
                     }
                 }
                 else {
-                    route.middleware.unshift(routerConfig.middleware);
+                    route.middleware.unshift(configRouter.middleware);
                 }
             }
         }
         else {
-            route.middleware = routerConfig.middleware;
+            route.middleware = configRouter.middleware;
         }
     }
-    setController(routerConfig, route);
+    setController(configRouter, route);
 }
 /**
  * SET-CONTROLLER
- * @param routerConfig {Object}
+ * @param configRouter {Object}
  * @param route {Object}
  */
-function setController(routerConfig, route) {
-    if (routerConfig.controller) {
+function setController(configRouter, route) {
+    if (configRouter.controller) {
         if (route.method) {
-            route.controller = routerConfig.controller;
+            route.controller = configRouter.controller;
         }
         if (route.children?.length) {
             for (const _route of route.children) {
-                setController(routerConfig, _route);
+                setController(configRouter, _route);
             }
         }
     }
