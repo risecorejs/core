@@ -77,7 +77,7 @@ async function getRoutes(configRouter: IConfigRouter): Promise<IRoute[]> {
   } else if (configRouter.routesUrl) {
     configRouter.type = 'remote'
 
-    for (const route of await getRoutesThroughAxios(configRouter)) {
+    for (const route of await getRemoteRoutes(configRouter)) {
       changeRouteMiddleware(configRouter, route)
       changeRouteController(configRouter, route)
 
@@ -129,11 +129,11 @@ function fillingRoutes(configRouter: IConfigRouter, routes: IRoute[], routesDir:
 }
 
 /**
- * GET-ROUTES-THROUGH-AXIOS
+ * GET-REMOTE-ROUTES
  * @param configRouter {IConfigRouter}
  * @returns {Promise<IRoute[]>}
  */
-async function getRoutesThroughAxios(configRouter: IConfigRouter): Promise<IRoute[]> {
+async function getRemoteRoutes(configRouter: IConfigRouter): Promise<IRoute[]> {
   try {
     const response = await axios.get(<string>configRouter.routesUrl)
 
@@ -145,7 +145,7 @@ async function getRoutesThroughAxios(configRouter: IConfigRouter): Promise<IRout
 
     return new Promise((resolve) => {
       setTimeout(async () => {
-        const routes = await getRoutesThroughAxios(configRouter)
+        const routes = await getRemoteRoutes(configRouter)
 
         resolve(routes)
       }, configRouter.timeout || 3000)
