@@ -78,7 +78,8 @@ async function getRoutes(configRouter: IConfigRouter): Promise<IRoute[]> {
     configRouter.type = 'remote'
 
     for (const route of await getRoutesThroughAxios(configRouter)) {
-      fillingRoute(configRouter, route)
+      changeRouteMiddleware(configRouter, route)
+      changeRouteController(configRouter, route)
 
       routes.push(route)
     }
@@ -118,7 +119,8 @@ function fillingRoutes(configRouter: IConfigRouter, routes: IRoute[], routesDir:
       } else if (file.endsWith('.js')) {
         const route: IRoute = require(baseDir + filePath)
 
-        fillingRoute(configRouter, route)
+        changeRouteMiddleware(configRouter, route)
+        changeRouteController(configRouter, route)
 
         routes.push(route)
       }
@@ -152,17 +154,17 @@ async function getRoutesThroughAxios(configRouter: IConfigRouter): Promise<IRout
 }
 
 /**
- * FILLING-ROUTE
+ * CHANGE-ROUTE-MIDDLEWARE
  * @param configRouter {IConfigRouter}
  * @param route {IRoute}
  */
-function fillingRoute(configRouter: IConfigRouter, route: IRoute) {
+function changeRouteMiddleware(configRouter: IConfigRouter, route: IRoute) {
   if (configRouter.middleware) {
     if (route.middleware) {
       if (Array.isArray(route.middleware)) {
         if (Array.isArray(configRouter.middleware)) {
-          for (const middleware of configRouter.middleware) {
-            route.middleware.unshift(middleware)
+          for (const item of configRouter.middleware) {
+            route.middleware.unshift(item)
           }
         } else {
           route.middleware.unshift(configRouter.middleware)
@@ -172,24 +174,22 @@ function fillingRoute(configRouter: IConfigRouter, route: IRoute) {
       route.middleware = configRouter.middleware
     }
   }
-
-  setController(configRouter, route)
 }
 
 /**
- * SET-CONTROLLER
+ * CHANGE-ROUTE-CONTROLLER
  * @param configRouter {IConfigRouter}
  * @param route {IRoute}
  */
-function setController(configRouter: IConfigRouter, route: IRoute) {
+function changeRouteController(configRouter: IConfigRouter, route: IRoute) {
   if (configRouter.controller) {
     if (route.method) {
       route.controller = configRouter.controller
     }
 
     if (route.children?.length) {
-      for (const _route of route.children) {
-        setController(configRouter, _route)
+      for (const item of route.children) {
+        changeRouteController(configRouter, item)
       }
     }
   }

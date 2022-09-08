@@ -64,7 +64,8 @@ async function getRoutes(configRouter) {
     else if (configRouter.routesUrl) {
         configRouter.type = 'remote';
         for (const route of await getRoutesThroughAxios(configRouter)) {
-            fillingRoute(configRouter, route);
+            changeRouteMiddleware(configRouter, route);
+            changeRouteController(configRouter, route);
             routes.push(route);
         }
     }
@@ -97,7 +98,8 @@ function fillingRoutes(configRouter, routes, routesDir) {
             }
             else if (file.endsWith('.js')) {
                 const route = require(baseDir + filePath);
-                fillingRoute(configRouter, route);
+                changeRouteMiddleware(configRouter, route);
+                changeRouteController(configRouter, route);
                 routes.push(route);
             }
         }
@@ -125,17 +127,17 @@ async function getRoutesThroughAxios(configRouter) {
     }
 }
 /**
- * FILLING-ROUTE
+ * CHANGE-ROUTE-MIDDLEWARE
  * @param configRouter {IConfigRouter}
  * @param route {IRoute}
  */
-function fillingRoute(configRouter, route) {
+function changeRouteMiddleware(configRouter, route) {
     if (configRouter.middleware) {
         if (route.middleware) {
             if (Array.isArray(route.middleware)) {
                 if (Array.isArray(configRouter.middleware)) {
-                    for (const middleware of configRouter.middleware) {
-                        route.middleware.unshift(middleware);
+                    for (const item of configRouter.middleware) {
+                        route.middleware.unshift(item);
                     }
                 }
                 else {
@@ -147,21 +149,20 @@ function fillingRoute(configRouter, route) {
             route.middleware = configRouter.middleware;
         }
     }
-    setController(configRouter, route);
 }
 /**
- * SET-CONTROLLER
+ * CHANGE-ROUTE-CONTROLLER
  * @param configRouter {IConfigRouter}
  * @param route {IRoute}
  */
-function setController(configRouter, route) {
+function changeRouteController(configRouter, route) {
     if (configRouter.controller) {
         if (route.method) {
             route.controller = configRouter.controller;
         }
         if (route.children?.length) {
-            for (const _route of route.children) {
-                setController(configRouter, _route);
+            for (const item of route.children) {
+                changeRouteController(configRouter, item);
             }
         }
     }
