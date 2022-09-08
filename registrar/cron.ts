@@ -1,7 +1,9 @@
-const { CronJob } = require('cron')
+import { CronJob } from 'cron'
 
-module.exports = (cronJobs) => {
-  for (const [pattern, handler] of Object.entries(cronJobs)) {
+import { IConfigCron } from '../interfaces/config'
+
+export default function (configCron: IConfigCron) {
+  for (const [pattern, handler] of Object.entries(configCron.jobs)) {
     new CronJob(pattern, () => {
       try {
         handler()

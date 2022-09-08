@@ -1,23 +1,28 @@
 "use strict";
-const path = require('path');
-const fs = require('fs');
-const router = require('@risecorejs/router');
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 const apiDocs = require('@risecorejs/api-docs');
-const axios = require('axios').default;
-module.exports = async (routerConfig, app) => {
+const path_1 = __importDefault(require("path"));
+const fs_1 = __importDefault(require("fs"));
+const router_1 = __importDefault(require("@risecorejs/router"));
+const axios_1 = __importDefault(require("axios"));
+async function default_1(routerConfig, app) {
     routerConfig.type = routerConfig.status = 'Pending';
     const routes = await getRoutes(routerConfig);
     routerConfig.status = 'Connected';
-    app.use(routerConfig.baseUrl, router(routes, {
-        controllers: path.resolve('controllers'),
-        middleware: path.resolve('middleware')
+    app.use(routerConfig.baseUrl, (0, router_1.default)(routes, {
+        controllers: path_1.default.resolve('controllers'),
+        middleware: path_1.default.resolve('middleware')
     }));
     if (routerConfig.apiDocs && process.env.NODE_ENV === 'development') {
         app.use('/__routes' + routerConfig.baseUrl, (req, res) => res.json({ routes }));
         routerConfig.apiDocs.baseUrl = routerConfig.baseUrl === '/' ? '' : routerConfig.baseUrl;
         app.use('/__docs' + routerConfig.baseUrl, apiDocs(routes, routerConfig.apiDocs));
     }
-};
+}
+exports.default = default_1;
 /**
  * GET-ROUTES
  * @param routerConfig {Object}
@@ -27,7 +32,7 @@ async function getRoutes(routerConfig) {
     const routes = [];
     if (routerConfig.routesPath) {
         routerConfig.type = 'Local';
-        fillingRoutes(routerConfig, routes, path.resolve(), routerConfig.routesPath);
+        fillingRoutes(routerConfig, routes, path_1.default.resolve(), routerConfig.routesPath);
     }
     else if (routerConfig.routesUrl) {
         routerConfig.type = 'Remote';
@@ -53,7 +58,7 @@ async function getRoutes(routerConfig) {
  */
 async function getRoutesThroughAxios(routerConfig) {
     try {
-        const { data: { routes } } = await axios.get(routerConfig.routesUrl);
+        const { data: { routes } } = await axios_1.default.get(routerConfig.routesUrl);
         return routes;
     }
     catch (err) {
@@ -75,11 +80,11 @@ async function getRoutesThroughAxios(routerConfig) {
  * @param folder {string}
  */
 function fillingRoutes(routerConfig, routes, basePath, folder) {
-    const files = fs.readdirSync(basePath + folder);
+    const files = fs_1.default.readdirSync(basePath + folder);
     for (const file of files) {
         if (!file.startsWith('_')) {
-            const filePath = path.join(folder, file);
-            const fileStat = fs.statSync(basePath + filePath);
+            const filePath = path_1.default.join(folder, file);
+            const fileStat = fs_1.default.statSync(basePath + filePath);
             if (fileStat.isDirectory()) {
                 fillingRoutes(routerConfig, routes, basePath, filePath);
             }

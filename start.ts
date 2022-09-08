@@ -8,8 +8,8 @@ import runner from './runner'
 import config from './config'
 
 // REGISTER::MODULE-ALIAS
-if (config.moduleAlias) {
-  registrar.moduleAlias(config.moduleAlias)
+if (config.moduleAliases) {
+  registrar.moduleAliases(config.moduleAliases)
 }
 
 // REGISTER::GLOBAL-VARIABLES
@@ -35,9 +35,6 @@ void (async () => {
       await runner.worker(config)
     }
 
-    // RUN::PRINT-APP-INFO
-    runner.printAppInfo(config)
-
     // RUN::CRON
     runner.cron(config.cron)
 
@@ -45,6 +42,9 @@ void (async () => {
     if (config.processes) {
       runner.processes(config.processes)
     }
+
+    // RUN::PRINT-APP-INFO
+    runner.printAppInfo(config)
   } else {
     // RUN::WORKER
     await runner.worker(config)

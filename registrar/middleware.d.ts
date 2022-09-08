@@ -1,9 +1,3 @@
-declare const express: any;
-declare const path: any;
-declare const rateLimit: any;
-declare const cors: any;
-declare const only: any;
-declare const validator: any;
-declare const orderBuilder: any;
-declare const whereBuilder: any;
-declare const includeBuilder: any;
+import express from 'express';
+import { IConfigCore } from '../interfaces/config';
+export default function (config: IConfigCore, app: express.Application): void;

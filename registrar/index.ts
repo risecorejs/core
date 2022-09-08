@@ -1,5 +1,5 @@
 import cron from './cron'
-import moduleAlias from './module-alias'
+import moduleAliases from './module-aliases'
 import globalVariables from './global-variables'
 import globalStructs from './global-structs'
 import middleware from './middleware'
@@ -8,7 +8,7 @@ import structsAPI from './structs-api'
 
 export default {
   cron,
-  moduleAlias,
+  moduleAliases,
   globalVariables,
   globalStructs,
   middleware,

@@ -1,5 +1,6 @@
 "use strict";
-module.exports = (config) => {
+Object.defineProperty(exports, "__esModule", { value: true });
+function default_1(config) {
     const route = getRoute();
     if (Array.isArray(config.router)) {
         for (const routerConfig of config.router) {
@@ -22,7 +23,8 @@ module.exports = (config) => {
             config.router.routes = [route];
         }
     }
-};
+}
+exports.default = default_1;
 // GET-ROUTE
 function getRoute() {
     return {

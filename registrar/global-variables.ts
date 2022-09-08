@@ -1,7 +1,7 @@
-export default function (variables: { [key: string]: any }) {
+export default function (globalVariables: { [key: string]: any }) {
   global.$ = {}
 
-  for (const [key, value] of Object.entries(variables)) {
+  for (const [key, value] of Object.entries(globalVariables)) {
     $[key] = value
   }
 }

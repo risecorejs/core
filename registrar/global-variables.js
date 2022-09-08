@@ -1,6 +1,9 @@
 "use strict";
-module.exports = (variables) => {
-    for (const [key, value] of Object.entries(variables)) {
-        global['$' + key] = value;
+Object.defineProperty(exports, "__esModule", { value: true });
+function default_1(globalVariables) {
+    global.$ = {};
+    for (const [key, value] of Object.entries(globalVariables)) {
+        $[key] = value;
     }
-};
+}
+exports.default = default_1;

@@ -13,7 +13,7 @@ export interface IConfig {
 
   server?: IConfigServer
 
-  moduleAlias?: IConfigModuleAlias
+  moduleAliases?: IConfigModuleAliases
 
   storage?: boolean
 
@@ -50,7 +50,7 @@ export interface IConfigServer {
   multiprocessingWorkers?: number
 }
 
-export interface IConfigModuleAlias {
+export interface IConfigModuleAliases {
   [alias: string]: string
 }
 

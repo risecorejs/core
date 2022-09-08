@@ -33,6 +33,7 @@
     "@risecorejs/validator": "^3.0.2",
     "@risecorejs/where-builder": "^3.0.2",
     "@types/cors": "^2.8.12",
+    "@types/cron": "^2.0.0",
     "@types/lodash": "^4.14.184",
     "@types/sequelize": "^4.28.14",
     "axios": "^0.24.0",

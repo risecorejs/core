@@ -1,9 +1,11 @@
-const execa = require('execa')
+import execa from 'execa'
 
-const register = require('../register')
+import registrar from '../registrar'
 
-module.exports = (config) => {
-  if (config.cron.childProcess) {
+import { IConfigCron } from '../interfaces/config'
+
+export default function (configCron: IConfigCron) {
+  if (configCron.childProcess) {
     execa(`node ${__dirname}/../child-processes/cron.js`, {
       stdin: process.stdin,
       stdout: process.stdout,
@@ -11,6 +13,6 @@ module.exports = (config) => {
       shell: true
     })
   } else {
-    register.cron(config.cron.jobs)
+    registrar.cron(configCron)
   }
 }

@@ -1,69 +1,51 @@
 "use strict";
-const path = require('path');
-const merge = require('merge');
-const env = require('@risecorejs/helpers/lib/env');
-const crudBuilder = require('@risecorejs/crud-builder');
-const models = require('./models');
-const initialConfig = {
-    global: {
-        controller: (filename) => (method) => filename + '.' + method,
-        env,
-        crudBuilder
-    },
-    server: {
-        host: env('HOST', 'localhost'),
-        port: env('PORT', 8000),
-        multiprocessing: false,
-        multiprocessingWorkers: null
-    },
-    moduleAlias: {
-        '~': path.resolve()
-    },
-    storage: true,
-    structs: {
-        setGlobal: true,
-        enableAPI: true,
-        dir: path.resolve('structs')
-    },
-    validator: {
-        locale: 'en',
-        sequelize: models.sequelize
-    },
-    router: {
-        baseUrl: '/',
-        routesPath: '/routes',
-        apiDocs: {
-            title: 'API-docs'
-        }
-    },
-    middleware: {
-        rateLimit: {
-            windowMs: 5 * 60 * 1000,
-            max: 1000
-        },
-        cors: {},
-        extend: () => []
-    },
-    init(config) { },
-    master(config) { },
-    start({ config, app, server }) { }
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
-const appConfig = require(path.resolve('config'));
-// MERGE INITIAL-CONFIG AND APP-CONFIG
-const { config } = merge.recursive({ config: initialConfig }, { config: appConfig });
-if (env('$CLI_HOST')) {
-    config.server.host = env('$CLI_HOST');
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const path_1 = __importDefault(require("path"));
+const merge_1 = __importDefault(require("merge"));
+const helpers_1 = require("@risecorejs/helpers");
+const os = __importStar(require("os"));
+const initialConfig = require('./initial').default;
+const appConfig = require(path_1.default.resolve('config')).default;
+const { config } = merge_1.default.recursive({ config: initialConfig }, { config: appConfig });
+if ((0, helpers_1.env)('$CLI_HOST')) {
+    config.server.host = (0, helpers_1.env)('$CLI_HOST');
 }
-if (env('$CLI_PORT')) {
-    config.server.port = env('$CLI_PORT', Number);
+if ((0, helpers_1.env)('$CLI_PORT')) {
+    config.server.port = (0, helpers_1.env)('$CLI_PORT', Number);
 }
-if (env('$CLI_MULTIPROCESSING')) {
+if ((0, helpers_1.env)('$CLI_MULTIPROCESSING')) {
     config.server.multiprocessing = true;
 }
 if (config.server.multiprocessing) {
-    if (env('$CLI_MULTIPROCESSING_WORKERS')) {
-        config.server.multiprocessingWorkers = env('$CLI_MULTIPROCESSING_WORKERS', Number);
+    if ((0, helpers_1.env)('$CLI_MULTIPROCESSING_WORKERS')) {
+        config.server.multiprocessingWorkers = (0, helpers_1.env)('$CLI_MULTIPROCESSING_WORKERS', Number);
     }
     config.server.multiprocessingWorkers ||= os.cpus().length - 1;
 }
-module.exports = config;
+exports.default = config;

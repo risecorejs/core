@@ -1,8 +1,9 @@
 "use strict";
-const { CronJob } = require('cron');
-module.exports = (cronJobs) => {
-    for (const [pattern, handler] of Object.entries(cronJobs)) {
-        new CronJob(pattern, () => {
+Object.defineProperty(exports, "__esModule", { value: true });
+const cron_1 = require("cron");
+function default_1(configCron) {
+    for (const [pattern, handler] of Object.entries(configCron.jobs)) {
+        new cron_1.CronJob(pattern, () => {
             try {
                 handler();
             }
@@ -11,4 +12,5 @@ module.exports = (cronJobs) => {
             }
         }).start();
     }
-};
+}
+exports.default = default_1;
