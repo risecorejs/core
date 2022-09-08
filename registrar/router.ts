@@ -64,10 +64,10 @@ async function routerRegistration(configRouter: IConfigRouter, app: express.Appl
 
 /**
  * GET-ROUTES
- * @param configRouter {Object}
- * @returns {Promise<Array>}
+ * @param configRouter {IConfigRouter}
+ * @returns {Promise<IRoute[]>}
  */
-async function getRoutes(configRouter: IConfigRouter) {
+async function getRoutes(configRouter: IConfigRouter): Promise<IRoute[]> {
   const routes: IRoute[] = []
 
   if (configRouter.routesDir) {
@@ -97,8 +97,8 @@ async function getRoutes(configRouter: IConfigRouter) {
 
 /**
  * FILLING-ROUTES
- * @param configRouter {Object}
- * @param routes {Array}
+ * @param configRouter {IConfigRouter}
+ * @param routes {IRoute[]}
  * @param routesDir {string}
  */
 function fillingRoutes(configRouter: IConfigRouter, routes: IRoute[], routesDir: string) {
@@ -116,7 +116,7 @@ function fillingRoutes(configRouter: IConfigRouter, routes: IRoute[], routesDir:
       if (fileStat.isDirectory()) {
         fillingRoutes(configRouter, routes, filePath)
       } else if (file.endsWith('.js')) {
-        const route = require(baseDir + filePath)
+        const route: IRoute = require(baseDir + filePath)
 
         fillingRoute(configRouter, route)
 
@@ -128,22 +128,20 @@ function fillingRoutes(configRouter: IConfigRouter, routes: IRoute[], routesDir:
 
 /**
  * GET-ROUTES-THROUGH-AXIOS
- * @param configRouter {Object}
- * @returns {Promise<Array>}
+ * @param configRouter {IConfigRouter}
+ * @returns {Promise<IRoute[]>}
  */
-async function getRoutesThroughAxios(configRouter: IConfigRouter) {
+async function getRoutesThroughAxios(configRouter: IConfigRouter): Promise<IRoute[]> {
   try {
-    const {
-      data: { routes }
-    } = await axios.get(configRouter.routesUrl)
+    const response = await axios.get(<string>configRouter.routesUrl)
 
-    return routes
+    return response.data.routes
   } catch (err) {
     console.error(err)
 
     configRouter.status = 'reconnecting'
 
-    return await new Promise((resolve) => {
+    return new Promise((resolve) => {
       setTimeout(async () => {
         const routes = await getRoutesThroughAxios(configRouter)
 
@@ -155,10 +153,10 @@ async function getRoutesThroughAxios(configRouter: IConfigRouter) {
 
 /**
  * FILLING-ROUTE
- * @param configRouter {Object}
- * @param route {Object}
+ * @param configRouter {IConfigRouter}
+ * @param route {IRoute}
  */
-function fillingRoute(configRouter, route) {
+function fillingRoute(configRouter: IConfigRouter, route: IRoute) {
   if (configRouter.middleware) {
     if (route.middleware) {
       if (Array.isArray(route.middleware)) {
@@ -180,10 +178,10 @@ function fillingRoute(configRouter, route) {
 
 /**
  * SET-CONTROLLER
- * @param configRouter {Object}
- * @param route {Object}
+ * @param configRouter {IConfigRouter}
+ * @param route {IRoute}
  */
-function setController(configRouter, route) {
+function setController(configRouter: IConfigRouter, route: IRoute) {
   if (configRouter.controller) {
     if (route.method) {
       route.controller = configRouter.controller

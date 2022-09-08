@@ -52,8 +52,8 @@ async function routerRegistration(configRouter, app) {
 }
 /**
  * GET-ROUTES
- * @param configRouter {Object}
- * @returns {Promise<Array>}
+ * @param configRouter {IConfigRouter}
+ * @returns {Promise<IRoute[]>}
  */
 async function getRoutes(configRouter) {
     const routes = [];
@@ -80,8 +80,8 @@ async function getRoutes(configRouter) {
 }
 /**
  * FILLING-ROUTES
- * @param configRouter {Object}
- * @param routes {Array}
+ * @param configRouter {IConfigRouter}
+ * @param routes {IRoute[]}
  * @param routesDir {string}
  */
 function fillingRoutes(configRouter, routes, routesDir) {
@@ -105,18 +105,18 @@ function fillingRoutes(configRouter, routes, routesDir) {
 }
 /**
  * GET-ROUTES-THROUGH-AXIOS
- * @param configRouter {Object}
- * @returns {Promise<Array>}
+ * @param configRouter {IConfigRouter}
+ * @returns {Promise<IRoute[]>}
  */
 async function getRoutesThroughAxios(configRouter) {
     try {
-        const { data: { routes } } = await axios_1.default.get(configRouter.routesUrl);
-        return routes;
+        const response = await axios_1.default.get(configRouter.routesUrl);
+        return response.data.routes;
     }
     catch (err) {
         console.error(err);
         configRouter.status = 'reconnecting';
-        return await new Promise((resolve) => {
+        return new Promise((resolve) => {
             setTimeout(async () => {
                 const routes = await getRoutesThroughAxios(configRouter);
                 resolve(routes);
@@ -126,8 +126,8 @@ async function getRoutesThroughAxios(configRouter) {
 }
 /**
  * FILLING-ROUTE
- * @param configRouter {Object}
- * @param route {Object}
+ * @param configRouter {IConfigRouter}
+ * @param route {IRoute}
  */
 function fillingRoute(configRouter, route) {
     if (configRouter.middleware) {
@@ -151,8 +151,8 @@ function fillingRoute(configRouter, route) {
 }
 /**
  * SET-CONTROLLER
- * @param configRouter {Object}
- * @param route {Object}
+ * @param configRouter {IConfigRouter}
+ * @param route {IRoute}
  */
 function setController(configRouter, route) {
     if (configRouter.controller) {

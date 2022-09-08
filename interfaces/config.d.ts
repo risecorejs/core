@@ -79,6 +79,7 @@ export interface IConfigRouter {
         baseUrl?: string;
     };
     routes?: IRoute[];
+    timeout?: number;
 }
 export interface IConfigStartCtx {
     config: IConfig;
