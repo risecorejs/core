@@ -1,13 +1,15 @@
-const env = require('@risecorejs/helpers/lib/env')
-const { networkInterfaces } = require('os')
-const cronstrue = require('cronstrue')
+import env from '@risecorejs/helpers/lib/env'
+import { networkInterfaces } from 'os'
+import cronstrue from 'cronstrue'
 
-const packageJSON = require('../package.json')
+import packageJSON from '../package.json'
 
-module.exports = (config) => {
-  const hostForUrl = getHostForUrl(config)
+import { IConfigCore } from '../interfaces/config'
 
-  const url = `http://${hostForUrl}:${config.server.port}`
+export default function (config: IConfigCore) {
+  const host = getHost(config)
+
+  const url = `http://${host}:${config.server.port}`
 
   console.log(`|------------------------------------------------------|`)
   console.log(`| ${packageJSON.description} v${packageJSON.version}`)
@@ -62,19 +64,25 @@ module.exports = (config) => {
 }
 
 /**
- * GET-HOST-FOR-URL
- * @param config {Object}
+ * GET-HOST
+ * @param config {IConfigCore}
  * @return {string}
  */
-function getHostForUrl(config) {
+function getHost(config: IConfigCore): string {
   if (config.server.host === '0.0.0.0') {
     const nets = networkInterfaces()
 
     const netNames = ['Ethernet', 'eth0']
 
     for (const name of netNames) {
-      if (nets[name]) {
-        return nets[name].find((net) => net.family === 'IPv4').address
+      const net = nets[name]
+
+      if (net) {
+        const netInfo = net.find((net) => net.family === 'IPv4')
+
+        if (netInfo) {
+          return netInfo.address
+        }
       }
     }
   }

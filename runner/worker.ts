@@ -2,8 +2,7 @@ import express from 'express'
 import { env } from '@risecorejs/helpers'
 
 import registrar from '../registrar'
-
-const packageJSON = require('../package.json')
+import packageJSON from '../package.json'
 
 import { IConfigCore } from '../interfaces/config'
 

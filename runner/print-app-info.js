@@ -1,17 +1,21 @@
 "use strict";
-const env = require('@risecorejs/helpers/lib/env');
-const { networkInterfaces } = require('os');
-const cronstrue = require('cronstrue');
-const packageJSON = require('../package.json');
-module.exports = (config) => {
-    const hostForUrl = getHostForUrl(config);
-    const url = `http://${hostForUrl}:${config.server.port}`;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const env_1 = __importDefault(require("@risecorejs/helpers/lib/env"));
+const os_1 = require("os");
+const cronstrue_1 = __importDefault(require("cronstrue"));
+const package_json_1 = __importDefault(require("../package.json"));
+function default_1(config) {
+    const host = getHost(config);
+    const url = `http://${host}:${config.server.port}`;
     console.log(`|------------------------------------------------------|`);
-    console.log(`| ${packageJSON.description} v${packageJSON.version}`);
+    console.log(`| ${package_json_1.default.description} v${package_json_1.default.version}`);
     console.log(`|------------------------------------------------------|`);
     console.log(`| # APP`);
     console.log(`|   URL: ${url}`);
-    if (env('NODE_ENV') === 'development') {
+    if ((0, env_1.default)('NODE_ENV') === 'development') {
         console.log(`|   Docs URL: ${url}/__docs`);
     }
     console.log('|   Press Ctrl+C to quit.');
@@ -29,7 +33,7 @@ module.exports = (config) => {
         console.log('|   Mode: ' + (config.cron.childProcess ? 'childProcess' : 'inside'));
         console.log('|   Number of jobs: ' + Object.keys(config.cron.jobs).length);
         for (const [pattern] of Object.entries(config.cron.jobs)) {
-            console.log(`|   - ${pattern} (${cronstrue.toString(pattern, {
+            console.log(`|   - ${pattern} (${cronstrue_1.default.toString(pattern, {
                 verbose: true,
                 use24HourTimeFormat: true
             })})`);
@@ -44,19 +48,24 @@ module.exports = (config) => {
         }
     }
     console.log(`|------------------------------------------------------|\n`);
-};
+}
+exports.default = default_1;
 /**
- * GET-HOST-FOR-URL
- * @param config {Object}
+ * GET-HOST
+ * @param config {IConfigCore}
  * @return {string}
  */
-function getHostForUrl(config) {
+function getHost(config) {
     if (config.server.host === '0.0.0.0') {
-        const nets = networkInterfaces();
+        const nets = (0, os_1.networkInterfaces)();
         const netNames = ['Ethernet', 'eth0'];
         for (const name of netNames) {
-            if (nets[name]) {
-                return nets[name].find((net) => net.family === 'IPv4').address;
+            const net = nets[name];
+            if (net) {
+                const netInfo = net.find((net) => net.family === 'IPv4');
+                if (netInfo) {
+                    return netInfo.address;
+                }
             }
         }
     }

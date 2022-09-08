@@ -6,11 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const helpers_1 = require("@risecorejs/helpers");
 const registrar_1 = __importDefault(require("../registrar"));
-const packageJSON = require('../package.json');
+const package_json_1 = __importDefault(require("../package.json"));
 async function default_1(config) {
     const app = (0, express_1.default)();
     app.disable('x-powered-by');
-    app.get('/', (req, res) => res.send(`${packageJSON.description} v${packageJSON.version}`));
+    app.get('/', (req, res) => res.send(`${package_json_1.default.description} v${package_json_1.default.version}`));
     // REGISTER::STRUCTS-API
     if (config.structs && config.structs.enableAPI !== false) {
         registrar_1.default.structsAPI(config);

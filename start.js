@@ -36,7 +36,7 @@ void (async () => {
         runner_1.default.cron(config_1.default.cron);
         // RUN::PROCESSES
         if (config_1.default.processes) {
-            runner_1.default.processes(config_1.default.processes);
+            runner_1.default.processes(config_1.default.processes).catch((err) => console.error(err));
         }
         // RUN::PRINT-APP-INFO
         runner_1.default.printAppInfo(config_1.default);

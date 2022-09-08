@@ -40,7 +40,7 @@ void (async () => {
 
     // RUN::PROCESSES
     if (config.processes) {
-      runner.processes(config.processes)
+      runner.processes(config.processes).catch((err: any) => console.error(err))
     }
 
     // RUN::PRINT-APP-INFO
