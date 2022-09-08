@@ -140,7 +140,7 @@ module.exports = {
   
   router: {
     baseUrl: '/', // default
-    routesPath: '/routes', // default
+    routesDir: '/routes', // default
     apiDocs: {
       title: 'API-docs' // default
     }

@@ -57,12 +57,12 @@ async function routerRegistration(configRouter, app) {
  */
 async function getRoutes(configRouter) {
     const routes = [];
-    if (configRouter.routesPath) {
-        configRouter.type = 'Local';
-        fillingRoutes(configRouter, routes, path_1.default.resolve(), configRouter.routesPath);
+    if (configRouter.routesDir) {
+        configRouter.type = 'local';
+        fillingRoutes(configRouter, routes, configRouter.routesDir);
     }
     else if (configRouter.routesUrl) {
-        configRouter.type = 'Remote';
+        configRouter.type = 'remote';
         for (const route of await getRoutesThroughAxios(configRouter)) {
             fillingRoute(configRouter, route);
             routes.push(route);
@@ -79,6 +79,31 @@ async function getRoutes(configRouter) {
     return routes;
 }
 /**
+ * FILLING-ROUTES
+ * @param configRouter {Object}
+ * @param routes {Array}
+ * @param routesDir {string}
+ */
+function fillingRoutes(configRouter, routes, routesDir) {
+    routesDir = routesDir === '/' ? '' : routesDir;
+    const baseDir = path_1.default.join(path_1.default.resolve(), 'routes');
+    const files = fs_1.default.readdirSync(path_1.default.join(baseDir, routesDir));
+    for (const file of files) {
+        if (!file.startsWith('_')) {
+            const filePath = path_1.default.join(routesDir, file);
+            const fileStat = fs_1.default.statSync(baseDir + filePath);
+            if (fileStat.isDirectory()) {
+                fillingRoutes(configRouter, routes, filePath);
+            }
+            else if (file.endsWith('.js')) {
+                const route = require(baseDir + filePath);
+                fillingRoute(configRouter, route);
+                routes.push(route);
+            }
+        }
+    }
+}
+/**
  * GET-ROUTES-THROUGH-AXIOS
  * @param configRouter {Object}
  * @returns {Promise<Array>}
@@ -90,37 +115,13 @@ async function getRoutesThroughAxios(configRouter) {
     }
     catch (err) {
         console.error(err);
-        configRouter.status = 'Reconnecting';
+        configRouter.status = 'reconnecting';
         return await new Promise((resolve) => {
             setTimeout(async () => {
                 const routes = await getRoutesThroughAxios(configRouter);
                 resolve(routes);
             }, configRouter.timeout || 3000);
         });
-    }
-}
-/**
- * FILLING-ROUTES
- * @param configRouter {Object}
- * @param routes {Array}
- * @param basePath {string}
- * @param folder {string}
- */
-function fillingRoutes(configRouter, routes, basePath, folder) {
-    const files = fs_1.default.readdirSync(basePath + folder);
-    for (const file of files) {
-        if (!file.startsWith('_')) {
-            const filePath = path_1.default.join(folder, file);
-            const fileStat = fs_1.default.statSync(basePath + filePath);
-            if (fileStat.isDirectory()) {
-                fillingRoutes(configRouter, routes, basePath, filePath);
-            }
-            else if (file.endsWith('.js')) {
-                const route = require(basePath + filePath);
-                fillingRoute(configRouter, route);
-                routes.push(route);
-            }
-        }
     }
 }
 /**

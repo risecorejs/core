@@ -70,7 +70,7 @@ export interface IConfigRouter {
     status: 'pending' | 'connected' | 'reconnecting';
     main?: boolean;
     baseUrl?: string;
-    routesPath?: string;
+    routesDir?: string;
     routesUrl?: string;
     middleware?: express.Handler | string | (express.Handler | string)[];
     controller?: express.Handler | string;

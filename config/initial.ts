@@ -24,7 +24,7 @@ export default <IConfig>{
 
   router: {
     baseUrl: '/',
-    routesPath: '/routes',
+    routesDir: '/',
     apiDocs: {
       title: 'API-docs'
     }

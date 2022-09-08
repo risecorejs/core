@@ -5,6 +5,7 @@ import express from 'express'
 import path from 'path'
 import fs from 'fs'
 import router from '@risecorejs/router'
+import { IRoute } from '@risecorejs/router/interfaces'
 import axios from 'axios'
 
 import { IConfigRouter } from '../interfaces/config'
@@ -66,15 +67,15 @@ async function routerRegistration(configRouter: IConfigRouter, app: express.Appl
  * @param configRouter {Object}
  * @returns {Promise<Array>}
  */
-async function getRoutes(configRouter) {
-  const routes = []
+async function getRoutes(configRouter: IConfigRouter) {
+  const routes: IRoute[] = []
 
-  if (configRouter.routesPath) {
-    configRouter.type = 'Local'
+  if (configRouter.routesDir) {
+    configRouter.type = 'local'
 
-    fillingRoutes(configRouter, routes, path.resolve(), configRouter.routesPath)
+    fillingRoutes(configRouter, routes, configRouter.routesDir)
   } else if (configRouter.routesUrl) {
-    configRouter.type = 'Remote'
+    configRouter.type = 'remote'
 
     for (const route of await getRoutesThroughAxios(configRouter)) {
       fillingRoute(configRouter, route)
@@ -95,11 +96,42 @@ async function getRoutes(configRouter) {
 }
 
 /**
+ * FILLING-ROUTES
+ * @param configRouter {Object}
+ * @param routes {Array}
+ * @param routesDir {string}
+ */
+function fillingRoutes(configRouter: IConfigRouter, routes: IRoute[], routesDir: string) {
+  routesDir = routesDir === '/' ? '' : routesDir
+
+  const baseDir = path.join(path.resolve(), 'routes')
+
+  const files = fs.readdirSync(path.join(baseDir, routesDir))
+
+  for (const file of files) {
+    if (!file.startsWith('_')) {
+      const filePath = path.join(routesDir, file)
+      const fileStat = fs.statSync(baseDir + filePath)
+
+      if (fileStat.isDirectory()) {
+        fillingRoutes(configRouter, routes, filePath)
+      } else if (file.endsWith('.js')) {
+        const route = require(baseDir + filePath)
+
+        fillingRoute(configRouter, route)
+
+        routes.push(route)
+      }
+    }
+  }
+}
+
+/**
  * GET-ROUTES-THROUGH-AXIOS
  * @param configRouter {Object}
  * @returns {Promise<Array>}
  */
-async function getRoutesThroughAxios(configRouter) {
+async function getRoutesThroughAxios(configRouter: IConfigRouter) {
   try {
     const {
       data: { routes }
@@ -109,7 +141,7 @@ async function getRoutesThroughAxios(configRouter) {
   } catch (err) {
     console.error(err)
 
-    configRouter.status = 'Reconnecting'
+    configRouter.status = 'reconnecting'
 
     return await new Promise((resolve) => {
       setTimeout(async () => {
@@ -118,34 +150,6 @@ async function getRoutesThroughAxios(configRouter) {
         resolve(routes)
       }, configRouter.timeout || 3000)
     })
-  }
-}
-
-/**
- * FILLING-ROUTES
- * @param configRouter {Object}
- * @param routes {Array}
- * @param basePath {string}
- * @param folder {string}
- */
-function fillingRoutes(configRouter, routes, basePath, folder) {
-  const files = fs.readdirSync(basePath + folder)
-
-  for (const file of files) {
-    if (!file.startsWith('_')) {
-      const filePath = path.join(folder, file)
-      const fileStat = fs.statSync(basePath + filePath)
-
-      if (fileStat.isDirectory()) {
-        fillingRoutes(configRouter, routes, basePath, filePath)
-      } else if (file.endsWith('.js')) {
-        const route = require(basePath + filePath)
-
-        fillingRoute(configRouter, route)
-
-        routes.push(route)
-      }
-    }
   }
 }
 
