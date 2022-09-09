@@ -4,6 +4,7 @@ import { Sequelize } from 'sequelize'
 import { IProcesses } from '@risecorejs/processes-runner/interfaces'
 import { IRoute } from '@risecorejs/router/interfaces'
 import cors from 'cors'
+import { IFields } from './index'
 
 export interface IConfig {
   global?: {
@@ -27,7 +28,7 @@ export interface IConfig {
   router?: IConfigRouter | IConfigRouter[]
 
   middleware?: {
-    rateLimit?: false | { [key: string]: any }
+    rateLimit?: false | IFields
     cors?: false | cors.CorsOptions
     extend?: () => express.Handler[]
   }
@@ -47,7 +48,7 @@ export interface IConfigCore extends IConfig {
   router: IConfigRouter | IConfigRouter[]
 
   middleware: {
-    rateLimit: false | { [key: string]: any }
+    rateLimit: false | IFields
     cors: false | cors.CorsOptions
     extend?: () => express.Handler[]
   }

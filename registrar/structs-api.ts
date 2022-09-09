@@ -2,6 +2,7 @@ import express from 'express'
 import { IRoute } from '@risecorejs/router/interfaces'
 
 import { IConfigCore } from '../interfaces/config'
+import { IFields } from '../interfaces'
 
 export default function (config: IConfigCore) {
   const route = getRoute()
@@ -44,10 +45,10 @@ function getRoute(): IRoute {
 }
 
 // INDEX-CONTROLLER
-function indexController(req: express.Request & {}, res: express.Response) {
+function indexController(req: express.Request, res: express.Response) {
   try {
     if (req.query.codes?.length) {
-      const structs: { [key: string]: any } = {}
+      const structs: IFields = {}
 
       for (const code of <string[]>req.query.codes) {
         if ($structs[code]) {

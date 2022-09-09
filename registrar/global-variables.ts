@@ -1,4 +1,6 @@
-export default function (configGlobalVariables: { [key: string]: any }) {
+import { IFields } from '../interfaces'
+
+export default function (configGlobalVariables: IFields) {
   global.$ = {}
 
   for (const [key, value] of Object.entries(configGlobalVariables)) {
