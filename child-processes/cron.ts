@@ -1,5 +1,7 @@
-import registrar from '../registrar'
+import { cronRunner } from '../runner/cron'
 
 import config from '../config'
 
-registrar.cron(config.cron)
+if (config.cron) {
+  cronRunner(config.cron.jobs)
+}

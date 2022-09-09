@@ -72,9 +72,11 @@ export interface IConfigStructs {
 
 export interface IConfigCron {
   childProcess?: boolean
-  jobs: {
-    [key: string]: () => void
-  }
+  jobs: IConfigCronJobs
+}
+
+export interface IConfigCronJobs {
+  [key: string]: () => void
 }
 
 export interface IConfigValidator {
@@ -83,8 +85,8 @@ export interface IConfigValidator {
 }
 
 export interface IConfigRouter {
-  type: 'pending' | 'local' | 'remote'
-  status: 'pending' | 'connected' | 'reconnecting'
+  type?: 'pending' | 'local' | 'remote'
+  status?: 'pending' | 'connected' | 'reconnecting'
   main?: boolean
   baseUrl?: string
   routesDir?: string

@@ -1,8 +1,7 @@
 import execa from 'execa'
+import { CronJob } from 'cron'
 
-import registrar from '../registrar'
-
-import { IConfigCron } from '../interfaces/config'
+import { IConfigCron, IConfigCronJobs } from '../interfaces/config'
 
 export default function (configCron: IConfigCron) {
   if (configCron.childProcess) {
@@ -13,6 +12,22 @@ export default function (configCron: IConfigCron) {
       shell: true
     })
   } else {
-    registrar.cron(configCron)
+    cronRunner(configCron.jobs)
+  }
+}
+
+/**
+ * CRON-RUNNER
+ * @param cronJobs {IConfigCronJobs}
+ */
+export function cronRunner(cronJobs: IConfigCronJobs) {
+  for (const [pattern, handler] of Object.entries(cronJobs)) {
+    new CronJob(pattern, () => {
+      try {
+        handler()
+      } catch (err) {
+        console.error(err)
+      }
+    }).start()
   }
 }
