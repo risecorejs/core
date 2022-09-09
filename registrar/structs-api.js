@@ -3,13 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 function default_1(config) {
     const route = getRoute();
     if (Array.isArray(config.router)) {
-        for (const routerConfig of config.router) {
-            if (routerConfig.main) {
-                if (routerConfig.routes) {
-                    routerConfig.routes.push(route);
+        for (const item of config.router) {
+            if (item.main) {
+                if (item.routes) {
+                    item.routes.push(route);
                 }
                 else {
-                    routerConfig.routes = [route];
+                    item.routes = [route];
                 }
                 break;
             }
@@ -43,11 +43,11 @@ function getRoute() {
 // INDEX-CONTROLLER
 function indexController(req, res) {
     try {
-        if (req.query.codes?.length) {
+        if (req.query.keys?.length) {
             const structs = {};
-            for (const code of req.query.codes) {
-                if ($structs[code]) {
-                    structs[code] = $structs[code];
+            for (const key of req.query.keys) {
+                if ($structs[key]) {
+                    structs[key] = $structs[key];
                 }
             }
             return res.json({ structs });
@@ -66,13 +66,13 @@ function indexController(req, res) {
 // GET-DOCS
 function getDocs() {
     return {
-        description: 'Show all structs or show structs by codes: ' + Object.keys($structs).join(', '),
+        description: 'Show all structs or show structs by keys: ' + Object.keys($structs).join(', '),
         params: {
-            'codes[]': {
-                value: 'code1'
+            'keys[]': {
+                value: 'key1'
             },
-            codes: {
-                value: 'code2'
+            keys: {
+                value: 'key2'
             }
         }
     };

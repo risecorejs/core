@@ -16,8 +16,8 @@ async function default_1(config) {
     }
     // REGISTER::MIDDLEWARE
     registrar_1.default.middleware(config, app);
-    // REGISTER::ROUTER
-    registrar_1.default.router(config.router, app);
+    // REGISTER::ROUTERS
+    registrar_1.default.routers(config.router, app);
     // CREATE::SERVER
     const server = app.listen(config.server.port, config.server.host, async () => {
         // RUN-HOOK::START

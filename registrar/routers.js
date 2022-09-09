@@ -20,20 +20,20 @@ function default_1(configRouter, app) {
             });
         }
         for (const item of configRouter) {
-            routerRegistration(item, app).catch((err) => console.error(err));
+            registerRouter(item, app).catch((err) => console.error(err));
         }
     }
     else {
-        routerRegistration(configRouter, app).catch((err) => console.error(err));
+        registerRouter(configRouter, app).catch((err) => console.error(err));
     }
 }
 exports.default = default_1;
 /**
- * ROUTER-REGISTRATION
+ * REGISTER-ROUTER
  * @param configRouter {IConfigRouter}
  * @param app {express.Application}
  */
-async function routerRegistration(configRouter, app) {
+async function registerRouter(configRouter, app) {
     configRouter.type = 'pending';
     configRouter.status = 'pending';
     const routes = await getRoutes(configRouter);

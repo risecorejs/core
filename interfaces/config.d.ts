@@ -5,6 +5,7 @@ import { Sequelize } from 'sequelize';
 import { IProcesses } from '@risecorejs/processes-runner/interfaces';
 import { IRoute } from '@risecorejs/router/interfaces';
 import cors from 'cors';
+import { IFields } from './index';
 export interface IConfig {
     global?: {
         [key: string]: any;
@@ -18,9 +19,7 @@ export interface IConfig {
     validator?: IConfigValidator;
     router?: IConfigRouter | IConfigRouter[];
     middleware?: {
-        rateLimit?: false | {
-            [key: string]: any;
-        };
+        rateLimit?: false | IFields;
         cors?: false | cors.CorsOptions;
         extend?: () => express.Handler[];
     };
@@ -34,9 +33,7 @@ export interface IConfigCore extends IConfig {
     validator: IConfigValidator;
     router: IConfigRouter | IConfigRouter[];
     middleware: {
-        rateLimit: false | {
-            [key: string]: any;
-        };
+        rateLimit: false | IFields;
         cors: false | cors.CorsOptions;
         extend?: () => express.Handler[];
     };
@@ -57,17 +54,18 @@ export interface IConfigStructs {
 }
 export interface IConfigCron {
     childProcess?: boolean;
-    jobs: {
-        [key: string]: () => void;
-    };
+    jobs: IConfigCronJobs;
+}
+export interface IConfigCronJobs {
+    [key: string]: () => void;
 }
 export interface IConfigValidator {
     locale?: 'ru' | 'en';
     sequelize?: Sequelize;
 }
 export interface IConfigRouter {
-    type: 'pending' | 'local' | 'remote';
-    status: 'pending' | 'connected' | 'reconnecting';
+    type?: 'pending' | 'local' | 'remote';
+    status?: 'pending' | 'connected' | 'reconnecting';
     main?: boolean;
     baseUrl?: string;
     routesDir?: string;

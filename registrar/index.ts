@@ -2,7 +2,7 @@ import moduleAliases from './module-aliases'
 import globalVariables from './global-variables'
 import globalStructs from './global-structs'
 import middleware from './middleware'
-import router from './router'
+import routers from './routers'
 import structsAPI from './structs-api'
 
 export default {
@@ -10,6 +10,6 @@ export default {
   globalVariables,
   globalStructs,
   middleware,
-  router,
+  routers,
   structsAPI
 }

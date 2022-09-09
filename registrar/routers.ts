@@ -23,19 +23,19 @@ export default function (configRouter: IConfigRouter | IConfigRouter[], app: exp
     }
 
     for (const item of configRouter) {
-      routerRegistration(item, app).catch((err: any) => console.error(err))
+      registerRouter(item, app).catch((err: any) => console.error(err))
     }
   } else {
-    routerRegistration(configRouter, app).catch((err: any) => console.error(err))
+    registerRouter(configRouter, app).catch((err: any) => console.error(err))
   }
 }
 
 /**
- * ROUTER-REGISTRATION
+ * REGISTER-ROUTER
  * @param configRouter {IConfigRouter}
  * @param app {express.Application}
  */
-async function routerRegistration(configRouter: IConfigRouter, app: express.Application) {
+async function registerRouter(configRouter: IConfigRouter, app: express.Application) {
   configRouter.type = 'pending'
   configRouter.status = 'pending'
 

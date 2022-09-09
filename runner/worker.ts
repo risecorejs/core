@@ -20,8 +20,8 @@ export default async function (config: IConfigCore) {
   // REGISTER::MIDDLEWARE
   registrar.middleware(config, app)
 
-  // REGISTER::ROUTER
-  registrar.router(config.router, app)
+  // REGISTER::ROUTERS
+  registrar.routers(config.router, app)
 
   // CREATE::SERVER
   const server = app.listen(config.server.port, config.server.host, async () => {

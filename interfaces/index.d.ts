@@ -1,1 +1,3 @@
-export * as IConfig from './config';
+export interface IFields {
+    [key: string]: any;
+}
