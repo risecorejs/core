@@ -28,7 +28,7 @@
     "@risecorejs/helpers": "^3.0.9",
     "@risecorejs/order-builder": "^3.0.2",
     "@risecorejs/include-builder": "^3.0.2",
-    "@risecorejs/processes-runner": "^3.0.3",
+    "@risecorejs/processes-runner": "^3.0.4",
     "@risecorejs/api-docs": "^1.0.3",
     "@risecorejs/make-migrations": "^1.0.4",
     "@types/cors": "^2.8.12",
