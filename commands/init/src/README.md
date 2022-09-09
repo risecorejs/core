@@ -5,29 +5,17 @@
 ```sh
 npm install -g @risecorejs/core
 npm install -g nodemon
+
+risecorejs init my-project
+
+cd my-project
+
 npm install
 ```
 
 > Note: Don't forget to set up your database for the next step!
 
 Copy ".env.example" -> ".env" and set up the #DATABASE section.
-
-If you passed the --exampleFiles or --ef flag, then add .env and .env.example to your file:
-
-```
-#JWT
-JWT_SECRET_KEY=secretKey
-JWT_EXPIRES_IN=24h
-```
-
-> Don't forget to change the secret key!
-
-Run the commands to run the migration and populate the database with initial data:
-
-```sh
-npx sequelize db:migrate
-npx sequelize db:seed:all
-```
 
 To run the application, use the following commands:
 
@@ -43,19 +31,19 @@ npx risecorejs --help
 risecorejs <command> [options]
 
 Commands:
-  risecorejs init [folder]                                                          Init Risecorejs template
-  risecorejs dev [port] [host] [multiprocessing] [multiprocessingWorkers]           Run server in live-reload mode
-  risecorejs start [port] [host] [multiprocessing] [multiprocessingWorkers]         Run server
-  risecorejs make:controller [entityName] [entityExtendedName]                      Creating a base controller
-  risecorejs make:model [entityName]                                                Creating a base model
-  risecorejs make:docs [entityName] [entityExtendedName]                            Creating a base docs
-  risecorejs make:routes [entityExtendedName]                                       Creating a base routes
-  risecorejs make:entity [entityName] [entityExtendedName]                          Creating a base entity
-  risecorejs make:migrations                                                        Automatic creation of migrations    
+  risecorejs init [folder]                                                    Init Risecorejs template
+  risecorejs dev [port] [host] [multiprocessing] [multiprocessingWorkers]     Run server in live-reload mode
+  risecorejs start [port] [host] [multiprocessing] [multiprocessingWorkers]   Run server
+  risecorejs make:controller [entityName] [entityExtendedName]                Creating a base controller
+  risecorejs make:model [entityName]                                          Creating a base model
+  risecorejs make:docs [entityName] [entityExtendedName]                      Creating a base docs
+  risecorejs make:routes [entityExtendedName]                                 Creating a base routes
+  risecorejs make:entity [entityName] [entityExtendedName]                    Creating a base entity
+  risecorejs make:migrations                                                  Automatic creation of migrations    
 
 Options:
-      --help     Show help                                                          [boolean]
-  -v, --version  Show version number                                                [boolean]
+      --help     Show help                                                    [boolean]
+  -v, --version  Show version number                                          [boolean]
 ```
 
 ## Directory structure
@@ -75,21 +63,24 @@ Options:
 
 ## Config.js
 
-```javascript
-module.exports = {
+```typescript
+import { IConfig } from '@risecorejs/core/interfaces/config'
+
+export default <IConfig>{
   global: {
     test: 123
   },
 
   server: {
-    host: 'localhost', // default | ('localhost' || '0.0.0.0')
+    host: '0.0.0.0', // default: 'localhost'
     port: 5000, // default
-    multiprocessing: false, // default | if:true ? mode:multiprocessing : mode:singleProcess
-    multiprocessingWorkers: null, // default
+    multiprocessing: true, // default: undefined (if:true ? mode:multiprocessing : mode:singleProcess)
+    multiprocessingWorkers: 3, // default: undefined
   },
 
   // Add your module aliases so they are always at hand
-  moduleAlias: {
+  moduleAliases: {
+    '~': __dirname,
     '@some-folder': __dirname + '/directory/some-folder'
   },
 
@@ -130,12 +121,12 @@ module.exports = {
   },
 
   validator: {
-    locale: 'en' // default | 'ru'
+    locale: 'ru' // default: 'en'
   },
 
   router: {
     baseUrl: '/', // default
-    routesDir: '/routes', // default
+    routesDir: '/', // default
     apiDocs: {
       title: 'API-docs' // default
     }
@@ -153,8 +144,7 @@ module.exports = {
 
     // Add your global middleware
     extend: () => [
-      require('~/middleware/global/some-middleware'),
-      // require('../middleware/global/some-middleware')
+      require('~/middleware/global/some-middleware') // or require('../middleware/global/some-middleware')
     ]
   },
 
@@ -172,7 +162,7 @@ module.exports = {
     // Will be executed when the application starts
 
     // Calling a global variable
-    console.log('Hello!', $test) // Hello 123
+    console.log('Hello!', $.test) // Hello 123
   }
 }
 ```
