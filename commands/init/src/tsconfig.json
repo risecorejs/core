@@ -33,7 +33,15 @@
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
      "types": [
-       "./node_modules/@risecorejs/core/registrar"
+       "./node_modules/@risecorejs/helpers/lib/set-global-structs",
+       "./node_modules/@risecorejs/include-builder/middleware",
+       "./node_modules/@risecorejs/middleware/lib/pagination",
+       "./node_modules/@risecorejs/only/middleware",
+       "./node_modules/@risecorejs/order-builder/middleware",
+       "./node_modules/@risecorejs/validator/middleware",
+       "./node_modules/@risecorejs/where-builder/middleware",
+       "./node_modules/@risecorejs/core/registrar/core-global-variables",
+       "./node_modules/@risecorejs/core/registrar/global-variables"
      ],                                                  /* Specify type package names to be included without being referenced in a source file. */
     // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
     // "moduleSuffixes": [],                             /* List of file name suffixes to search when resolving a module. */
