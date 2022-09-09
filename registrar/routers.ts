@@ -5,8 +5,8 @@ import express from 'express'
 import path from 'path'
 import fs from 'fs'
 import router from '@risecorejs/router'
-import { IRoute } from '@risecorejs/router/interfaces'
 import axios from 'axios'
+import { IRoute } from '@risecorejs/router/interfaces'
 
 import { IConfigRouter } from '../interfaces/config'
 
