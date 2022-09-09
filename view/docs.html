@@ -51,24 +51,22 @@
         methods: {
           async fetchRouters() {
             try {
-              const {
-                data: { routers }
-              } = await axios.get('/__routers')
+              const response = await axios.get('/__routers')
 
-              this.routers = routers
+              this.routers = response.data.routers
             } catch (err) {
               console.error(err)
             }
           },
           getColorVariantByStatus(status) {
             switch (status) {
-              case 'Pending':
+              case 'pending':
                 return 'info'
 
-              case 'Reconnecting':
+              case 'reconnecting':
                 return 'danger'
 
-              case 'Connected':
+              case 'connected':
                 return 'success'
 
               default:
