@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@risecorejs/core": "^3.0.4",
-    "@risecorejs/helpers": "^3.0.9",
-    "@risecorejs/middleware": "^3.0.2",
+    "@risecorejs/helpers": "^3.0.10",
+    "@risecorejs/middleware": "^3.0.3",
     "@risecorejs/crud-builder": "^1.2.1",
     "sequelize": "^6.6.5",
     "sequelize-cli": "^6.2.0"
