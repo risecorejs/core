@@ -95,13 +95,13 @@ function getBaseStructTemplate() {
       'structs'
     ],
     baseFiles: [
-      'database/config.js',
+      'database/config.ts',
 
       '.env.example',
       () => ({ inputPath: 'gitignore', outputPath: '.gitignore' }),
       '.prettierrc.json',
       '.sequelizerc',
-      'config.js',
+      'config.ts',
       'package.json'
     ],
     readmeFiles: [
