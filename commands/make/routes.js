@@ -44,7 +44,7 @@ function getFileContent(entityExtendedName) {
   return `import { pagination, paramsIsNotNaN } from '@risecorejs/middleware'
   import { IRoute } from '@risecorejs/router/interfaces'
 
-  import docs from '../docs/${entityExtendedNameKebabCase}'
+  import * as docs from '../docs/${entityExtendedNameKebabCase}'
   
   const endpoint = $controller('${entityExtendedNameKebabCase}')
   
