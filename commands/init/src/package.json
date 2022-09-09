@@ -7,14 +7,15 @@
   "scripts": {
     "dev": "risecorejs dev",
     "start": "risecorejs start",
+    "make:migrations": "risecorejs make:migrations",
     "db:rollback": "sequelize db:migrate:undo:all",
     "db:migrate": "sequelize db:migrate",
     "db:seeder": "sequelize db:seed:all"
   },
   "dependencies": {
-    "@risecorejs/core": "^2.8.7",
-    "@risecorejs/helpers": "^2.0.5",
-    "@risecorejs/middleware": "^1.0.2",
+    "@risecorejs/core": "^3.0.0",
+    "@risecorejs/helpers": "^3.0.7",
+    "@risecorejs/middleware": "^3.0.1",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",

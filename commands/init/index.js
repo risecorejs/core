@@ -9,14 +9,13 @@ module.exports = {
     yargs.positional('folder', { describe: 'Folder name', type: 'string' })
 
     yargs.option('folder', { alias: 'f' })
-    yargs.option('exampleFiles', { alias: 'ef', describe: 'Include example files' })
     yargs.option('dockerFiles', { alias: 'df', describe: 'Include docker files' })
 
     yargs.example([['$0 init .'], ['$0 init my-project'], ['$0 init --folder my-project'], ['$0 init -f my-project']])
 
     return yargs
   },
-  async handler({ folder, exampleFiles, dockerFiles }) {
+  async handler({ folder, dockerFiles }) {
     const basePath = folder === '.' ? path.resolve() : path.resolve(folder)
 
     const baseStructTemplate = getBaseStructTemplate()
@@ -65,15 +64,6 @@ module.exports = {
       consola.success('Docker files have been created successfully')
     }
 
-    // EXAMPLE-FILES
-    if (exampleFiles) {
-      for (const filePath of baseStructTemplate.exampleFiles) {
-        await writeFile(basePath, filePath)
-      }
-
-      consola.success('Example files have been created successfully')
-    }
-
     consola.info('Base template deployment complete!')
   }
 }
@@ -84,8 +74,7 @@ module.exports = {
  *   baseDirectories: string[],
  *   baseFiles: (string|(function(): {inputPath: string, outputPath: string}))[],
  *   readmeFiles: string[],
- *   dockerFiles: string[],
- *   exampleFiles: string[]
+ *   dockerFiles: string[]
  * }}
  */
 function getBaseStructTemplate() {
@@ -132,29 +121,7 @@ function getBaseStructTemplate() {
 
       'README.md'
     ],
-    dockerFiles: ['.dockerignore', 'Dockerfile'],
-    exampleFiles: [
-      'controllers/auth.js',
-      'controllers/me.js',
-      'controllers/users.js',
-
-      'database/models/User.js',
-      'database/order-by/users.js',
-      'database/seeders/user.js',
-
-      'docs/auth.js',
-      'docs/me.js',
-      'docs/users.js',
-
-      'middleware/access.js',
-      'middleware/auth.js',
-
-      'routes/auth.js',
-      'routes/me.js',
-      'routes/users.js',
-
-      'structs/users.json'
-    ]
+    dockerFiles: ['.dockerignore', 'Dockerfile']
   }
 }
 

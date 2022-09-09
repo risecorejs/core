@@ -97,7 +97,7 @@ function fillingRoutes(configRouter, routes, routesDir) {
                 fillingRoutes(configRouter, routes, filePath);
             }
             else if (file.endsWith('.js')) {
-                const route = require(baseDir + filePath);
+                const route = require(baseDir + filePath).default;
                 changeRouteMiddleware(configRouter, route);
                 changeRouteController(configRouter, route);
                 routes.push(route);
