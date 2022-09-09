@@ -7,4 +7,4 @@ tsconfig.json
 
 # include the .d.ts files
 !*.d.ts
-!commands/init/src/*.ts
+!commands/init/src/**/*.ts
