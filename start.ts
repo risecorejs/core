@@ -7,7 +7,7 @@ import runner from './runner'
 
 import config from './config'
 
-// REGISTER::MODULE-ALIAS
+// REGISTER::MODULE-ALIASES
 if (config.moduleAliases) {
   registrar.moduleAliases(config.moduleAliases)
 }
@@ -28,11 +28,16 @@ void (async () => {
     await config.init(config)
   }
 
+  // IS::MASTER
   if (cluster.isPrimary) {
+    // IS::MULTIPROCESSING
     if (config.server.multiprocessing) {
       // RUN::MASTER
       await runner.master(config)
-    } else {
+    }
+
+    // IS::SINGLE-PROCESS
+    else {
       // RUN::WORKER
       await runner.worker(config)
     }
@@ -49,7 +54,10 @@ void (async () => {
 
     // RUN::PRINT-APP-INFO
     runner.printAppInfo(config)
-  } else {
+  }
+
+  // IS::WORKER
+  else {
     // RUN::WORKER
     await runner.worker(config)
   }

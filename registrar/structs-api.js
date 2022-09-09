@@ -25,7 +25,10 @@ function default_1(config) {
     }
 }
 exports.default = default_1;
-// GET-ROUTE
+/**
+ * GET-ROUTE
+ * @return {IRoute}
+ */
 function getRoute() {
     return {
         group: 'Structs',
@@ -40,7 +43,11 @@ function getRoute() {
         ]
     };
 }
-// INDEX-CONTROLLER
+/**
+ * INDEX-CONTROLLER
+ * @param req {express.Request}
+ * @param res {express.Response}
+ */
 function indexController(req, res) {
     try {
         if (req.query.keys?.length) {
@@ -63,7 +70,9 @@ function indexController(req, res) {
         };
     }
 }
-// GET-DOCS
+/**
+ * GET-DOCS
+ */
 function getDocs() {
     return {
         description: 'Show all structs or show structs by keys: ' + Object.keys($structs).join(', '),

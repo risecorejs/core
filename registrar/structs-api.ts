@@ -28,7 +28,10 @@ export default function (config: IConfigCore) {
   }
 }
 
-// GET-ROUTE
+/**
+ * GET-ROUTE
+ * @return {IRoute}
+ */
 function getRoute(): IRoute {
   return {
     group: 'Structs',
@@ -44,7 +47,11 @@ function getRoute(): IRoute {
   }
 }
 
-// INDEX-CONTROLLER
+/**
+ * INDEX-CONTROLLER
+ * @param req {express.Request}
+ * @param res {express.Response}
+ */
 function indexController(req: express.Request, res: express.Response) {
   try {
     if (req.query.keys?.length) {
@@ -68,7 +75,9 @@ function indexController(req: express.Request, res: express.Response) {
   }
 }
 
-// GET-DOCS
+/**
+ * GET-DOCS
+ */
 function getDocs() {
   return {
     description: 'Show all structs or show structs by keys: ' + Object.keys($structs).join(', '),
