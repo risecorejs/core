@@ -15,9 +15,9 @@ module.exports = {
     yargs.option('multiprocessingWorkers', { alias: 'mpw' })
 
     yargs.example([
-      ['$0 dev 8000 localhost true 3'],
-      ['$0 dev --port 8000 --host 0.0.0.0 --multiprocessing --multiprocessingWorkers 3'],
-      ['$0 dev -p 8000 -h 0.0.0.0 --mp --mpw 3']
+      ['$0 dev 5000 localhost true 3'],
+      ['$0 dev --port 5000 --host 0.0.0.0 --multiprocessing --multiprocessingWorkers 3'],
+      ['$0 dev -p 5000 -h 0.0.0.0 --mp --mpw 3']
     ])
 
     return yargs

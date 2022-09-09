@@ -83,7 +83,7 @@ module.exports = {
 
   server: {
     host: 'localhost', // default | ('localhost' || '0.0.0.0')
-    port: 8000, // default
+    port: 5000, // default
     multiprocessing: false, // default | if:true ? mode:multiprocessing : mode:singleProcess
     multiprocessingWorkers: null, // default
   },
