@@ -111,13 +111,15 @@ function fillingRoutes(configRouter: IConfigRouter, routes: IRoute[], routesDir:
 
   for (const file of files) {
     if (!file.startsWith('_')) {
-      const filePath = path.join(routesDir, file)
-      const fileStat = fs.statSync(baseDir + filePath)
+      const relativeFilePath = path.join(routesDir, file)
+      const absoluteFilePath = path.join(baseDir, relativeFilePath)
+
+      const fileStat = fs.statSync(absoluteFilePath)
 
       if (fileStat.isDirectory()) {
-        fillingRoutes(configRouter, routes, filePath)
+        fillingRoutes(configRouter, routes, relativeFilePath)
       } else if (file.endsWith('.js')) {
-        const route: IRoute = require(baseDir + filePath).default
+        const route: IRoute = require(absoluteFilePath).default
 
         changeRouteMiddleware(configRouter, route)
         changeRouteController(configRouter, route)
