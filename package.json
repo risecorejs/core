@@ -22,7 +22,6 @@
   "license": "MIT",
   "dependencies": {
     "@risecorejs/api-docs": "^1.0.3",
-    "@risecorejs/crud-builder": "^1.2.1",
     "@risecorejs/helpers": "^3.0.7",
     "@risecorejs/include-builder": "^3.0.1",
     "@risecorejs/make-migrations": "^1.0.4",
@@ -45,7 +44,6 @@
     "execa": "5.1.1",
     "express": "^4.17.1",
     "express-rate-limit": "^5.3.0",
-    "http-status-codes": "^2.2.0",
     "lodash": "^4.17.21",
     "merge": "^2.1.1",
     "module-alias": "^2.2.2",
