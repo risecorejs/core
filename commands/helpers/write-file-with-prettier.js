@@ -5,7 +5,6 @@ const prettier = require('prettier')
  * WRITE-FILE-WITH-PRETTIER
  * @param filePath {string}
  * @param fileContent {string}
- * @return {Promise<void>}
  */
 module.exports = async (filePath, fileContent) => {
   await fs.writeFile(

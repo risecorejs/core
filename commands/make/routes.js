@@ -22,7 +22,7 @@ module.exports = {
   },
   async handler({ entityExtendedName }) {
     const filePath = path.resolve('routes')
-    const fileName = _.kebabCase(entityExtendedName) + '.js'
+    const fileName = _.kebabCase(entityExtendedName) + '.ts'
 
     const fileContent = getFileContent(entityExtendedName)
 
@@ -41,13 +41,14 @@ function getFileContent(entityExtendedName) {
   const entityExtendedNameKebabCase = _.kebabCase(entityExtendedName)
   const groupText = _.upperFirst(_.lowerCase(entityExtendedName))
 
-  return `const { pagination, paramsIsNotNaN } = require('@risecorejs/middleware')
+  return `import { pagination, paramsIsNotNaN } from '@risecorejs/middleware'
+  import { IRoute } from '@risecorejs/router/interfaces'
 
-  const docs = require('../docs/${entityExtendedNameKebabCase}')
+  import docs from '../docs/${entityExtendedNameKebabCase}'
   
   const endpoint = $controller('${entityExtendedNameKebabCase}')
   
-  module.exports = {
+  export default <IRoute>{
     group: '${groupText}',
     url: '/${entityExtendedNameKebabCase}',
     children: [

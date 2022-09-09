@@ -24,7 +24,7 @@ module.exports = {
   },
   async handler({ entityName, entityExtendedName }) {
     const filePath = path.resolve('docs')
-    const fileName = _.kebabCase(entityExtendedName) + '.js'
+    const fileName = _.kebabCase(entityExtendedName) + '.ts'
 
     const fileContent = getFileContent(entityName, entityExtendedName)
 
@@ -45,7 +45,7 @@ function getFileContent(entityName, entityExtendedName) {
   const entityExtendedNameLowerCase = _.lowerCase(entityExtendedName)
 
   return `// CREATE
-  exports.create = {
+  export const create = {
     private: true,
     description: 'Create new ${entityNameLowerCase}',
     bodyUI: true,
@@ -55,19 +55,19 @@ function getFileContent(entityName, entityExtendedName) {
   }
   
   // INDEX
-  exports.index = {
+  export const index = {
     private: true,
     description: 'Show all ${entityExtendedNameLowerCase} with pagination'
   }
   
   // SHOW
-  exports.show = {
+  export const show = {
     private: true,
     description: 'Show ${entityNameLowerCase} by ID'
   }
   
   // UPDATE
-  exports.update = {
+  export const update = {
     private: true,
     description: 'Update ${entityNameLowerCase} by ID',
     bodyUI: true,
@@ -77,7 +77,7 @@ function getFileContent(entityName, entityExtendedName) {
   }
   
   // DESTROY
-  exports.destroy = {
+  export const destroy = {
     private: true,
     description: 'Destroy ${entityNameLowerCase} by ID'
   }`

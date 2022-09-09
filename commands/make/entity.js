@@ -19,12 +19,12 @@ module.exports = {
     return yargs
   },
   async handler({ entityName, entityExtendedName }) {
-    const makers = require('../makers')
+    const make = require('./')
 
-    await makers.controller.handler({ entityName, entityExtendedName })
-    await makers.model.handler({ entityName })
-    await makers.docs.handler({ entityName, entityExtendedName })
-    await makers.routes.handler({ entityExtendedName })
+    await make.controller.handler({ entityName, entityExtendedName })
+    await make.model.handler({ entityName })
+    await make.docs.handler({ entityName, entityExtendedName })
+    await make.routes.handler({ entityExtendedName })
 
     consola.info(`New entity "${entityName}" added successfully!`)
   }

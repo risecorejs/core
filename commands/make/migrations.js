@@ -1,5 +1,5 @@
-const makeMigrations = require('@risecorejs/make-migrations')
 const path = require('path')
+const makeMigrations = require('@risecorejs/make-migrations')
 
 module.exports = {
   command: 'make:migrations',

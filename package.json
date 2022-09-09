@@ -29,7 +29,7 @@
     "@risecorejs/only": "^3.0.2",
     "@risecorejs/order-builder": "^3.0.1",
     "@risecorejs/processes-runner": "^3.0.2",
-    "@risecorejs/router": "^3.0.1",
+    "@risecorejs/router": "^3.0.2",
     "@risecorejs/validator": "^3.0.2",
     "@risecorejs/where-builder": "^3.0.2",
     "@types/cors": "^2.8.12",

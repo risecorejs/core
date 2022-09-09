@@ -24,7 +24,7 @@ module.exports = {
   },
   async handler({ entityName, entityExtendedName }) {
     const filePath = path.resolve('controllers')
-    const fileName = _.kebabCase(entityExtendedName) + '.js'
+    const fileName = _.kebabCase(entityExtendedName) + '.ts'
 
     const fileContent = getFileContent(entityName, entityExtendedName)
 
@@ -45,7 +45,9 @@ function getFileContent(entityName, entityExtendedName) {
   const modelNameFirstLower = _.lowerFirst(modelName)
   const entityExtendedNameCamelCase = _.camelCase(entityExtendedName)
 
-  return `const endpoints = $crudBuilder({
+  return `import crudBuilder from '@risecorejs/crud-builder'
+  
+  const endpoints = crudBuilder({
     model: '${modelName}',
     endpoints: {
       create,
@@ -56,11 +58,12 @@ function getFileContent(entityName, entityExtendedName) {
     }
   })
   
-  module.exports = endpoints
+  export = endpoints
   
   // CREATE
   function create() {
     return {
+      template: 'create',
       rules: {
         // your rules
       },
@@ -76,6 +79,7 @@ function getFileContent(entityName, entityExtendedName) {
   // INDEX
   function index() {
     return {
+      template: 'index',
       response(${entityExtendedNameCamelCase}) {
         return { ${entityExtendedNameCamelCase} }
       }
@@ -85,6 +89,7 @@ function getFileContent(entityName, entityExtendedName) {
   // SHOW
   function show() {
     return {
+      template: 'show',
       response(${modelNameFirstLower}) {
         return { ${modelNameFirstLower} }
       }
@@ -94,6 +99,7 @@ function getFileContent(entityName, entityExtendedName) {
   // UPDATE
   function update() {
     return {
+      template: 'update',
       rules: {
         // your rules
       },
@@ -109,6 +115,7 @@ function getFileContent(entityName, entityExtendedName) {
   // DESTROY
   function destroy() {
     return {
+      template: 'destroy',
       response({ instance: ${modelNameFirstLower} }) {
         return { ${modelNameFirstLower} }
       }

@@ -41,9 +41,9 @@ function getFileContent(entityName) {
   const modelName = _.upperFirst(_.camelCase(entityName))
   const tableName = _.snakeCase(entityName)
 
-  return `const { Model } = require('sequelize')
+  return `const { Model, DataTypes } = require('sequelize')
 
-  module.exports = (sequelize, DataTypes) => {
+  module.exports = (sequelize) => {
     class ${modelName} extends Model {
       static associate(models) {}
     }
