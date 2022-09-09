@@ -7,9 +7,7 @@ import cors from 'cors'
 import { IFields } from './index'
 
 export interface IConfig {
-  global?: {
-    [key: string]: any
-  }
+  global?: IFields
 
   server?: IConfigServer
 

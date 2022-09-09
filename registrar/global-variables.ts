@@ -9,7 +9,5 @@ export default function (configGlobalVariables: IFields) {
 }
 
 declare global {
-  export var $: {
-    [key: string]: any
-  }
+  export var $: IFields
 }
