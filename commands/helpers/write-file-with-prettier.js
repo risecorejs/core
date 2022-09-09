@@ -5,8 +5,9 @@ const prettier = require('prettier')
  * WRITE-FILE-WITH-PRETTIER
  * @param filePath {string}
  * @param fileContent {string}
+ * @param parser {string}
  */
-module.exports = async (filePath, fileContent) => {
+module.exports = async (filePath, fileContent, parser = 'babel') => {
   await fs.writeFile(
     filePath,
     prettier.format(fileContent, {
@@ -15,7 +16,7 @@ module.exports = async (filePath, fileContent) => {
       semi: false,
       singleQuote: true,
       printWidth: 120,
-      parser: 'babel'
+      parser
     })
   )
 }

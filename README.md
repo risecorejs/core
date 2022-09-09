@@ -144,7 +144,7 @@ export default <IConfig>{
 
     // Add your global middleware
     extend: () => [
-      require('~/middleware/global/some-middleware') // or require('../middleware/global/some-middleware')
+      require('~/middleware/global/some-middleware') // or require('./middleware/global/some-middleware')
     ]
   },
 

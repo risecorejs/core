@@ -28,7 +28,7 @@ module.exports = {
 
     const fileContent = getFileContent(entityName, entityExtendedName)
 
-    await writeFileWithPrettier(filePath + '/' + fileName, fileContent)
+    await writeFileWithPrettier(filePath + '/' + fileName, fileContent, 'typescript')
 
     consola.success('Docs created: ' + fileName)
   }

@@ -26,7 +26,7 @@ module.exports = {
 
     const fileContent = getFileContent(entityExtendedName)
 
-    await writeFileWithPrettier(filePath + '/' + fileName, fileContent)
+    await writeFileWithPrettier(filePath + '/' + fileName, fileContent, 'typescript')
 
     consola.success('Routes created: ' + fileName)
   }
@@ -48,7 +48,7 @@ function getFileContent(entityExtendedName) {
   
   const endpoint = $controller('${entityExtendedNameKebabCase}')
   
-  export default <IRoute>{
+  export default <\IRoute\>{
     group: '${groupText}',
     url: '/${entityExtendedNameKebabCase}',
     children: [
