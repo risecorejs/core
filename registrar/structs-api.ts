@@ -8,12 +8,12 @@ export default function (config: IConfigCore) {
   const route = getRoute()
 
   if (Array.isArray(config.router)) {
-    for (const routerConfig of config.router) {
-      if (routerConfig.main) {
-        if (routerConfig.routes) {
-          routerConfig.routes.push(route)
+    for (const item of config.router) {
+      if (item.main) {
+        if (item.routes) {
+          item.routes.push(route)
         } else {
-          routerConfig.routes = [route]
+          item.routes = [route]
         }
 
         break
@@ -47,12 +47,12 @@ function getRoute(): IRoute {
 // INDEX-CONTROLLER
 function indexController(req: express.Request, res: express.Response) {
   try {
-    if (req.query.codes?.length) {
+    if (req.query.keys?.length) {
       const structs: IFields = {}
 
-      for (const code of <string[]>req.query.codes) {
-        if ($structs[code]) {
-          structs[code] = $structs[code]
+      for (const key of <string[]>req.query.keys) {
+        if ($structs[key]) {
+          structs[key] = $structs[key]
         }
       }
 
@@ -71,13 +71,13 @@ function indexController(req: express.Request, res: express.Response) {
 // GET-DOCS
 function getDocs() {
   return {
-    description: 'Show all structs or show structs by codes: ' + Object.keys($structs).join(', '),
+    description: 'Show all structs or show structs by keys: ' + Object.keys($structs).join(', '),
     params: {
-      'codes[]': {
-        value: 'code1'
+      'keys[]': {
+        value: 'key1'
       },
-      codes: {
-        value: 'code2'
+      keys: {
+        value: 'key2'
       }
     }
   }
