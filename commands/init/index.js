@@ -102,7 +102,8 @@ function getBaseStructTemplate() {
       '.prettierrc.json',
       '.sequelizerc',
       'config.ts',
-      'package.json'
+      'package.json',
+      'tsconfig.json'
     ],
     readmeFiles: [
       'controllers/README.md',
