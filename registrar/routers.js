@@ -91,13 +91,14 @@ function fillingRoutes(configRouter, routes, routesDir) {
     const files = fs_1.default.readdirSync(path_1.default.join(baseDir, routesDir));
     for (const file of files) {
         if (!file.startsWith('_')) {
-            const filePath = path_1.default.join(routesDir, file);
-            const fileStat = fs_1.default.statSync(baseDir + filePath);
+            const relativeFilePath = path_1.default.join(routesDir, file);
+            const absoluteFilePath = path_1.default.join(baseDir, relativeFilePath);
+            const fileStat = fs_1.default.statSync(absoluteFilePath);
             if (fileStat.isDirectory()) {
-                fillingRoutes(configRouter, routes, filePath);
+                fillingRoutes(configRouter, routes, relativeFilePath);
             }
             else if (file.endsWith('.js')) {
-                const route = require(baseDir + filePath).default;
+                const route = require(absoluteFilePath).default;
                 changeRouteMiddleware(configRouter, route);
                 changeRouteController(configRouter, route);
                 routes.push(route);
