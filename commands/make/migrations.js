@@ -6,7 +6,7 @@ module.exports = {
   describe: 'Automatic creation of migrations',
   async handler() {
     const outputPath = path.resolve('database', 'migrations')
-    const models = require('../../models')
+    const models = require('../../models').default
 
     await makeMigrations(outputPath, models)
   }
