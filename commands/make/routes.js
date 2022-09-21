@@ -42,6 +42,7 @@ function getFileContent(entityExtendedName) {
   const groupText = _.upperFirst(_.lowerCase(entityExtendedName))
 
   return `import { pagination, paramsIsNotNaN } from '@risecorejs/middleware'
+  
   import { IRoute } from '@risecorejs/router/interfaces'
 
   import * as docs from '../docs/${entityExtendedNameKebabCase}'
