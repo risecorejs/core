@@ -4,7 +4,7 @@ import cronstrue from 'cronstrue'
 
 import packageJSON from '../package.json'
 
-import { IConfigCore } from '../interfaces/config'
+import { IConfigCore } from '../interfaces'
 
 export default function (config: IConfigCore) {
   const host = getHost(config)

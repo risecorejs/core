@@ -1,9 +1,9 @@
 import cluster from 'cluster'
 
-import { IConfigCore } from '../interfaces/config'
+import { IConfigCore } from '../interfaces'
 
 export default async function (config: IConfigCore) {
-  for (let i = 0; i < <number>config.server.multiprocessingWorkers; i++) {
+  for (let i = 0; i < config.server.multiprocessingWorkers; i++) {
     cluster.fork()
   }
 

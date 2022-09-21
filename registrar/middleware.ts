@@ -9,7 +9,7 @@ import orderBuilder from '@risecorejs/order-builder/middleware'
 import whereBuilder from '@risecorejs/where-builder/middleware'
 import includeBuilder from '@risecorejs/include-builder/middleware'
 
-import { IConfigCore } from '../interfaces/config'
+import { IConfigCore } from '../interfaces'
 
 export default function (config: IConfigCore, app: express.Application) {
   app.use(express.json())

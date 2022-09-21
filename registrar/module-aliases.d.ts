@@ -1,2 +1,2 @@
-import { IConfigModuleAliases } from '../interfaces/config';
+import { IConfigModuleAliases } from '../interfaces';
 export default function (configModuleAliases: IConfigModuleAliases): void;

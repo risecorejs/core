@@ -1,8 +1,8 @@
 import express from 'express'
+
 import { IRoute } from '@risecorejs/router/interfaces'
 
-import { IConfigCore } from '../interfaces/config'
-import { IFields } from '../interfaces'
+import { IConfigCore, IFields } from '../interfaces'
 
 export default function (config: IConfigCore) {
   const route = getRoute()

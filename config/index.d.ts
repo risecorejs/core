@@ -1,3 +1,3 @@
-import { IConfigCore } from '../interfaces/config';
+import { IConfigCore } from '../interfaces';
 declare const config: IConfigCore;
 export default config;

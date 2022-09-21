@@ -6,9 +6,10 @@ import path from 'path'
 import fs from 'fs'
 import router from '@risecorejs/router'
 import axios from 'axios'
+
 import { IRoute } from '@risecorejs/router/interfaces'
 
-import { IConfigRouter } from '../interfaces/config'
+import { IConfigRouter } from '../interfaces'
 
 export default function (configRouter: IConfigRouter | IConfigRouter[], app: express.Application) {
   if (Array.isArray(configRouter)) {

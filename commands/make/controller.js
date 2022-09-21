@@ -47,21 +47,24 @@ function getFileContent(entityName, entityExtendedName) {
 
   return `import crudBuilder from '@risecorejs/crud-builder'
   
-  const endpoints = crudBuilder({
-    model: '${modelName}',
-    endpoints: {
-      create,
-      index,
-      show,
-      update,
-      destroy
-    }
+  import {
+    IMethodCreateOptions,
+    IMethodFindAllOptions,
+    IMethodFindOneOptions,
+    IMethodUpdateOptions,
+    IMethodDestroyOptions
+  } from '@risecorejs/crud-builder/interfaces'
+  
+  export = crudBuilder('${modelName}', {
+    create,
+    index,
+    show,
+    update,
+    destroy
   })
   
-  export = endpoints
-  
   // CREATE
-  function create() {
+  function create(): IMethodCreateOptions {
     return {
       template: 'create',
       rules: {
@@ -70,34 +73,34 @@ function getFileContent(entityName, entityExtendedName) {
       only: [
         // your fields
       ],
-      response({ instance: ${modelNameFirstLower} }) {
+      response: ({ instance: ${modelNameFirstLower} }) => {
         return { ${modelNameFirstLower} }
       }
     }
   }
   
   // INDEX
-  function index() {
+  function index(): IMethodFindAllOptions {
     return {
       template: 'index',
-      response(${entityExtendedNameCamelCase}) {
+      response: ({ instances: ${entityExtendedNameCamelCase} }) => {
         return { ${entityExtendedNameCamelCase} }
       }
     }
   }
   
   // SHOW
-  function show() {
+  function show(): IMethodFindOneOptions {
     return {
       template: 'show',
-      response(${modelNameFirstLower}) {
+      response: ({ instance: ${modelNameFirstLower} }) => {
         return { ${modelNameFirstLower} }
       }
     }
   }
   
   // UPDATE
-  function update() {
+  function update(): IMethodUpdateOptions {
     return {
       template: 'update',
       rules: {
@@ -106,17 +109,17 @@ function getFileContent(entityName, entityExtendedName) {
       only: [
         // your fields
       ],
-      response({ instance: ${modelNameFirstLower} }) {
+      response: ({ instance: ${modelNameFirstLower} }) => {
         return { ${modelNameFirstLower} }
       }
     }
   }
   
   // DESTROY
-  function destroy() {
+  function destroy(): IMethodDestroyOptions {
     return {
       template: 'destroy',
-      response({ instance: ${modelNameFirstLower} }) {
+      response: ({ instance: ${modelNameFirstLower} }) => {
         return { ${modelNameFirstLower} }
       }
     }

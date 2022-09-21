@@ -6,7 +6,7 @@ import * as os from 'os'
 const initialConfig = require('./initial').default
 const appConfig = require(path.resolve('config')).default
 
-import { IConfigCore } from '../interfaces/config'
+import { IConfigCore } from '../interfaces'
 
 const { config }: { config: IConfigCore } = merge.recursive({ config: initialConfig }, { config: appConfig })
 

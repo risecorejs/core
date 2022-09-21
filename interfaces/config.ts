@@ -1,11 +1,13 @@
+import { IProcesses } from '@risecorejs/processes-runner/interfaces'
+import cors from 'cors'
 import express from 'express'
 import * as http from 'http'
 import { Sequelize } from 'sequelize'
-import { IProcesses } from '@risecorejs/processes-runner/interfaces'
 import { IRoute } from '@risecorejs/router/interfaces'
-import cors from 'cors'
+
 import { IFields } from './index'
 
+// CONFIG
 export interface IConfig {
   global?: IFields
 
@@ -33,9 +35,10 @@ export interface IConfig {
 
   init?: (config: IConfig) => void | Promise<void>
   master?: (config: IConfig) => void | Promise<void>
-  start?: (ctx: IConfigStartCtx) => void | Promise<void>
+  start?: (ctx: { config: IConfig; app: express.Application; server: http.Server }) => void | Promise<void>
 }
 
+// CONFIG-CORE
 export interface IConfigCore extends IConfig {
   server: Required<IConfigServer>
 
@@ -52,6 +55,7 @@ export interface IConfigCore extends IConfig {
   }
 }
 
+// CONFIG-SERVER
 export interface IConfigServer {
   host?: string
   port?: number
@@ -59,30 +63,36 @@ export interface IConfigServer {
   multiprocessingWorkers?: number
 }
 
+// CONFIG-MODULE-ALIASES
 export interface IConfigModuleAliases {
   [alias: string]: string
 }
 
+// CONFIG-STRUCTS
 export interface IConfigStructs {
   setGlobal?: boolean
   enableAPI?: boolean
   dir?: string
 }
 
+// CONFIG-CRON
 export interface IConfigCron {
   childProcess?: boolean
   jobs: IConfigCronJobs
 }
 
+// CONFIG-JOBS
 export interface IConfigCronJobs {
   [key: string]: () => void
 }
 
+// CONFIG-VALIDATOR
 export interface IConfigValidator {
   locale?: 'ru' | 'en'
   sequelize?: Sequelize
 }
 
+// CONFIG-ROUTER
 export interface IConfigRouter {
   type?: 'pending' | 'local' | 'remote'
   status?: 'pending' | 'connected' | 'reconnecting'
@@ -98,10 +108,4 @@ export interface IConfigRouter {
   }
   routes?: IRoute[]
   timeout?: number
-}
-
-export interface IConfigStartCtx {
-  config: IConfig
-  app: express.Application
-  server: http.Server
 }

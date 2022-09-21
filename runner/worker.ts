@@ -3,7 +3,7 @@ import express from 'express'
 import registrar from '../registrar'
 import packageJSON from '../package.json'
 
-import { IConfigCore } from '../interfaces/config'
+import { IConfigCore } from '../interfaces'
 
 export default async function (config: IConfigCore) {
   // INIT::APP

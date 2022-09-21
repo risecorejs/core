@@ -1,2 +1,2 @@
-import { IConfigStructs } from '../interfaces/config';
+import { IConfigStructs } from '../interfaces';
 export default function (configStructs: IConfigStructs): void;

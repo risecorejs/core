@@ -1,7 +1,7 @@
 import execa from 'execa'
 import { CronJob } from 'cron'
 
-import { IConfigCron, IConfigCronJobs } from '../interfaces/config'
+import { IConfigCron, IConfigCronJobs } from '../interfaces'
 
 export default function (configCron: IConfigCron) {
   if (configCron.childProcess) {

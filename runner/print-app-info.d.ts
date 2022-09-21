@@ -1,2 +1,2 @@
-import { IConfigCore } from '../interfaces/config';
+import { IConfigCore } from '../interfaces';
 export default function (config: IConfigCore): void;

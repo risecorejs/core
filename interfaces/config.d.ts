@@ -1,10 +1,10 @@
 /// <reference types="node" />
+import { IProcesses } from '@risecorejs/processes-runner/interfaces';
+import cors from 'cors';
 import express from 'express';
 import * as http from 'http';
 import { Sequelize } from 'sequelize';
-import { IProcesses } from '@risecorejs/processes-runner/interfaces';
 import { IRoute } from '@risecorejs/router/interfaces';
-import cors from 'cors';
 import { IFields } from './index';
 export interface IConfig {
     global?: IFields;
@@ -23,7 +23,11 @@ export interface IConfig {
     };
     init?: (config: IConfig) => void | Promise<void>;
     master?: (config: IConfig) => void | Promise<void>;
-    start?: (ctx: IConfigStartCtx) => void | Promise<void>;
+    start?: (ctx: {
+        config: IConfig;
+        app: express.Application;
+        server: http.Server;
+    }) => void | Promise<void>;
 }
 export interface IConfigCore extends IConfig {
     server: Required<IConfigServer>;
@@ -76,9 +80,4 @@ export interface IConfigRouter {
     };
     routes?: IRoute[];
     timeout?: number;
-}
-export interface IConfigStartCtx {
-    config: IConfig;
-    app: express.Application;
-    server: http.Server;
 }

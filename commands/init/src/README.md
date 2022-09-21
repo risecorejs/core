@@ -64,7 +64,7 @@ Options:
 ## Config.js
 
 ```typescript
-import { IConfig } from '@risecorejs/core/interfaces/config'
+import { IConfig } from '@risecorejs/core/interfaces'
 
 export default <IConfig>{
   global: {

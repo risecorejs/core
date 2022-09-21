@@ -3,7 +3,7 @@ import path from 'path'
 
 import models from '../models'
 
-import { IConfig } from '../interfaces/config'
+import { IConfig } from '../interfaces'
 
 export default <IConfig>{
   server: {
