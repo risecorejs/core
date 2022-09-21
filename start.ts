@@ -2,10 +2,10 @@ require('dotenv').config()
 
 import cluster from 'cluster'
 
+import config from './config'
+
 import registrar from './registrar'
 import runner from './runner'
-
-import config from './config'
 
 // REGISTER::MODULE-ALIASES
 if (config.moduleAliases) {

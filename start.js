@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 const cluster_1 = __importDefault(require("cluster"));
+const config_1 = __importDefault(require("./config"));
 const registrar_1 = __importDefault(require("./registrar"));
 const runner_1 = __importDefault(require("./runner"));
-const config_1 = __importDefault(require("./config"));
 // REGISTER::MODULE-ALIASES
 if (config_1.default.moduleAliases) {
     registrar_1.default.moduleAliases(config_1.default.moduleAliases);
