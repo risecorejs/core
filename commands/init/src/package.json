@@ -13,10 +13,10 @@
     "db:seeder": "sequelize db:seed:all"
   },
   "dependencies": {
-    "@risecorejs/core": "^3.0.14",
+    "@risecorejs/core": "^3.0.15",
     "@risecorejs/helpers": "^3.0.10",
     "@risecorejs/middleware": "^3.0.3",
-    "@risecorejs/crud-builder": "^3.0.0",
+    "@risecorejs/crud-builder": "^3.0.1",
     "sequelize": "^6.6.5",
     "sequelize-cli": "^6.2.0"
   },
