@@ -75,7 +75,7 @@ function getModelContent(modelName) {
  * @return {string}
  */
 function getModelInterfaceContent(modelName) {
-  return `const { Model } = require('sequelize')
+  return `import { Model } from 'sequelize'
   
   export interface ${modelName} extends Model {
     // your columns
@@ -93,7 +93,7 @@ async function updateModelInterfaces(baseDir) {
   const modelInterfaces = []
 
   for (const file of files) {
-    if (path.extname(file) === '.ts' && file !== 'index.ts') {
+    if (path.extname(file) === '.ts' && !file.endsWith('.d.ts') && file !== 'index.ts') {
       modelInterfaces.push(`export * from './${path.parse(file).name}'`)
     }
   }
