@@ -55,6 +55,8 @@ function getFileContent(entityName, entityExtendedName) {
     IMethodDestroyOptions
   } from '@risecorejs/crud-builder/interfaces'
   
+  import { ${modelName} } from '../database/models/interfaces'
+  
   export = crudBuilder('${modelName}', {
     create,
     index,
@@ -64,7 +66,7 @@ function getFileContent(entityName, entityExtendedName) {
   })
   
   // CREATE
-  function create(): IMethodCreateOptions {
+  function create(): IMethodCreateOptions<\${modelName}> {
     return {
       template: 'create',
       rules: {
@@ -80,7 +82,7 @@ function getFileContent(entityName, entityExtendedName) {
   }
   
   // INDEX
-  function index(): IMethodFindAllOptions {
+  function index(): IMethodFindAllOptions<\${modelName}> {
     return {
       template: 'index',
       response: ({ instances: ${entityExtendedNameCamelCase} }) => {
@@ -90,7 +92,7 @@ function getFileContent(entityName, entityExtendedName) {
   }
   
   // SHOW
-  function show(): IMethodFindOneOptions {
+  function show(): IMethodFindOneOptions<\${modelName}> {
     return {
       template: 'show',
       response: ({ instance: ${modelNameFirstLower} }) => {
@@ -100,7 +102,7 @@ function getFileContent(entityName, entityExtendedName) {
   }
   
   // UPDATE
-  function update(): IMethodUpdateOptions {
+  function update(): IMethodUpdateOptions<\${modelName}> {
     return {
       template: 'update',
       rules: {
@@ -116,7 +118,7 @@ function getFileContent(entityName, entityExtendedName) {
   }
   
   // DESTROY
-  function destroy(): IMethodDestroyOptions {
+  function destroy(): IMethodDestroyOptions<\${modelName}> {
     return {
       template: 'destroy',
       response: ({ instance: ${modelNameFirstLower} }) => {

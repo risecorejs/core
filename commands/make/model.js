@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const path = require('path')
+const fs = require('fs/promises')
 const consola = require('consola')
 
 const writeFileWithPrettier = require('../helpers/write-file-with-prettier')
@@ -21,26 +22,30 @@ module.exports = {
     return yargs
   },
   async handler({ entityName }) {
-    const filePath = path.resolve('database', 'models')
-    const fileName = _.upperFirst(_.camelCase(entityName)) + '.js'
+    const baseDir = path.resolve('database', 'models')
 
-    const fileContent = getFileContent(entityName)
+    const modelName = _.upperFirst(_.camelCase(entityName))
 
-    await writeFileWithPrettier(filePath + '/' + fileName, fileContent)
+    const modelContent = getModelContent(modelName)
 
-    consola.success('Model created: ' + fileName)
+    await writeFileWithPrettier(path.join(baseDir, modelName) + '.js', modelContent)
+
+    const modelInterfaceContent = getModelInterfaceContent(modelName)
+
+    await writeFileWithPrettier(path.join(baseDir, 'interfaces', modelName) + '.ts', modelInterfaceContent)
+
+    await updateModelInterfaces(path.join(baseDir, 'interfaces'))
+
+    consola.success('Model created: ' + modelName)
   }
 }
 
 /**
- * GET-FILE-CONTENT
- * @param entityName {string}
+ * GET-MODEL-CONTENT
+ * @param modelName {string}
  * @return {string}
  */
-function getFileContent(entityName) {
-  const modelName = _.upperFirst(_.camelCase(entityName))
-  const tableName = _.snakeCase(entityName)
-
+function getModelContent(modelName) {
   return `const { Model, DataTypes } = require('sequelize')
 
   module.exports = (sequelize) => {
@@ -55,11 +60,41 @@ function getFileContent(entityName) {
       {
         sequelize,
         modelName: '${modelName}',
-        tableName: '${tableName}',
+        tableName: '${_.snakeCase(modelName)}',
         autoMigrations: true
       }
     )
   
     return ${modelName}
   }`
+}
+
+/**
+ * GET-MODEL-INTERFACE-CONTENT
+ * @param modelName {string}
+ * @return {string}
+ */
+function getModelInterfaceContent(modelName) {
+  return `const { Model } = require('sequelize')
+  
+  export interface ${modelName} extends Model {
+    // your columns
+  }`
+}
+
+/**
+ * UPDATE-MODEL-INTERFACES
+ * @param baseDir {string}
+ * @return {Promise<void>}
+ */
+async function updateModelInterfaces(baseDir) {
+  const files = await fs.readdir(baseDir)
+
+  const modelInterfaces = []
+
+  for (const file of files.filter((file) => file !== 'index.ts' && file !== 'README.md')) {
+    modelInterfaces.push(`export * from '${path.parse(file).name}'`)
+  }
+
+  await writeFileWithPrettier(path.join(baseDir, 'index') + '.ts', modelInterfaces.join(';'), 'typescript')
 }

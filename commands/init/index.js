@@ -85,6 +85,7 @@ function getBaseStructTemplate() {
       'database/joins',
       'database/migrations',
       'database/models',
+      'database/models/interfaces',
       'database/order-by',
       'database/seeders',
 
@@ -96,6 +97,7 @@ function getBaseStructTemplate() {
     ],
     baseFiles: [
       'database/config.ts',
+      'database/models/interfaces/index.ts',
 
       '.env.example',
       () => ({ inputPath: 'gitignore', outputPath: '.gitignore' }),
@@ -111,6 +113,7 @@ function getBaseStructTemplate() {
       'database/joins/README.md',
       'database/migrations/README.md',
       'database/models/README.md',
+      'database/models/interfaces/README.md',
       'database/order-by/README.md',
       'database/seeders/README.md',
 
