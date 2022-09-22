@@ -31,6 +31,7 @@
     "@risecorejs/processes-runner": "^3.0.5",
     "@risecorejs/api-docs": "^1.0.3",
     "@risecorejs/make-migrations": "^1.0.4",
+    "@types/module-alias": "^2.0.1",
     "@types/cors": "^2.8.12",
     "@types/cron": "^2.0.0",
     "@types/lodash": "^4.14.184",
@@ -51,7 +52,6 @@
     "yargs": "^17.4.1"
   },
   "devDependencies": {
-    "@types/module-alias": "^2.0.1",
     "@types/node": "^18.7.11",
     "prettier": "^2.3.2",
     "typescript": "^4.7.4"
