@@ -92,8 +92,10 @@ async function updateModelInterfaces(baseDir) {
 
   const modelInterfaces = []
 
-  for (const file of files.filter((file) => file !== 'index.ts' && file !== 'README.md')) {
-    modelInterfaces.push(`export * from '${path.parse(file).name}'`)
+  for (const file of files) {
+    if (path.extname(file) === '.ts' && file !== 'index.ts') {
+      modelInterfaces.push(`export * from './${path.parse(file).name}'`)
+    }
   }
 
   await writeFileWithPrettier(path.join(baseDir, 'index') + '.ts', modelInterfaces.join(';'), 'typescript')
