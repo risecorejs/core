@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@risecorejs/only": "^3.0.4",
+    "@risecorejs/only": "^3.0.5",
     "@risecorejs/router": "^3.0.4",
     "@risecorejs/validator": "^3.0.4",
     "@risecorejs/where-builder": "^3.0.5",
