@@ -14,10 +14,10 @@
     "db:rollback": "sequelize db:migrate:undo:all"
   },
   "dependencies": {
-    "@risecorejs/core": "^3.0.21",
+    "@risecorejs/core": "^3.0.22",
     "@risecorejs/helpers": "^3.0.10",
-    "@risecorejs/middleware": "^3.0.3",
-    "@risecorejs/crud-builder": "^3.0.2",
+    "@risecorejs/middleware": "^3.0.4",
+    "@risecorejs/crud-builder": "^3.0.3",
     "sequelize": "^6.6.5",
     "sequelize-cli": "^6.2.0"
   },
