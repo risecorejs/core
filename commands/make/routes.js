@@ -72,6 +72,7 @@ function getFileContent(entityExtendedName) {
       {
         method: 'GET',
         url: '/:id',
+        middleware: paramsIsNotNaN('id'),
         controller: endpoint('show'),
         docs: docs.show
       },

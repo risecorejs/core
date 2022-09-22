@@ -5,12 +5,13 @@
   "main": "config.js",
   "private": true,
   "scripts": {
+    "tsc": "tsc --watch",
     "dev": "risecorejs dev",
     "start": "risecorejs start",
     "make:migrations": "risecorejs make:migrations",
-    "db:rollback": "sequelize db:migrate:undo:all",
     "db:migrate": "sequelize db:migrate",
-    "db:seeder": "sequelize db:seed:all"
+    "db:seeder": "sequelize db:seed:all",
+    "db:rollback": "sequelize db:migrate:undo:all"
   },
   "dependencies": {
     "@risecorejs/core": "^3.0.19",

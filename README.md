@@ -6,11 +6,15 @@
 npm install -g @risecorejs/core
 npm install -g nodemon
 
-risecorejs init my-project
+npx risecorejs init my-project
 
 cd my-project
 
 npm install
+
+# One of the following:
+npm install pg pg-hstore # Postgres
+npm install mysql2 # MySQL
 ```
 
 > Note: Don't forget to set up your database for the next step!
