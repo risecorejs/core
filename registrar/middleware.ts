@@ -33,8 +33,8 @@ export default function (config: IConfigCore, app: express.Application) {
   app.use(whereBuilder())
   app.use(includeBuilder())
 
-  if (config.middleware.extend) {
-    const middleware = config.middleware.extend()
+  if (config.middleware.extends) {
+    const middleware = config.middleware.extends()
 
     if (middleware.length) {
       for (const item of middleware) {

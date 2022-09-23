@@ -84,7 +84,7 @@ export default <IConfig>{
 
   // Add your module aliases so they are always at hand
   moduleAliases: {
-    '~': __dirname,
+    '~': __dirname, // default
     '@some-folder': __dirname + '/directory/some-folder'
   },
 
@@ -147,7 +147,7 @@ export default <IConfig>{
     cors: {}, // default
 
     // Add your global middleware
-    extend: () => [
+    extends: () => [
       require('~/middleware/global/some-middleware') // or require('./middleware/global/some-middleware')
     ]
   },

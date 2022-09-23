@@ -19,7 +19,7 @@ export interface IConfig {
     middleware?: {
         rateLimit?: false | IFields;
         cors?: false | cors.CorsOptions;
-        extend?: () => express.Handler[];
+        extends?: () => express.Handler[];
     };
     init?: (config: IConfig) => void | Promise<void>;
     master?: (config: IConfig) => void | Promise<void>;
@@ -37,7 +37,7 @@ export interface IConfigCore extends IConfig {
     middleware: {
         rateLimit: false | IFields;
         cors: false | cors.CorsOptions;
-        extend?: () => express.Handler[];
+        extends?: () => express.Handler[];
     };
 }
 export interface IConfigServer {

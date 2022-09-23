@@ -29,8 +29,8 @@ function default_1(config, app) {
     app.use((0, middleware_3.default)());
     app.use((0, middleware_4.default)());
     app.use((0, middleware_5.default)());
-    if (config.middleware.extend) {
-        const middleware = config.middleware.extend();
+    if (config.middleware.extends) {
+        const middleware = config.middleware.extends();
         if (middleware.length) {
             for (const item of middleware) {
                 app.use(item);

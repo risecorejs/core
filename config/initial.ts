@@ -11,6 +11,10 @@ export default <IConfig>{
     port: env('PORT', 5000)
   },
 
+  moduleAliases: {
+    '~': __dirname
+  },
+
   structs: {
     setGlobal: true,
     enableAPI: true,

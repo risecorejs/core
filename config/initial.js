@@ -11,6 +11,9 @@ exports.default = {
         host: (0, helpers_1.env)('HOST', 'localhost'),
         port: (0, helpers_1.env)('PORT', 5000)
     },
+    moduleAliases: {
+        '~': __dirname
+    },
     structs: {
         setGlobal: true,
         enableAPI: true,
