@@ -12,7 +12,7 @@ exports.default = {
         port: (0, helpers_1.env)('PORT', 5000)
     },
     moduleAliases: {
-        '~': __dirname
+        '~': path_1.default.resolve()
     },
     structs: {
         setGlobal: true,

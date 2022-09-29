@@ -45,9 +45,9 @@ function getFileContent(entityExtendedName) {
   
   import { IRoute } from '@risecorejs/router/interfaces'
 
-  import * as docs from '../docs/${entityExtendedNameKebabCase}'
+  import * as docs from '~/docs/${entityExtendedNameKebabCase}'
   
-  const endpoint = $controller('${entityExtendedNameKebabCase}')
+  const controller = $getController('${entityExtendedNameKebabCase}')
   
   export default <\IRoute\>{
     group: '${groupText}',
@@ -57,7 +57,7 @@ function getFileContent(entityExtendedName) {
       {
         method: 'POST',
         url: '/',
-        controller: endpoint('create'),
+        controller: controller('create'),
         docs: docs.create
       },
       // INDEX
@@ -65,7 +65,7 @@ function getFileContent(entityExtendedName) {
         method: 'GET',
         url: '/',
         middleware: pagination,
-        controller: endpoint('index'),
+        controller: controller('index'),
         docs: docs.index
       },
       // SHOW
@@ -73,7 +73,7 @@ function getFileContent(entityExtendedName) {
         method: 'GET',
         url: '/:id',
         middleware: paramsIsNotNaN('id'),
-        controller: endpoint('show'),
+        controller: controller('show'),
         docs: docs.show
       },
       // UPDATE
@@ -81,7 +81,7 @@ function getFileContent(entityExtendedName) {
         method: 'PUT',
         url: '/:id',
         middleware: paramsIsNotNaN('id'),
-        controller: endpoint('update'),
+        controller: controller('update'),
         docs: docs.update
       },
       // DESTROY
@@ -89,7 +89,7 @@ function getFileContent(entityExtendedName) {
         method: 'DELETE',
         url: '/:id',
         middleware: paramsIsNotNaN('id'),
-        controller: endpoint('destroy'),
+        controller: controller('destroy'),
         docs: docs.destroy
       }
     ]

@@ -12,7 +12,7 @@ export default <IConfig>{
   },
 
   moduleAliases: {
-    '~': __dirname
+    '~': path.resolve()
   },
 
   structs: {

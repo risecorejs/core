@@ -55,7 +55,7 @@ function getFileContent(entityName, entityExtendedName) {
     IMethodDestroyOptions
   } from '@risecorejs/crud-builder/interfaces'
   
-  import { ${modelName} } from '../database/models/interfaces'
+  import { ${modelName} } from '~/database/models/interfaces'
   
   export = crudBuilder('${modelName}', {
     create,

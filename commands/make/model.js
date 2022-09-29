@@ -36,7 +36,8 @@ module.exports = {
 
     await updateModelInterfaces(path.join(baseDir, 'interfaces'))
 
-    consola.success('Model created: ' + modelName + '.ts')
+    consola.success('Model created: ' + modelName + '.js')
+    consola.success('Model interface created: ' + modelName + '.ts')
   }
 }
 
