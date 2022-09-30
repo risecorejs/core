@@ -30,14 +30,14 @@ module.exports = {
 
     await writeFileWithPrettier(path.join(baseDir, modelName) + '.js', modelContent)
 
-    const modelInterfaceContent = getModelInterfaceContent(modelName)
+    const modelClassContent = getModelClassContent(modelName)
 
-    await writeFileWithPrettier(path.join(baseDir, 'interfaces', modelName) + '.ts', modelInterfaceContent)
+    await writeFileWithPrettier(path.join(baseDir, 'classes', modelName) + '.ts', modelClassContent)
 
-    await updateModelInterfaces(path.join(baseDir, 'interfaces'))
+    await updateModelClasses(path.join(baseDir, 'classes'))
 
     consola.success('Model created: ' + modelName + '.js')
-    consola.success('Model interface created: ' + modelName + '.ts')
+    consola.success('Model class created: ' + modelName + '.ts')
   }
 }
 
@@ -71,33 +71,39 @@ function getModelContent(modelName) {
 }
 
 /**
- * GET-MODEL-INTERFACE-CONTENT
+ * GET-MODEL-CLASS-CONTENT
  * @param modelName {string}
  * @return {string}
  */
-function getModelInterfaceContent(modelName) {
+function getModelClassContent(modelName) {
   return `import { Model } from 'sequelize'
   
-  export interface ${modelName} extends Model {
+  export class ${modelName} extends Model {
+    declare id: number
+    
     // your columns
+    
+    declare createdAt: Date
+    declare updatedAt: Date
+    // declare deletedAt: Date
   }`
 }
 
 /**
- * UPDATE-MODEL-INTERFACES
+ * UPDATE-MODEL-CLASSES
  * @param baseDir {string}
  * @return {Promise<void>}
  */
-async function updateModelInterfaces(baseDir) {
+async function updateModelClasses(baseDir) {
   const files = await fs.readdir(baseDir)
 
-  const modelInterfaces = []
+  const modelClasses = []
 
   for (const file of files) {
     if (path.extname(file) === '.ts' && !file.endsWith('.d.ts') && file !== 'index.ts') {
-      modelInterfaces.push(`export * from './${path.parse(file).name}'`)
+      modelClasses.push(`export * from './${path.parse(file).name}'`)
     }
   }
 
-  await writeFileWithPrettier(path.join(baseDir, 'index') + '.ts', modelInterfaces.join(';'), 'typescript')
+  await writeFileWithPrettier(path.join(baseDir, 'index') + '.ts', modelClasses.join(';'), 'typescript')
 }
