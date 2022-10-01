@@ -49,8 +49,8 @@ function getFileContent(entityName, entityExtendedName) {
   
   import {
     IMethodCreateOptions,
-    IMethodFindAllOptions,
-    IMethodFindOneOptions,
+    IMethodIndexOptions,
+    IMethodShowOptions,
     IMethodUpdateOptions,
     IMethodDestroyOptions
   } from '@risecorejs/crud-builder/interfaces'
@@ -82,9 +82,11 @@ function getFileContent(entityName, entityExtendedName) {
   }
   
   // INDEX
-  function index(): IMethodFindAllOptions<${modelName}> {
+  function index(): IMethodIndexOptions<${modelName}> {
     return {
       template: 'index',
+      method: 'findAndCountAll',
+      pagination: true,
       response: ({ instances: ${entityExtendedNameCamelCase} }) => {
         return { ${entityExtendedNameCamelCase} }
       }
@@ -92,7 +94,7 @@ function getFileContent(entityName, entityExtendedName) {
   }
   
   // SHOW
-  function show(): IMethodFindOneOptions<${modelName}> {
+  function show(): IMethodShowOptions<${modelName}> {
     return {
       template: 'show',
       response: ({ instance: ${modelNameFirstLower} }) => {
