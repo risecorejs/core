@@ -88,7 +88,7 @@ export default <IConfig>{
     '@some-folder': __dirname + '/directory/some-folder'
   },
 
-  storage: true, // default
+  storage: true, // default: undefined
 
   structs: {
     setGlobal: true, // default
