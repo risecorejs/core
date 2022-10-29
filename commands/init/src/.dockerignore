@@ -7,4 +7,3 @@ node_modules
 .prettierrc.json
 Dockerfile
 **/README.md
-**/*.ts

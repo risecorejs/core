@@ -14,7 +14,7 @@
     "db:rollback": "sequelize db:migrate:undo:all"
   },
   "dependencies": {
-    "@risecorejs/core": "^3.0.31",
+    "@risecorejs/core": "^3.0.32",
     "@risecorejs/helpers": "^3.0.10",
     "@risecorejs/middleware": "^3.0.4",
     "@risecorejs/crud-builder": "^3.0.5",
